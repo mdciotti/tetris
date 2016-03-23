@@ -61,6 +61,19 @@ public class Game {
     }
 
     /**
+     * Drops the piece to the bottom immediately.
+     */
+    public void dropPiece() {
+        if (piece != null) {
+            while (piece.canMove(Direction.DOWN))
+                piece.move(Direction.DOWN);
+        }
+        updatePiece();
+        grid.checkRows();
+        display.update();
+    }
+
+    /**
      * Returns true if the game is over.
      */
     public boolean isGameOver() {
@@ -91,8 +104,8 @@ public class Game {
             piece = new LShape(1, Grid.WIDTH / 2 - 1, grid);
         }
 
-        // Set Grid positions corresponding to frozen piece and then release the
-        // piece
+        // When the piece reaches 'ground', set Grid positions corresponding to
+        // frozen piece and then release the piece
         else if (!piece.canMove(Direction.DOWN)) {
             Point[] p = piece.getLocations();
             Color c = piece.getColor();

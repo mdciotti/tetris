@@ -54,6 +54,9 @@ public class EventController extends KeyAdapter implements ActionListener {
         // Handle user input events only if the game is not over
         if (!gameOver) {
             switch (e.getKeyCode()) {
+            case KeyEvent.VK_UP:
+                game.dropPiece();
+                break;
             case KeyEvent.VK_DOWN:
                 handleMove(Direction.DOWN);
                 break;
