@@ -34,7 +34,7 @@ public class Grid {
     // Pixel position of top of grid
     public static final int TOP = 50;
 
-    public static final Color EMPTY = Color.WHITE;
+    public static final Color EMPTY = Color.BLACK;
 
     /**
      * Creates the grid.
@@ -130,15 +130,17 @@ public class Grid {
     public void draw(Graphics g) {
 
         // Draw the edges as rectangles
-        g.setColor(Color.BLUE);
+        g.setColor(Color.BLACK);
         // Left border
         g.fillRect(LEFT - BORDER, TOP, BORDER, HEIGHT * Square.HEIGHT);
         // Right border
         g.fillRect(LEFT + WIDTH * Square.WIDTH, TOP,
             BORDER, HEIGHT * Square.HEIGHT);
         // Bottom border
-        g.setColor(Color.RED);
         g.fillRect(LEFT - BORDER, TOP + HEIGHT * Square.HEIGHT,
+            WIDTH * Square.WIDTH + 2 * BORDER, BORDER);
+        // Top border
+        g.fillRect(LEFT - BORDER, TOP - BORDER,
             WIDTH * Square.WIDTH + 2 * BORDER, BORDER);
 
         // Draw all the squares in the grid, drawing empty ones first (to avoid

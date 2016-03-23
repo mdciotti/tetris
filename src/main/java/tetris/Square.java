@@ -143,9 +143,9 @@ public class Square {
         g.setColor(color);
         g.fillRect(actualX, actualY, WIDTH, HEIGHT);
 
-        // Draw a white border (if not empty)
+        // Draw a border (if not empty)
         if (!color.equals(Grid.EMPTY)) {
-            g.setColor(Color.WHITE);
+            g.setColor(Color.BLACK);
             g.drawRect(actualX, actualY, WIDTH - 1, HEIGHT - 1);
         }
     }
