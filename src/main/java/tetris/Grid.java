@@ -128,30 +128,20 @@ public class Grid {
      */
     public void draw(Graphics g) {
 
-        // Draw the edges as rectangles
+        // Draw the background (slightly larger than the grid playing area)
         g.setColor(ColorScheme.BASE_00.color);
-        // Left border
-        g.fillRect(LEFT - BORDER, TOP, BORDER, HEIGHT * Square.HEIGHT);
-        // Right border
-        g.fillRect(LEFT + WIDTH * Square.WIDTH, TOP,
-            BORDER, HEIGHT * Square.HEIGHT);
-        // Bottom border
-        g.fillRect(LEFT - BORDER, TOP + HEIGHT * Square.HEIGHT,
-            WIDTH * Square.WIDTH + 2 * BORDER, BORDER);
-        // Top border
         g.fillRect(LEFT - BORDER, TOP - BORDER,
-            WIDTH * Square.WIDTH + 2 * BORDER, BORDER);
+            WIDTH * Square.WIDTH + 2 * BORDER,
+            HEIGHT * Square.HEIGHT + 2 * BORDER);
 
-        // Draw all the squares in the grid, drawing empty ones first (to avoid
-        // masking the borders of the pieces that have already fallen)
-        for (int r = 0; r < HEIGHT; r++) {
-            for (int c = 0; c < WIDTH; c++) {
-                if (board[r][c].getColor().equals(EMPTY)) {
-                    board[r][c].draw(g);
-                }
-            }
-        }
+        // Vertical stripes
+        // g.setColor(ColorScheme.BASE_01.color);
+        // for (int c = 1; c < WIDTH; c += 2) {
+        //     g.fillRect(LEFT + c * Square.WIDTH + 1, TOP,
+        //         Square.WIDTH - 2, HEIGHT * Square.HEIGHT);
+        // }
 
+        // Draw all the squares in the grid, skipping empty ones
         for (int r = 0; r < HEIGHT; r++) {
             for (int c = 0; c < WIDTH; c++) {
                 if (!board[r][c].getColor().equals(EMPTY)) {

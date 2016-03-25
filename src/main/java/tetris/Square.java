@@ -232,12 +232,6 @@ public class Square {
         int actualX = Grid.LEFT + col * WIDTH;
         int actualY = Grid.TOP + row * HEIGHT;
         g.setColor(color.color);
-        g.fillRect(actualX, actualY, WIDTH, HEIGHT);
-
-        // Draw a border (if not empty)
-        if (!color.equals(Grid.EMPTY)) {
-            g.setColor(Grid.EMPTY.color);
-            g.drawRect(actualX, actualY, WIDTH - 1, HEIGHT - 1);
-        }
+        g.fillRect(actualX + 1, actualY + 1, WIDTH - 2, HEIGHT - 2);
     }
 }
