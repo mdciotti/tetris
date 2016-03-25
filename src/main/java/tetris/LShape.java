@@ -130,11 +130,11 @@ public class LShape {
         Point center = new Point(squares[CENTER].getCol(), squares[CENTER].getRow());
         boolean answer = true;
 
-        System.out.println("Rotating piece around (" + center + ")");
+        // System.out.println("Rotating piece around (" + center + ")");
 
         for (int i = 0; i < PIECE_COUNT; i++) {
             if (i == CENTER) continue;
-            System.out.print("sq[" + i + "]: ");
+            // System.out.print("sq[" + i + "]: ");
             answer = answer && squares[i].canRotateAbout(center);
         }
 

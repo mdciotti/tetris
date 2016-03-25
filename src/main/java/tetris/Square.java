@@ -165,13 +165,13 @@ public class Square {
         // Calculate the number of steps for a quarter rotation
         int quarterRotationSteps = 2 * ring;
 
-        System.out.print("ring " + ring + ", " + quarterRotationSteps + " steps: ");
+        // System.out.print("ring " + ring + ", " + quarterRotationSteps + " steps: ");
 
         // Continue moving the square in the rotation direction unless a
         // collision is detected or the destination is reached
         for (int i = 0; i < quarterRotationSteps; i++) {
 
-            System.out.print("(" + rx + ", " + ry + ") -> ");
+            // System.out.print("(" + rx + ", " + ry + ") -> ");
 
             // Step in direction
             switch (getDir(rx, ry)) {
@@ -189,7 +189,7 @@ public class Square {
             }
         }
 
-        System.out.println("(" + rx + ", " + ry + ") " + move);
+        // System.out.println("(" + rx + ", " + ry + ") " + move);
 
         return move;
     }
