@@ -19,6 +19,7 @@ You can then run the program with the following command:
 java -cp build/classes/main/ tetris.Tetris
 ```
 
+
 Controls
 --------
 
@@ -32,24 +33,43 @@ Controls
 | Shift | Hold piece             |
 | Q     | Quit game              |
 
+
+Colors
+------
+
+Colors are defined in the ColorScheme enum, which contains color values according to the Base16 color scheme. Additional colors may be found at https://chriskempson.github.io/base16/
+
+Pieces are assigned colors as follows:
+
+| Piece       | ColorScheme Value |
+|-------------|-------------------|
+| ZShape      | BASE_08           |
+| SquareShape | BASE_0F           |
+| JShape      | BASE_0D           |
+| TShape      | BASE_0A           |
+| SShape      | BASE_0B           |
+| BarShape    | BASE_0C           |
+| LShape      | BASE_0E           |
+
+
 Work Allocation
 ---------------
-
-- Piece randomizer
-- Score
 
 Randomization should occur when creating the `nextPiece`.
 
 ### Max
 
 - Implement rotate algorithm
+- Piece randomizer
+- AbstractPiece
 - TShape
 - SShape
 - BarShape
 
 ### Brandon
 
-- AbstractPiece, piece interface
+- NextPiece
+- Score
 - ZShape
 - SquareShape
 - JShape

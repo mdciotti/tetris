@@ -60,16 +60,16 @@ public class Tetris extends JPanel {
             g2d.fillRect(0, 0, 400, 550);
             
             // Draw the overlay background
-            g2d.setColor(ColorScheme.BASE_05.color);
+            g2d.setColor(ColorScheme.BASE_07.color);
             g2d.fillRect(0, 150, 400, 150);
 
             // Draw the overlay title
-            g2d.setFont(new Font("Menlo", Font.PLAIN, 32));
-            g2d.setColor(ColorScheme.BASE_01.color);
+            g2d.setFont(new Font("Letter Gothic Std", Font.BOLD, 32));
+            g2d.setColor(ColorScheme.BASE_02.color);
             g2d.drawString("G A M E   O V E R", 40, 200);
             
             // Draw the overlay subtext
-            g2d.setFont(new Font("Menlo", Font.PLAIN, 20));
+            g2d.setFont(new Font("Letter Gothic Std", Font.PLAIN, 20));
             g2d.setColor(ColorScheme.BASE_03.color);
             g2d.drawString("press any key to play again", 40, 240);
             g2d.drawString("or press q to quit the game", 40, 270);

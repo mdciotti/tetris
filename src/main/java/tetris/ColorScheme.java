@@ -6,30 +6,30 @@ import java.awt.Color;
  * Define the color scheme for the game.
  */
 public enum ColorScheme {
-    // Base16 Default
+    // Base16 Paraiso
     // https://chriskempson.github.io/base16/
 
-    BASE_00 (0x181818),
-    BASE_01 (0x282828),
-    BASE_02 (0x383838),
-    BASE_03 (0x585858),
-    BASE_04 (0xB8B8B8),
-    BASE_05 (0xD8D8D8),
-    BASE_06 (0xE8E8E8),
-    BASE_07 (0xF8F8F8),
+    BASE_00 (0x2f1e2e),
+    BASE_01 (0x41323f),
+    BASE_02 (0x4f424c),
+    BASE_03 (0x776e71),
+    BASE_04 (0x8d8687),
+    BASE_05 (0xa39e9b),
+    BASE_06 (0xb9b6b0),
+    BASE_07 (0xe7e9db),
 
-    BASE_08 (0xAB4642),
-    BASE_09 (0xDC9656),
-    BASE_0A (0xF7CA88),
-    BASE_0B (0xA1B56C),
-    BASE_0C (0x86C1B9),
-    BASE_0D (0x7CAFC2),
-    BASE_0E (0xBA8BAF),
-    BASE_0F (0xA16946);
+    BASE_08 (0xef6155),
+    BASE_09 (0xf99b15),
+    BASE_0A (0xfec418),
+    BASE_0B (0x48b685),
+    BASE_0C (0x5bc4bf),
+    BASE_0D (0x06b6ef),
+    BASE_0E (0x815ba4),
+    BASE_0F (0xe96ba8);
 
     public final Color color;
 
     ColorScheme(int colorCode) {
-    	this.color = new Color(colorCode);
+        this.color = new Color(colorCode);
     }
 }
