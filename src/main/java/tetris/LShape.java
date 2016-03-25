@@ -29,6 +29,9 @@ public class LShape {
     // Number of squares in one Tetris game piece
     private static final int PIECE_COUNT = 4;
 
+    // The index of the rotational center of the game piece
+    private static final int CENTER = 1;
+
     /**
      * Creates an L-Shape piece. See class description for actual location of
      * parameters r and c.
@@ -117,10 +120,37 @@ public class LShape {
     }
 
     /**
-    * Rotate the Piece.
+     * Returns if this piece can rotate.
+     */
+    public boolean canRotate() {
+        if (!ableToMove)
+            return false;
+
+        // Each square must be able to move in that direction
+        Point center = new Point(squares[CENTER].getCol(), squares[CENTER].getRow());
+        boolean answer = true;
+
+        System.out.println("Rotating piece around (" + center + ")");
+
+        for (int i = 0; i < PIECE_COUNT; i++) {
+            if (i == CENTER) continue;
+            System.out.print("sq[" + i + "]: ");
+            answer = answer && squares[i].canRotateAbout(center);
+        }
+
+        return answer;
+    }
+
+    /**
+    * Rotate the Piece in the direction specified.
     */
-    public void rotate()
-    {
-        
+    public void rotate() {
+        if (canRotate()) {
+            Point center = new Point(squares[CENTER].getCol(), squares[CENTER].getRow());
+            for (int i = 0; i < PIECE_COUNT; i++) {
+                if (i == CENTER) continue;
+                squares[i].rotateAbout(center);
+            }
+        }
     }
 }

@@ -2,6 +2,7 @@ package tetris;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Point;
 
 /**
  * One Square on our Tetris Grid or one square in our Tetris game piece.
@@ -112,6 +113,103 @@ public class Square {
                 case RIGHT: col++; break;
             }
         }
+    }
+
+    private boolean canMoveTo(int r, int c) {
+        if ((0 <= r && r < grid.HEIGHT) && (0 <= c && c < grid.WIDTH)) {
+            return !grid.isSet(r, c);
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Gives the direction to move next when in the process of rotating a piece.
+     *
+     * Works in a clockwise fashion.
+     *
+     * > > > > > > V 
+     * ^ > > > > V V 
+     * ^ ^ > > V V V 
+     * ^ ^ ^   V V V 
+     * ^ ^ ^ < < V V 
+     * ^ ^ < < < < V 
+     * ^ < < < < < < 
+     * 
+     * @param  rx the x radius of the current location
+     * @param  ry the y radius of the current location
+     * @return    the direction the square should move
+     */
+    private Direction getDir(int rx, int ry) {
+        Direction dir = Direction.NONE;
+        if (rx == 0 && ry == 0) dir = Direction.NONE;
+        else if (rx >= ry && ry < -rx) dir = Direction.RIGHT;
+        else if (ry > -rx && rx <= ry) dir = Direction.LEFT;
+        else if (ry > rx && rx <= -ry) dir = Direction.UP;
+        else if (rx >= -ry && ry < rx) dir = Direction.DOWN;
+        return dir;
+    }
+
+    /**
+     * Returns true if this Square can rotate about the given center.
+     * 
+     * @param center the square about which to test for possible rotation
+     */
+    public boolean canRotateAbout(Point center) {
+        if (!ableToMove)
+            return false;
+
+        boolean move = true;
+        
+        // This square's coordinates relative to the center of rotation
+        int rx = col - center.x;
+        int ry = row - center.y;
+
+        // Calculate which "ring" of rotation this square is in
+        int ring = Math.max(Math.abs(rx), Math.abs(ry));
+
+        // Calculate the number of steps for a quarter rotation
+        int quarterRotationSteps = 2 * ring;
+
+        System.out.print("ring " + ring + ", " + quarterRotationSteps + " steps: ");
+
+        // Continue moving the square in the rotation direction unless a
+        // collision is detected or the destination is reached
+        for (int i = 0; i < quarterRotationSteps; i++) {
+
+            System.out.print("(" + rx + ", " + ry + ") -> ");
+
+            // Step in direction
+            switch (getDir(rx, ry)) {
+                case NONE: break;
+                case LEFT: rx--; break;
+                case RIGHT: rx++; break;
+                case DOWN: ry++; break;
+                case UP: ry--; break;
+            }
+
+            // Check for 'collision'
+            if (!canMoveTo(center.y + ry, center.x + rx)) {
+                move = false;
+                break;
+            }
+        }
+
+        System.out.println("(" + rx + ", " + ry + ") " + move);
+
+        return move;
+    }
+
+    /**
+     * Rotates this square if possible.
+     * 
+     * @param center the location to rotate around
+     */
+    public void rotateAbout(Point center) {
+        int rx = col - center.x;
+        int ry = row - center.y;
+        col = center.x - ry;
+        row = center.y + rx;
     }
 
     /**
