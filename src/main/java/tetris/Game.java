@@ -17,7 +17,10 @@ public class Game {
     private Tetris display;
 
     // The current piece that is in play
-    private LShape piece;
+    private AbstractPiece piece;
+
+    // The next piece that will be in play
+    private AbstractPiece nextPiece;
 
     // Whether the game is over or not
     private boolean isOver;
