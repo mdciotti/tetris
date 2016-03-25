@@ -74,24 +74,18 @@ public class Square {
         if (!ableToMove)
             return false;
 
-        boolean move = true;
+        int r = row;
+        int c = col;
+
         // If the given direction is blocked, the square cannot move
         // Remember to check the edges of the grid
         switch (direction) {
-        case DOWN:
-            if (row == (Grid.HEIGHT - 1) || grid.isSet(row + 1, col))
-                move = false;
-            break;
-        case LEFT:
-            if (col == 0 || grid.isSet(row, col-1))
-                move = false;
-            break;
-        case RIGHT:
-            if (col == grid.WIDTH - 1 || grid.isSet(row, col+1))
-                move = false;
-            break;
+            case DOWN: r = row + 1; break;
+            case LEFT: c = col - 1; break;
+            case RIGHT: c = col + 1; break;
         }
-        return move;
+        
+        return canMoveTo(r, c);
     }
 
     /**

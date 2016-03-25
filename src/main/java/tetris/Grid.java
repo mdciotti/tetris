@@ -86,13 +86,13 @@ public class Grid {
     private void removeRow(int r) {
         // Change color of that row to white
         for (int col = 0; col < WIDTH; col++) {
-            set(r,col,EMPTY);
+            set(r, col, EMPTY);
         }
 
         // Move the remaining rows down one
         for (int row = r-1; row >= 0; row--) {
             for (int col = 0; col < WIDTH; col++) {
-                if (isSet(row,col)) {
+                if (isSet(row, col)) {
                     Color c = board[row][col].getColor();
                     board[row][col].setColor(EMPTY);
                     board[row+1][col].setColor(c);  
@@ -108,7 +108,7 @@ public class Grid {
     public void checkRows() {
         int col, row;
 
-        for (row = 0; row< HEIGHT; row++) {
+        for (row = 0; row < HEIGHT; row++) {
             for (col = 0; col < WIDTH; col++) {
                 // Move to next row if this square is empty
                 if (!isSet(row, col)) break;

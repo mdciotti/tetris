@@ -97,7 +97,7 @@ public class LShape {
      * Return the color of this piece.
      */
     public Color getColor() {
-        // all squares of this piece have the same color
+        // All squares of this piece have the same color
         return squares[0].getColor();
     }
 
