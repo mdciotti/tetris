@@ -3,6 +3,8 @@ package tetris;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -44,10 +46,33 @@ public class Tetris extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         game.draw(g);
+
+        // Convert Graphics into Graphics2D for better rendering effects
+        Graphics2D g2d = (Graphics2D) g;
+
+        // Turn on anti-aliasing
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
         if (game.isGameOver()) {
-            g.setFont(new Font("Palatino", Font.BOLD, 40));
-            g.setColor(Color.BLACK);
-            g.drawString("GAME OVER", 80, 300);
+            // Draw a shadow over the entire window
+            Color shade = ColorScheme.BASE_00.color;
+            g2d.setColor(new Color(shade.getRed(), shade.getGreen(), shade.getBlue(), 128));
+            g2d.fillRect(0, 0, 400, 550);
+            
+            // Draw the overlay background
+            g2d.setColor(ColorScheme.BASE_05.color);
+            g2d.fillRect(0, 150, 400, 150);
+
+            // Draw the overlay title
+            g2d.setFont(new Font("Menlo", Font.PLAIN, 32));
+            g2d.setColor(ColorScheme.BASE_01.color);
+            g2d.drawString("G A M E   O V E R", 40, 200);
+            
+            // Draw the overlay subtext
+            g2d.setFont(new Font("Menlo", Font.PLAIN, 20));
+            g2d.setColor(ColorScheme.BASE_03.color);
+            g2d.drawString("press any key to play again", 40, 240);
+            g2d.drawString("or press q to quit the game", 40, 270);
         }
     }
 
