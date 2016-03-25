@@ -1,6 +1,5 @@
 package tetris;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 
@@ -111,7 +110,7 @@ public class Game {
         // frozen piece and then release the piece
         else if (!piece.canMove(Direction.DOWN)) {
             Point[] p = piece.getLocations();
-            Color c = piece.getColor();
+            ColorScheme c = piece.getColor();
             for (int i = 0; i < p.length; i++) {
                 grid.set((int) p[i].getX(), (int) p[i].getY(), c);
             }

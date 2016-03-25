@@ -1,6 +1,5 @@
 package tetris;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 
@@ -19,7 +18,7 @@ public class Square {
     private boolean ableToMove;
 
     // The color of this Square
-    private Color color;
+    private ColorScheme color;
 
     // The possible move directions are defined by the Game class
 
@@ -38,7 +37,7 @@ public class Square {
      * 
      * @throws IllegalArgumentException if row and col not within the Grid
      */
-    public Square(Grid g, int row, int col, Color c, boolean mobile) {
+    public Square(Grid g, int row, int col, ColorScheme c, boolean mobile) {
         if (row < 0 || row > Grid.HEIGHT - 1)
             throw new IllegalArgumentException("Invalid row = " + row);
         if (col < 0 || col > Grid.WIDTH - 1)
@@ -84,7 +83,7 @@ public class Square {
             case LEFT: c = col - 1; break;
             case RIGHT: c = col + 1; break;
         }
-        
+
         return canMoveTo(r, c);
     }
 
@@ -211,14 +210,14 @@ public class Square {
      * 
      * @param c the new Color
      */
-    public void setColor(Color c) {
+    public void setColor(ColorScheme c) {
         color = c;
     }
 
     /**
      * Gets the color of this square.
      */
-    public Color getColor() {
+    public ColorScheme getColor() {
         return color;
     }
 
@@ -232,12 +231,12 @@ public class Square {
         // Calculate the upper left (x,y) coordinate of this square
         int actualX = Grid.LEFT + col * WIDTH;
         int actualY = Grid.TOP + row * HEIGHT;
-        g.setColor(color);
+        g.setColor(color.color);
         g.fillRect(actualX, actualY, WIDTH, HEIGHT);
 
         // Draw a border (if not empty)
         if (!color.equals(Grid.EMPTY)) {
-            g.setColor(Color.BLACK);
+            g.setColor(Grid.EMPTY.color);
             g.drawRect(actualX, actualY, WIDTH - 1, HEIGHT - 1);
         }
     }

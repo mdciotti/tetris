@@ -1,6 +1,5 @@
 package tetris;
 
-import java.awt.Color;
 import java.awt.Graphics;
 
 /**
@@ -34,7 +33,7 @@ public class Grid {
     // Pixel position of top of grid
     public static final int TOP = 50;
 
-    public static final Color EMPTY = Color.BLACK;
+    public static final ColorScheme EMPTY = ColorScheme.BASE_00;
 
     /**
      * Creates the grid.
@@ -71,7 +70,7 @@ public class Grid {
      * @throws IndexOutOfBoundsException
      *             if row < 0 || row>= WIDTH || col < 0 || col >= HEIGHT
      */
-    public void set(int row, int col, Color c) {
+    public void set(int row, int col, ColorScheme c) {
         board[row][col].setColor(c);
     }
 
@@ -84,7 +83,7 @@ public class Grid {
      * @param r the row to erase
      */
     private void removeRow(int r) {
-        // Change color of that row to white
+        // Change color of that row to empty
         for (int col = 0; col < WIDTH; col++) {
             set(r, col, EMPTY);
         }
@@ -93,7 +92,7 @@ public class Grid {
         for (int row = r-1; row >= 0; row--) {
             for (int col = 0; col < WIDTH; col++) {
                 if (isSet(row, col)) {
-                    Color c = board[row][col].getColor();
+                    ColorScheme c = board[row][col].getColor();
                     board[row][col].setColor(EMPTY);
                     board[row+1][col].setColor(c);  
                 }
@@ -130,7 +129,7 @@ public class Grid {
     public void draw(Graphics g) {
 
         // Draw the edges as rectangles
-        g.setColor(Color.BLACK);
+        g.setColor(ColorScheme.BASE_00.color);
         // Left border
         g.fillRect(LEFT - BORDER, TOP, BORDER, HEIGHT * Square.HEIGHT);
         // Right border

@@ -26,7 +26,7 @@ public class Tetris extends JPanel {
         f.setVisible(true);
         EventController ec = new EventController(game);
         f.addKeyListener(ec);
-        setBackground(Color.GRAY);
+        setBackground(ColorScheme.BASE_02.color);
     }
 
     /**
