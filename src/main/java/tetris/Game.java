@@ -24,6 +24,9 @@ public class Game {
     // Whether the game is over or not
     private boolean isOver;
 
+    // The number of different pieces
+    private final int NUM_PIECES = 7;
+
     /**
      * Creates a Tetris game.
      * 
@@ -32,7 +35,7 @@ public class Game {
     public Game(Tetris display) {
         grid = new Grid();
         this.display = display;
-        piece = new LShape(1, Grid.WIDTH / 2 - 1, grid);
+        generatePiece(1, Grid.WIDTH / 2 - 1);
         isOver = false;
     }
 
@@ -98,12 +101,31 @@ public class Game {
     }
 
     /**
+     * Generate a new random piece at the specified location.
+     *
+     * @param row the row to set the center of the piece
+     * @param col the column to set the center of the piece
+     */
+    private void generatePiece(int row, int col) {
+        switch ((int)(NUM_PIECES * Math.random())) {
+            // case 0: piece = new ZShape(row, col, grid); break;
+            // case 1: piece = new SquareShape(row, col, grid); break;
+            // case 2: piece = new JShape(row, col, grid); break;
+            default:
+            case 3: piece = new TShape(row, col, grid); break;
+            case 4: piece = new SShape(row, col, grid); break;
+            case 5: piece = new BarShape(row, col, grid); break;
+            case 6: piece = new LShape(row, col, grid); break;
+        }
+    }
+
+    /**
      * Updates the piece.
      */
     private void updatePiece() {
         if (piece == null) {
             // Create new LShape piece
-            piece = new LShape(1, Grid.WIDTH / 2 - 1, grid);
+            generatePiece(1, Grid.WIDTH / 2 - 1);
         }
 
         // When the piece reaches 'ground', set Grid positions corresponding to
