@@ -16,11 +16,11 @@ abstract public class Tetromino implements Cloneable {
     // The cells that make up this piece
     protected Square[] cells;
 
-    // The board this piece is on, made up of PIECE_COUNT cells
+    // The board this piece is on, made up of CELL_COUNT cells
     protected PlayField playField;
 
     // Number of cells in one Tetris game piece
-    protected static final int PIECE_COUNT = 4;
+    protected static final int CELL_COUNT = 4;
 
     // The index of the rotational center of the game piece
     protected static final int CENTER = 1;
@@ -37,7 +37,7 @@ abstract public class Tetromino implements Cloneable {
      * @param g the Graphics context on which to draw
      */
     public void draw(Graphics g) {
-        for (int i = 0; i < PIECE_COUNT; i++) {
+        for (int i = 0; i < CELL_COUNT; i++) {
             cells[i].draw(g, isGhost);
         }
     }
@@ -50,7 +50,7 @@ abstract public class Tetromino implements Cloneable {
      */
     public void move(Direction direction) {
         if (canMove(direction)) {
-            for (int i = 0; i < PIECE_COUNT; i++)
+            for (int i = 0; i < CELL_COUNT; i++)
                 cells[i].move(direction);
         }
         // If we couldn't move, see if because we're at the bottom
@@ -65,8 +65,8 @@ abstract public class Tetromino implements Cloneable {
      * @return an Array of (row, col) Points
      */
     public Point[] getLocations() {
-        Point[] points = new Point[PIECE_COUNT];
-        for (int i = 0; i < PIECE_COUNT; i++) {
+        Point[] points = new Point[CELL_COUNT];
+        for (int i = 0; i < CELL_COUNT; i++) {
             points[i] = new Point(cells[i].getRow(), cells[i].getCol());
         }
         return points;
@@ -91,7 +91,7 @@ abstract public class Tetromino implements Cloneable {
 
         // Each square must be able to move in that direction
         boolean answer = true;
-        for (int i = 0; i < PIECE_COUNT; i++) {
+        for (int i = 0; i < CELL_COUNT; i++) {
             answer = answer && cells[i].canMove(direction);
         }
 
@@ -111,7 +111,7 @@ abstract public class Tetromino implements Cloneable {
 
         // System.out.println("Rotating piece around (" + center + ")");
 
-        for (int i = 0; i < PIECE_COUNT; i++) {
+        for (int i = 0; i < CELL_COUNT; i++) {
             if (i == CENTER) continue;
             // System.out.print("sq[" + i + "]: ");
             answer = answer && cells[i].canRotateAbout(center);
@@ -126,7 +126,7 @@ abstract public class Tetromino implements Cloneable {
     public void rotate() {
         if (canRotate()) {
             Point center = new Point(cells[CENTER].getCol(), cells[CENTER].getRow());
-            for (int i = 0; i < PIECE_COUNT; i++) {
+            for (int i = 0; i < CELL_COUNT; i++) {
                 if (i == CENTER) continue;
                 cells[i].rotateAbout(center);
             }

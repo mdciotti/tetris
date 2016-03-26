@@ -72,9 +72,18 @@ Work Allocation
 
 Randomization should occur when creating the `nextPiece`.
 
+- [ ] Music
+- [ ] Hold
+- [ ] Display level, goal, score, top score
+- [ ] Display hold, next piece
+- [ ] Last-second rotations
+- [ ] Pause menu
+- [ ] Game menu
+- [ ] Quit menu
+
 ### Max
 
-- [ ] [GhostPiece](https://tetris.wiki/Ghost_piece)
+- [x] [GhostPiece](https://tetris.wiki/Ghost_piece)
 - [x] Implement rotate algorithm
 - [x] AbstractPiece
 - [x] TShape
@@ -83,7 +92,7 @@ Randomization should occur when creating the `nextPiece`.
 
 ### Brandon
 
-- [ ] Piece randomizer
+- [ ] Piece randomizer (grab bag)
 - [ ] NextPiece
 - [ ] Score
 - [x] ZShape

@@ -22,7 +22,7 @@ public class ZShape extends Tetromino {
      */
     public ZShape(int r, int c, PlayField g) {
         playField = g;
-        cells = new Square[PIECE_COUNT];
+        cells = new Square[CELL_COUNT];
         ableToMove = true;
 
         // Create the cells

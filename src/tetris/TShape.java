@@ -22,7 +22,7 @@ public class TShape extends Tetromino {
      */
     public TShape(int r, int c, PlayField g) {
         playField = g;
-        cells = new Square[PIECE_COUNT];
+        cells = new Square[CELL_COUNT];
         ableToMove = true;
 
         // Create the cells
