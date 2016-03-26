@@ -31,4 +31,11 @@ public class OShape extends Tetromino {
         cells[2] = new Square(g, r + 1, c - 1, COLOR, true);
         cells[3] = new Square(g, r + 1, c, COLOR, true);
     }
+
+    /**
+     * Overwrite the rotate class so that this shape does not rotate.
+     */
+    public void rotate() {
+
+    }
 }
