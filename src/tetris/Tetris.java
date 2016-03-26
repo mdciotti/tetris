@@ -1,12 +1,7 @@
 package tetris;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
-import java.awt.FontMetrics;
-import java.awt.Dimension;
+import java.awt.*;
+import java.io.*;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -18,14 +13,16 @@ public class Tetris extends JPanel {
 
     private Game game;
 
-    private Font titleFont = new Font("Dosis", Font.BOLD, 32);
-    private Font bodyFont = new Font("Dosis", Font.PLAIN, 20);
+    // Set up default (fallback) fonts
+    private Font titleFont = new Font("Letter Gothic Std", Font.BOLD, 32);
+    private Font bodyFont = new Font("Letter Gothic Std", Font.PLAIN, 20);
 
     /**
      * Sets up the parts for the Tetris game, display and user control.
      */
     public Tetris() {
         game = new Game(this);
+        loadResources();
         JFrame f = new JFrame("Tetris");
         f.add(this);
         f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -89,6 +86,22 @@ public class Tetris extends JPanel {
             g2d.drawString(bodyText1, (getWidth() - w) / 2, 240);
             w = bfm.stringWidth(bodyText2);
             g2d.drawString(bodyText2, (getWidth() - w) / 2, 270);
+        }
+    }
+
+    public void loadResources() {
+        try {
+            ClassLoader cl = this.getClass().getClassLoader();
+            InputStream dosisRegular = cl.getResourceAsStream("resources/dosis/Dosis-Regular.otf");
+            InputStream dosisBold = cl.getResourceAsStream("resources/dosis/Dosis-Bold.otf");
+            System.out.println("Loaded fonts");
+            GraphicsEnvironment ge =  GraphicsEnvironment.getLocalGraphicsEnvironment();
+            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, dosisRegular));
+            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, dosisBold));
+            titleFont = new Font("Dosis", Font.BOLD, 32);
+            bodyFont = new Font("Dosis", Font.PLAIN, 20);
+        } catch (Exception e) {
+            System.err.println("Failed to load fonts.");
         }
     }
 
