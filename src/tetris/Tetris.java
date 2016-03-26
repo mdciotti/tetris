@@ -58,7 +58,7 @@ public class Tetris extends JPanel {
         // Turn on anti-aliasing
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        if (game.isGameOver()) {
+        if (game.isOver()) {
             // Draw a shadow over the entire window
             Color shade = ColorScheme.BASE_00.color;
             g2d.setColor(new Color(shade.getRed(), shade.getGreen(), shade.getBlue(), 128));

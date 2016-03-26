@@ -21,8 +21,6 @@ public class EventController extends KeyAdapter implements ActionListener {
     // Wait 0.8 s every time the piece moves down, increase to slow it down
     private static final double PIECE_MOVE_TIME = 0.8;
 
-    private boolean gameOver;
-
     /**
      * Creates an EventController to handle key and timer events.
      * 
@@ -30,11 +28,8 @@ public class EventController extends KeyAdapter implements ActionListener {
      */
     public EventController(Game game) {
         this.game = game;
-        gameOver = false;
         double delay = 1000 * PIECE_MOVE_TIME; // in milliseconds
         timer = new Timer((int) delay, this);
-        // If multiple events pending, bunch them to one event
-        timer.setCoalesce(true);
         timer.start();
     }
 
@@ -52,24 +47,34 @@ public class EventController extends KeyAdapter implements ActionListener {
         }
 
         // Handle user input events only if the game is not over
-        if (!gameOver) {
+        if (!game.isOver()) {
             switch (e.getKeyCode()) {
+            case KeyEvent.VK_X:
             case KeyEvent.VK_UP:
                 game.rotatePiece();
                 break;
             case KeyEvent.VK_DOWN:
-                handleMove(Direction.DOWN);
+                game.movePiece(Direction.DOWN);
                 break;
             case KeyEvent.VK_LEFT:
-                handleMove(Direction.LEFT);
+                game.movePiece(Direction.LEFT);
                 break;
             case KeyEvent.VK_RIGHT:
-                handleMove(Direction.RIGHT);
+                game.movePiece(Direction.RIGHT);
                 break;
             case KeyEvent.VK_SPACE:
                 game.dropPiece();
                 break;
+            case KeyEvent.VK_C:
+            case KeyEvent.VK_SHIFT:
+                // game.holdPiece();
+                break;
             }
+        } else {
+            // Restart game on keypress
+            game.restart();
+            timer.setInitialDelay(1000);
+            timer.restart();
         }
     }
 
@@ -79,18 +84,7 @@ public class EventController extends KeyAdapter implements ActionListener {
      * @param e the ActionEvent passed to this handler
      */
     public void actionPerformed(ActionEvent e) {
-        handleMove(Direction.DOWN);
-    }
-
-    /**
-     * Update the game by moving in the given direction.
-     * 
-     * @param direction the Direction that was pressed
-     */
-    private void handleMove(Direction direction) {
-        game.movePiece(direction);
-        gameOver = game.isGameOver();
-        if (gameOver)
-            timer.stop();
+        game.movePiece(Direction.DOWN);
+        if (game.isOver()) timer.stop();
     }
 }

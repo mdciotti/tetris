@@ -30,13 +30,12 @@ public class Game {
     /**
      * Creates a Tetris game.
      * 
-     * @param Tetris the display
+     * @param display the Tetris container for this game
      */
     public Game(Tetris display) {
-        playField = new PlayField();
         this.display = display;
-        generatePiece(1, PlayField.WIDTH / 2 - 1);
-        isOver = false;
+        this.display.update();
+        restart();
     }
 
     /**
@@ -58,15 +57,13 @@ public class Game {
     /**
      * Moves the piece in the given direction.
      * 
-     * @param the direction to move
+     * @param direction the direction to move
      */
     public void movePiece(Direction direction) {
         if (piece != null) {
             piece.move(direction);
         }
-        updatePiece();
-        playField.checkRows();
-        display.update();
+        update();
     }
 
     /**
@@ -77,31 +74,46 @@ public class Game {
             while (piece.canMove(Direction.DOWN))
                 piece.move(Direction.DOWN);
         }
-        updatePiece();
-        playField.checkRows();
-        display.update();
+        update();
     }
 
     /**
-     * Returns true if the game is over.
+     * Checks whether the game end condition has been met. The game is over
+     * if the piece occupies the same space as some non-empty part of the
+     * playField. This usually happens when a new piece is made.
      */
-    public boolean isGameOver() {
-        // Game is over if the piece occupies the same space as some non-empty
-        // part of the playField. Usually happens when a new piece is made
-        if (piece == null) return false;
+    public void checkEndCondition() {
+        if (piece == null) return;
 
         // Check if game is already over
-        if (isOver) return true;
+        if (isOver) return;
 
         // Check every part of the piece
         Point[] p = piece.getLocations();
         for (int i = 0; i < p.length; i++) {
             if (playField.isSet((int) p[i].getX(), (int) p[i].getY())) {
                 isOver = true;
-                return true;
+                piece = null;
             }
         }
-        return false;
+    }
+
+    /**
+     * Whether this game is over or not.
+     * @return the game over state
+     */
+    public boolean isOver() {
+        return isOver;
+    }
+
+    /**
+     * Restarts the game from scratch.
+     */
+    public void restart() {
+        playField = new PlayField();
+        isOver = false;
+        piece = generatePiece(0, PlayField.WIDTH / 2 - 1);
+        display.update();
     }
 
     /**
@@ -110,31 +122,37 @@ public class Game {
      * @param row the row to set the center of the piece
      * @param col the column to set the center of the piece
      */
-    private void generatePiece(int row, int col) {
+    private Tetromino generatePiece(int row, int col) {
         switch ((int)(NUM_PIECES * Math.random())) {
             default:
-            case 0: piece = new ZShape(row, col, playField); break;
-            case 1: piece = new OShape(row, col, playField); break;
-            case 2: piece = new JShape(row, col, playField); break;
-            case 3: piece = new TShape(row, col, playField); break;
-            case 4: piece = new SShape(row, col, playField); break;
-            case 5: piece = new IShape(row, col, playField); break;
-            case 6: piece = new LShape(row, col, playField); break;
+            case 0: return new ZShape(row, col, playField);
+            case 1: return new OShape(row, col, playField);
+            case 2: return new JShape(row + 1, col, playField);
+            case 3: return new TShape(row, col, playField);
+            case 4: return new SShape(row, col, playField);
+            case 5: return new IShape(row, col, playField);
+            case 6: return new LShape(row + 1, col, playField);
         }
+    }
+
+    public void update() {
+        if (piece == null) {
+            piece = generatePiece(0, PlayField.WIDTH / 2 - 1);
+            checkEndCondition();
+        } else {
+            updatePiece();
+        }
+        playField.checkRows();
+        display.update();
     }
 
     /**
      * Updates the piece.
      */
     private void updatePiece() {
-        if (piece == null) {
-            // Create new LShape piece
-            generatePiece(1, PlayField.WIDTH / 2 - 1);
-        }
-
         // When the piece reaches 'ground', set PlayField positions corresponding to
         // frozen piece and then release the piece
-        else if (!piece.canMove(Direction.DOWN)) {
+        if (!piece.canMove(Direction.DOWN)) {
             Point[] p = piece.getLocations();
             ColorScheme c = piece.getColor();
             for (int i = 0; i < p.length; i++) {
@@ -151,8 +169,6 @@ public class Game {
         if (piece != null) {
             piece.rotate();
         }
-        updatePiece();
-        playField.checkRows();
-        display.update();
+        update();
     }
 }
