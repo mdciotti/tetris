@@ -4,22 +4,22 @@ import java.awt.Graphics;
 import java.awt.Point;
 
 /**
- * Manages the game Tetris. Keeps track of the current piece and the grid.
+ * Manages the game Tetris. Keeps track of the current piece and the playField.
  * Updates the display whenever the state of the game has changed.
  */
 public class Game {
 
-    // The Grid that makes up the Tetris board
-    private Grid grid;
+    // The PlayField that makes up the Tetris board
+    private PlayField playField;
 
     // The visual for the Tetris game
     private Tetris display;
 
     // The current piece that is in play
-    private AbstractPiece piece;
+    private Tetromino piece;
 
     // The next piece that will be in play
-    private AbstractPiece nextPiece;
+    private Tetromino nextPiece;
 
     // Whether the game is over or not
     private boolean isOver;
@@ -33,9 +33,9 @@ public class Game {
      * @param Tetris the display
      */
     public Game(Tetris display) {
-        grid = new Grid();
+        playField = new PlayField();
         this.display = display;
-        generatePiece(1, Grid.WIDTH / 2 - 1);
+        generatePiece(1, PlayField.WIDTH / 2 - 1);
         isOver = false;
     }
 
@@ -46,10 +46,10 @@ public class Game {
      */
     public void draw(Graphics g) {
 
-        grid.left = (display.getWidth() - Grid.WIDTH * Square.WIDTH) / 2;
-        grid.top = 10;
+        playField.left = (display.getWidth() - PlayField.WIDTH * Square.WIDTH) / 2;
+        playField.top = 10;
 
-        grid.draw(g);
+        playField.draw(g);
         if (piece != null) {
             piece.draw(g);
         }
@@ -65,7 +65,7 @@ public class Game {
             piece.move(direction);
         }
         updatePiece();
-        grid.checkRows();
+        playField.checkRows();
         display.update();
     }
 
@@ -78,7 +78,7 @@ public class Game {
                 piece.move(Direction.DOWN);
         }
         updatePiece();
-        grid.checkRows();
+        playField.checkRows();
         display.update();
     }
 
@@ -87,7 +87,7 @@ public class Game {
      */
     public boolean isGameOver() {
         // Game is over if the piece occupies the same space as some non-empty
-        // part of the grid. Usually happens when a new piece is made
+        // part of the playField. Usually happens when a new piece is made
         if (piece == null) return false;
 
         // Check if game is already over
@@ -96,7 +96,7 @@ public class Game {
         // Check every part of the piece
         Point[] p = piece.getLocations();
         for (int i = 0; i < p.length; i++) {
-            if (grid.isSet((int) p[i].getX(), (int) p[i].getY())) {
+            if (playField.isSet((int) p[i].getX(), (int) p[i].getY())) {
                 isOver = true;
                 return true;
             }
@@ -113,13 +113,13 @@ public class Game {
     private void generatePiece(int row, int col) {
         switch ((int)(NUM_PIECES * Math.random())) {
             default:
-            case 0: piece = new ZShape(row, col, grid); break;
-            case 1: piece = new SquareShape(row, col, grid); break;
-            case 2: piece = new JShape(row, col, grid); break;
-            case 3: piece = new TShape(row, col, grid); break;
-            case 4: piece = new SShape(row, col, grid); break;
-            case 5: piece = new BarShape(row, col, grid); break;
-            case 6: piece = new LShape(row, col, grid); break;
+            case 0: piece = new ZShape(row, col, playField); break;
+            case 1: piece = new OShape(row, col, playField); break;
+            case 2: piece = new JShape(row, col, playField); break;
+            case 3: piece = new TShape(row, col, playField); break;
+            case 4: piece = new SShape(row, col, playField); break;
+            case 5: piece = new IShape(row, col, playField); break;
+            case 6: piece = new LShape(row, col, playField); break;
         }
     }
 
@@ -129,16 +129,16 @@ public class Game {
     private void updatePiece() {
         if (piece == null) {
             // Create new LShape piece
-            generatePiece(1, Grid.WIDTH / 2 - 1);
+            generatePiece(1, PlayField.WIDTH / 2 - 1);
         }
 
-        // When the piece reaches 'ground', set Grid positions corresponding to
+        // When the piece reaches 'ground', set PlayField positions corresponding to
         // frozen piece and then release the piece
         else if (!piece.canMove(Direction.DOWN)) {
             Point[] p = piece.getLocations();
             ColorScheme c = piece.getColor();
             for (int i = 0; i < p.length; i++) {
-                grid.set((int) p[i].getX(), (int) p[i].getY(), c);
+                playField.set((int) p[i].getX(), (int) p[i].getY(), c);
             }
             piece = null;
         }
@@ -152,7 +152,7 @@ public class Game {
             piece.rotate();
         }
         updatePiece();
-        grid.checkRows();
+        playField.checkRows();
         display.update();
     }
 }

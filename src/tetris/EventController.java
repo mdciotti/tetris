@@ -14,7 +14,7 @@ import javax.swing.Timer;
  */
 public class EventController extends KeyAdapter implements ActionListener {
 
-    // Current game: grid and current piece
+    // Current game: playField and current piece
     private Game game;
     private Timer timer;
 

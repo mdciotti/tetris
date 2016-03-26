@@ -14,13 +14,13 @@ import java.awt.Graphics;
  * 
  * Each Square has a color. A white Square is EMPTY; any other color means that
  * spot is occupied (i.e. a piece cannot move over/to an occupied square). A
- * grid will also remove completely full rows.
+ * playField will also remove completely full rows.
  */
-public class Grid {
+public class PlayField {
 
     private Square[][] board;
 
-    // Width and Height of Grid in number of squares
+    // Width and Height of PlayField in number of cells
     public static final int HEIGHT = 20;
 
     public static final int WIDTH = 10;
@@ -29,19 +29,19 @@ public class Grid {
 
     public static final ColorScheme EMPTY = ColorScheme.BASE_00;
 
-    // The left edge of where this grid will be drawn
+    // The left edge of where this playField will be drawn
     public int left = 100;
 
-    // The top edge of where this grid will be drawn
+    // The top edge of where this playField will be drawn
     public int top = 50;
 
     /**
-     * Creates the grid.
+     * Creates the playField.
      */
-    public Grid() {
+    public PlayField() {
         board = new Square[HEIGHT][WIDTH];
 
-        // put squares in the board
+        // put cells in the board
         for (int row = 0; row < HEIGHT; row++) {
             for (int col = 0; col < WIDTH; col++) {
                 board[row][col] = new Square(this, row, col, EMPTY, false);
@@ -52,10 +52,10 @@ public class Grid {
     }
 
     /**
-     * Returns true if the location (row, col) on the grid is occupied.
+     * Returns true if the location (row, col) on the playField is occupied.
      * 
-     * @param row the row in the grid
-     * @param col the column in the grid
+     * @param row the row in the playField
+     * @param col the column in the playField
      */
     public boolean isSet(int row, int col) {
         return !board[row][col].getColor().equals(EMPTY);
@@ -64,8 +64,8 @@ public class Grid {
     /**
      * Changes the color of the Square at the given location.
      * 
-     * @param row the row of the Square in the Grid
-     * @param col the column of the Square in the Grid
+     * @param row the row of the Square in the PlayField
+     * @param col the column of the Square in the PlayField
      * @param c the color to set the Square
      * @throws IndexOutOfBoundsException
      *             if row < 0 || row>= WIDTH || col < 0 || col >= HEIGHT
@@ -75,7 +75,7 @@ public class Grid {
     }
 
     /**
-     * Checks for and remove all solid rows of squares.
+     * Checks for and remove all solid rows of cells.
      * 
      * If a solid row is found and removed, all rows above it are moved down and
      * the top row set to empty.
@@ -113,7 +113,7 @@ public class Grid {
                 if (!isSet(row, col)) break;
             }
 
-            // A row is filled when col contains WIDTH squares
+            // A row is filled when col contains WIDTH cells
             if (col == WIDTH) {
                 // Remove the row
                 removeRow(row);
@@ -122,13 +122,13 @@ public class Grid {
     }
 
     /**
-     * Draws the grid on the given Graphics context.
+     * Draws the playField on the given Graphics context.
      * 
      * @param g the Graphics context with which to draw
      */
     public void draw(Graphics g) {
 
-        // Draw the background (slightly larger than the grid playing area)
+        // Draw the background (slightly larger than the playField playing area)
         g.setColor(ColorScheme.BASE_00.color);
         g.fillRect(left - BORDER, top - BORDER,
             WIDTH * Square.WIDTH + 2 * BORDER,
@@ -141,7 +141,7 @@ public class Grid {
         //         Square.WIDTH - 2, HEIGHT * Square.HEIGHT);
         // }
 
-        // Draw all the squares in the grid, skipping empty ones
+        // Draw all the cells in the playField, skipping empty ones
         for (int r = 0; r < HEIGHT; r++) {
             for (int c = 0; c < WIDTH; c++) {
                 if (!board[r][c].getColor().equals(EMPTY)) {

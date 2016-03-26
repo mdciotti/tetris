@@ -3,12 +3,12 @@ package tetris;
 /**
  * An S-Shape piece in the Tetris Game.
  * 
- * This piece is made up of 4 squares in the following configuration:
+ * This piece is made up of 4 cells in the following configuration:
  * 
  *    [1][0]
  * [3][2]
  */
-public class SShape extends AbstractPiece {
+public class SShape extends Tetromino {
 
     private static final ColorScheme COLOR = ColorScheme.BASE_0B;
 
@@ -18,17 +18,17 @@ public class SShape extends AbstractPiece {
      * 
      * @param r row location for this piece
      * @param c column location for this piece
-     * @param g the Grid for this game piece
+     * @param g the PlayField for this game piece
      */
-    public SShape(int r, int c, Grid g) {
-        grid = g;
-        squares = new Square[PIECE_COUNT];
+    public SShape(int r, int c, PlayField g) {
+        playField = g;
+        cells = new Square[PIECE_COUNT];
         ableToMove = true;
 
-        // Create the squares
-        squares[0] = new Square(g, r, c + 1, COLOR, true);
-        squares[1] = new Square(g, r, c, COLOR, true);
-        squares[2] = new Square(g, r + 1, c, COLOR, true);
-        squares[3] = new Square(g, r + 1, c - 1, COLOR, true);
+        // Create the cells
+        cells[0] = new Square(g, r, c + 1, COLOR, true);
+        cells[1] = new Square(g, r, c, COLOR, true);
+        cells[2] = new Square(g, r + 1, c, COLOR, true);
+        cells[3] = new Square(g, r + 1, c - 1, COLOR, true);
     }
 }

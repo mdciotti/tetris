@@ -4,14 +4,14 @@ import java.awt.Graphics;
 import java.awt.Point;
 
 /**
- * One Square on our Tetris Grid or one square in our Tetris game piece.
+ * One Square on our Tetris PlayField or one square in our Tetris game piece.
  */
 public class Square {
 
     // The environment where this Square is situated
-    private Grid grid;
+    private PlayField playField;
 
-    // The grid location of this Square
+    // The playField location of this Square
     private int row, col;
 
     // Whether this piece is frozen or not
@@ -29,22 +29,22 @@ public class Square {
     /**
      * Creates a square.
      * 
-     * @param g the Grid for this Square
-     * @param row the row of this Square in the Grid
-     * @param col the column of this Square in the Grid
+     * @param g the PlayField for this Square
+     * @param row the row of this Square in the PlayField
+     * @param col the column of this Square in the PlayField
      * @param c the Color of this Square
      * @param mobile true if this Square can move
      * 
-     * @throws IllegalArgumentException if row and col not within the Grid
+     * @throws IllegalArgumentException if row and col not within the PlayField
      */
-    public Square(Grid g, int row, int col, ColorScheme c, boolean mobile) {
-        if (row < 0 || row > Grid.HEIGHT - 1)
+    public Square(PlayField g, int row, int col, ColorScheme c, boolean mobile) {
+        if (row < 0 || row > PlayField.HEIGHT - 1)
             throw new IllegalArgumentException("Invalid row = " + row);
-        if (col < 0 || col > Grid.WIDTH - 1)
+        if (col < 0 || col > PlayField.WIDTH - 1)
             throw new IllegalArgumentException("Invalid column  = " + col);
 
         // initialize instance variables
-        grid = g;
+        playField = g;
         this.row = row;
         this.col = col;
         color = c;
@@ -77,7 +77,7 @@ public class Square {
         int c = col;
 
         // If the given direction is blocked, the square cannot move
-        // Remember to check the edges of the grid
+        // Remember to check the edges of the playField
         switch (direction) {
             case DOWN: r = row + 1; break;
             case LEFT: c = col - 1; break;
@@ -109,8 +109,8 @@ public class Square {
     }
 
     private boolean canMoveTo(int r, int c) {
-        if ((0 <= r && r < grid.HEIGHT) && (0 <= c && c < grid.WIDTH)) {
-            return !grid.isSet(r, c);
+        if ((0 <= r && r < playField.HEIGHT) && (0 <= c && c < playField.WIDTH)) {
+            return !playField.isSet(r, c);
         } else {
             return false;
         }
@@ -229,8 +229,8 @@ public class Square {
     public void draw(Graphics g) {
 
         // Calculate the upper left (x,y) coordinate of this square
-        int actualX = grid.left + col * WIDTH;
-        int actualY = grid.top + row * HEIGHT;
+        int actualX = playField.left + col * WIDTH;
+        int actualY = playField.top + row * HEIGHT;
         g.setColor(color.color);
         g.fillRect(actualX + 1, actualY + 1, WIDTH - 2, HEIGHT - 2);
     }
