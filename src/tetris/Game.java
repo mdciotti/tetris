@@ -108,10 +108,10 @@ public class Game {
      */
     private void generatePiece(int row, int col) {
         switch ((int)(NUM_PIECES * Math.random())) {
-            // case 0: piece = new ZShape(row, col, grid); break;
-            // case 1: piece = new SquareShape(row, col, grid); break;
-            // case 2: piece = new JShape(row, col, grid); break;
             default:
+            case 0: piece = new ZShape(row, col, grid); break;
+            case 1: piece = new SquareShape(row, col, grid); break;
+            case 2: piece = new JShape(row, col, grid); break;
             case 3: piece = new TShape(row, col, grid); break;
             case 4: piece = new SShape(row, col, grid); break;
             case 5: piece = new BarShape(row, col, grid); break;
