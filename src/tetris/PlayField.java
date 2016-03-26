@@ -145,7 +145,7 @@ public class PlayField {
         for (int r = 0; r < HEIGHT; r++) {
             for (int c = 0; c < WIDTH; c++) {
                 if (!board[r][c].getColor().equals(EMPTY)) {
-                    board[r][c].draw(g);
+                    board[r][c].draw(g, false);
                 }
             }
         }

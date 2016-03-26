@@ -21,6 +21,9 @@ public class Game {
     // The next piece that will be in play
     private Tetromino nextPiece;
 
+    // The preview of where the piece will fall
+    private Tetromino ghost;
+
     // Whether the game is over or not
     private boolean isOver;
 
@@ -49,9 +52,8 @@ public class Game {
         playField.top = 10;
 
         playField.draw(g);
-        if (piece != null) {
-            piece.draw(g);
-        }
+        if (ghost != null) ghost.draw(g);
+        if (piece != null) piece.draw(g);
     }
 
     /**
@@ -73,8 +75,8 @@ public class Game {
         if (piece != null) {
             while (piece.canMove(Direction.DOWN))
                 piece.move(Direction.DOWN);
+            update();
         }
-        update();
     }
 
     /**
@@ -82,7 +84,7 @@ public class Game {
      * if the piece occupies the same space as some non-empty part of the
      * playField. This usually happens when a new piece is made.
      */
-    public void checkEndCondition() {
+    private void checkEndCondition() {
         if (piece == null) return;
 
         // Check if game is already over
@@ -94,6 +96,7 @@ public class Game {
             if (playField.isSet((int) p[i].getX(), (int) p[i].getY())) {
                 isOver = true;
                 piece = null;
+                ghost = null;
             }
         }
     }
@@ -113,6 +116,7 @@ public class Game {
         playField = new PlayField();
         isOver = false;
         piece = generatePiece(0, PlayField.WIDTH / 2 - 1);
+        updateGhost();
         display.update();
     }
 
@@ -135,6 +139,9 @@ public class Game {
         }
     }
 
+    /**
+     * Runs all testing conditions and creates a new piece if need be.
+     */
     public void update() {
         if (piece == null) {
             piece = generatePiece(0, PlayField.WIDTH / 2 - 1);
@@ -142,8 +149,26 @@ public class Game {
         } else {
             updatePiece();
         }
+        updateGhost();
         playField.checkRows();
         display.update();
+    }
+
+    /**
+     * Creates a new ghost piece and places it at the proper location.
+     */
+    private void updateGhost() {
+        if (piece != null) {
+            // Attempt to recreate the ghost
+            ghost = piece.makeGhost();
+
+            // If successfully created the ghost:
+            if (ghost != null) {
+                // Drop ghost to bottom
+                while (ghost.canMove(Direction.DOWN))
+                    ghost.move(Direction.DOWN);
+            }
+        }
     }
 
     /**
@@ -159,6 +184,7 @@ public class Game {
                 playField.set((int) p[i].getX(), (int) p[i].getY(), c);
             }
             piece = null;
+            ghost = null;
         }
     }
 
@@ -166,9 +192,7 @@ public class Game {
      * Rotate the piece.
      */
     public void rotatePiece() {
-        if (piece != null) {
-            piece.rotate();
-        }
+        if (piece != null) piece.rotate();
         update();
     }
 }

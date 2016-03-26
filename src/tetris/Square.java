@@ -226,12 +226,19 @@ public class Square {
      * 
      * @param g the AWT Graphics context with which to draw
      */
-    public void draw(Graphics g) {
+    public void draw(Graphics g, boolean isGhost) {
 
         // Calculate the upper left (x,y) coordinate of this square
         int actualX = playField.left + col * WIDTH;
         int actualY = playField.top + row * HEIGHT;
-        g.setColor(color.color);
-        g.fillRect(actualX + 1, actualY + 1, WIDTH - 2, HEIGHT - 2);
+        if (isGhost) {
+            g.setColor(ColorScheme.BASE_02.color);
+            g.fillRect(actualX + 1, actualY + 1, WIDTH - 2, HEIGHT - 2);
+            g.setColor(ColorScheme.BASE_00.color);
+            g.fillRect(actualX + 3, actualY + 3, WIDTH - 6, HEIGHT - 6);
+        } else {
+            g.setColor(color.color);
+            g.fillRect(actualX + 1, actualY + 1, WIDTH - 2, HEIGHT - 2);
+        }
     }
 }

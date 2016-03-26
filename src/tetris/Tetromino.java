@@ -9,7 +9,7 @@ import java.awt.Point;
  * The game piece "floats above" the PlayField. The (row, col) coordinates are the
  * location of the middle Square on the side within the PlayField.
  */
-abstract public class Tetromino {
+abstract public class Tetromino implements Cloneable {
     // Whether this piece is frozen or not
     protected boolean ableToMove;
 
@@ -28,6 +28,9 @@ abstract public class Tetromino {
     // The color of this piece
     private static final ColorScheme COLOR = ColorScheme.BASE_03;
 
+    // Whether this tetromino is a ghost piece
+    private boolean isGhost = false;
+
     /**
      * Draws the piece on the given Graphics context.
      * 
@@ -35,7 +38,7 @@ abstract public class Tetromino {
      */
     public void draw(Graphics g) {
         for (int i = 0; i < PIECE_COUNT; i++) {
-            cells[i].draw(g);
+            cells[i].draw(g, isGhost);
         }
     }
 
@@ -127,6 +130,30 @@ abstract public class Tetromino {
                 if (i == CENTER) continue;
                 cells[i].rotateAbout(center);
             }
+        }
+    }
+
+    /**
+     * Creates a ghost version of this piece.
+     * @return the ghost Tetromino
+     */
+    public Tetromino makeGhost() {
+        try {
+            // Clone the current object to create the ghost
+            Tetromino ghost = (Tetromino) super.clone();
+            ghost.isGhost = true;
+
+            // Make new cells at location of current piece's cells
+            ghost.cells = new Square[4];
+            for (int i = 0; i < CELL_COUNT; i++) {
+                int r = cells[i].getRow();
+                int c = cells[i].getCol();
+                ghost.cells[i] = new Square(playField, r, c, PlayField.EMPTY, true);
+            }
+            return ghost;
+        } catch (Exception e) {
+            System.err.println("Failed to create ghost. " + e);
+            return null;
         }
     }
 }
