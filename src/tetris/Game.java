@@ -45,6 +45,10 @@ public class Game {
      * @param g the Graphics context on which to draw
      */
     public void draw(Graphics g) {
+
+        grid.left = (display.getWidth() - Grid.WIDTH * Square.WIDTH) / 2;
+        grid.top = 10;
+
         grid.draw(g);
         if (piece != null) {
             piece.draw(g);

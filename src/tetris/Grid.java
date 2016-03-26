@@ -25,15 +25,15 @@ public class Grid {
 
     public static final int WIDTH = 10;
 
-    private static final int BORDER = 5;
-
-    // Pixel position of left of grid
-    public static final int LEFT = 100;
-
-    // Pixel position of top of grid
-    public static final int TOP = 50;
+    private static final int BORDER = 10;
 
     public static final ColorScheme EMPTY = ColorScheme.BASE_00;
+
+    // The left edge of where this grid will be drawn
+    public int left = 100;
+
+    // The top edge of where this grid will be drawn
+    public int top = 50;
 
     /**
      * Creates the grid.
@@ -130,7 +130,7 @@ public class Grid {
 
         // Draw the background (slightly larger than the grid playing area)
         g.setColor(ColorScheme.BASE_00.color);
-        g.fillRect(LEFT - BORDER, TOP - BORDER,
+        g.fillRect(left - BORDER, top - BORDER,
             WIDTH * Square.WIDTH + 2 * BORDER,
             HEIGHT * Square.HEIGHT + 2 * BORDER);
 

@@ -229,8 +229,8 @@ public class Square {
     public void draw(Graphics g) {
 
         // Calculate the upper left (x,y) coordinate of this square
-        int actualX = Grid.LEFT + col * WIDTH;
-        int actualY = Grid.TOP + row * HEIGHT;
+        int actualX = grid.left + col * WIDTH;
+        int actualY = grid.top + row * HEIGHT;
         g.setColor(color.color);
         g.fillRect(actualX + 1, actualY + 1, WIDTH - 2, HEIGHT - 2);
     }

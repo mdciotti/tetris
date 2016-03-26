@@ -5,6 +5,8 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.FontMetrics;
+import java.awt.Dimension;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -16,15 +18,21 @@ public class Tetris extends JPanel {
 
     private Game game;
 
+    private Font titleFont = new Font("Dosis", Font.BOLD, 32);
+    private Font bodyFont = new Font("Dosis", Font.PLAIN, 20);
+
     /**
      * Sets up the parts for the Tetris game, display and user control.
      */
     public Tetris() {
         game = new Game(this);
-        JFrame f = new JFrame("The Tetris Game");
+        JFrame f = new JFrame("Tetris");
         f.add(this);
         f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        f.setSize(400, 550);
+        setPreferredSize(new Dimension(500, 420));
+        setMinimumSize(new Dimension(500, 420));
+        f.setResizable(false);
+        f.pack();
         f.setVisible(true);
         EventController ec = new EventController(game);
         f.addKeyListener(ec);
@@ -57,22 +65,30 @@ public class Tetris extends JPanel {
             // Draw a shadow over the entire window
             Color shade = ColorScheme.BASE_00.color;
             g2d.setColor(new Color(shade.getRed(), shade.getGreen(), shade.getBlue(), 128));
-            g2d.fillRect(0, 0, 400, 550);
+            g2d.fillRect(0, 0, getWidth(), getHeight());
             
             // Draw the overlay background
             g2d.setColor(ColorScheme.BASE_07.color);
-            g2d.fillRect(0, 150, 400, 150);
+            g2d.fillRect(0, 150, getWidth(), 150);
 
             // Draw the overlay title
-            g2d.setFont(new Font("Letter Gothic Std", Font.BOLD, 32));
+            String titleText = "G A M E   O V E R";
+            g2d.setFont(titleFont);
             g2d.setColor(ColorScheme.BASE_02.color);
-            g2d.drawString("G A M E   O V E R", 40, 200);
+            FontMetrics fm = g2d.getFontMetrics(titleFont);
+            int w = fm.stringWidth(titleText);
+            g2d.drawString(titleText, (getWidth() - w) / 2, 200);
             
-            // Draw the overlay subtext
-            g2d.setFont(new Font("Letter Gothic Std", Font.PLAIN, 20));
+            // Draw the overlay body text
+            String bodyText1 = "press any key to play again";
+            String bodyText2 = "or press q to quit the game";
+            g2d.setFont(bodyFont);
             g2d.setColor(ColorScheme.BASE_03.color);
-            g2d.drawString("press any key to play again", 40, 240);
-            g2d.drawString("or press q to quit the game", 40, 270);
+            FontMetrics bfm = g2d.getFontMetrics(bodyFont);
+            w = bfm.stringWidth(bodyText1);
+            g2d.drawString(bodyText1, (getWidth() - w) / 2, 240);
+            w = bfm.stringWidth(bodyText2);
+            g2d.drawString(bodyText2, (getWidth() - w) / 2, 270);
         }
     }
 
