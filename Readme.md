@@ -3,6 +3,10 @@ Tetris
 
 Final project for COSC 1320.
 
+![Preview 1](https://github.com/mdciotti/tetris/blob/master/preview-01.png)
+![Preview 2](https://github.com/mdciotti/tetris/blob/master/preview-02.png)
+![Preview 3](https://github.com/mdciotti/tetris/blob/master/preview-03.png)
+
 
 Building
 --------
