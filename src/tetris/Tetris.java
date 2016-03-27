@@ -13,6 +13,9 @@ public class Tetris extends JPanel {
 
     private Game game;
 
+    private TextField score, topScore, level, goal;
+//    private TetriminoField nextPiece, hold;
+
     // Set up default (fallback) fonts
     private Font titleFont = new Font("Letter Gothic Std", Font.BOLD, 32);
     private Font bodyFont = new Font("Letter Gothic Std", Font.PLAIN, 20);
@@ -22,6 +25,10 @@ public class Tetris extends JPanel {
      */
     public Tetris() {
         game = new Game(this);
+        score = new TextField("SCORE");
+        topScore = new TextField("TOP SCORE");
+        level = new TextField("LEVEL");
+        goal = new TextField("GOAL");
         loadResources();
         JFrame f = new JFrame("Tetris");
         f.add(this);
@@ -57,6 +64,25 @@ public class Tetris extends JPanel {
 
         // Turn on anti-aliasing
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+        int rightSide = getWidth() / 2 + 130;
+        int leftSide = getWidth() / 2 - 230;
+
+        // Draw score
+        score.setValue("42");
+        score.draw(g2d, rightSide, 420 - 160);
+
+        // Draw top score
+        topScore.setValue("3,141");
+        topScore.draw(g2d, rightSide, 420 - 80);
+
+        // Draw level
+        level.setValue("1");
+        level.draw(g2d, leftSide, 420 - 160);
+
+        // Draw goal
+        goal.setValue("5");
+        goal.draw(g2d, leftSide, 420 - 80);
 
         if (game.isOver()) {
             // Draw a shadow over the entire window
@@ -100,6 +126,8 @@ public class Tetris extends JPanel {
             ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, dosisBold));
             titleFont = new Font("Dosis", Font.BOLD, 32);
             bodyFont = new Font("Dosis", Font.PLAIN, 20);
+            InfoField.setTitleFont(new Font("Dosis", Font.BOLD, 20));
+            TextField.setValueFont(new Font("Dosis", Font.PLAIN, 32));
         } catch (Exception e) {
             System.err.println("Failed to load fonts.");
         }
