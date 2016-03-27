@@ -95,7 +95,7 @@ public class Tetris extends JPanel {
             InputStream dosisRegular = cl.getResourceAsStream("resources/dosis/Dosis-Regular.otf");
             InputStream dosisBold = cl.getResourceAsStream("resources/dosis/Dosis-Bold.otf");
             System.out.println("Loaded fonts");
-            GraphicsEnvironment ge =  GraphicsEnvironment.getLocalGraphicsEnvironment();
+            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
             ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, dosisRegular));
             ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, dosisBold));
             titleFont = new Font("Dosis", Font.BOLD, 32);
