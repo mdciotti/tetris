@@ -156,4 +156,14 @@ abstract public class Tetrimino implements Cloneable {
             return null;
         }
     }
+
+    /**
+     * Locks down this Tetrimino's cells at their current location in the Matrix.
+     */
+    public void lockDown() {
+        // Tell all Minos to lock down
+        for (int i = 0; i < CELL_COUNT; i++) {
+            cells[i].lockDown();
+        }
+    }
 }

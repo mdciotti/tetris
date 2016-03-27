@@ -206,6 +206,13 @@ public class Mino {
     }
 
     /**
+     * Locks down this Mino at its current location in the Matrix.
+     */
+    public void lockDown() {
+        matrix.set(getRow(), getCol(), color);
+    }
+
+    /**
      * Changes the color of this square.
      * 
      * @param c the new Color

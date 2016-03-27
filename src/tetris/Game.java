@@ -84,21 +84,35 @@ public class Game {
      * if the piece occupies the same space as some non-empty part of the
      * matrix. This usually happens when a new piece is made.
      */
-    private void checkEndCondition() {
+    private void checkEndConditions() {
         if (piece == null) return;
 
         // Check if game is already over
         if (isOver) return;
 
         // Check every part of the piece
+        // NOTE: p.x = row, p.y = col
         Point[] p = piece.getLocations();
         for (int i = 0; i < p.length; i++) {
+
+            // Check for Block Out condition
             if (matrix.isSet((int) p[i].getX(), (int) p[i].getY())) {
-                isOver = true;
-                piece = null;
-                ghost = null;
+                end();
+                return;
+            }
+
+            // Check for Lock Out condition
+            if (p[i].getY() < 0) {
+                end();
+                return;
             }
         }
+    }
+
+    private void end() {
+        isOver = true;
+        piece = null;
+        ghost = null;
     }
 
     /**
@@ -145,7 +159,7 @@ public class Game {
     public void update() {
         if (piece == null) {
             piece = generatePiece(0, Matrix.WIDTH / 2 - 1);
-            checkEndCondition();
+            checkEndConditions();
         } else {
             updatePiece();
         }
@@ -178,11 +192,8 @@ public class Game {
         // When the piece reaches 'ground', set Matrix positions corresponding to
         // frozen piece and then release the piece
         if (!piece.canMove(Direction.DOWN)) {
-            Point[] p = piece.getLocations();
-            ColorScheme c = piece.getColor();
-            for (int i = 0; i < p.length; i++) {
-                matrix.set((int) p[i].getX(), (int) p[i].getY(), c);
-            }
+            checkEndConditions();
+            piece.lockDown();
             piece = null;
             ghost = null;
         }
