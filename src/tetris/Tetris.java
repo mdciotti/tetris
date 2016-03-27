@@ -13,7 +13,7 @@ public class Tetris extends JPanel {
 
     private Game game;
 
-    private TextField score, topScore, level, goal;
+    private TextField score, topScore, level, goal, nextPiece;
 //    private TetriminoField nextPiece, hold;
 
     // Set up default (fallback) fonts
@@ -25,10 +25,11 @@ public class Tetris extends JPanel {
      */
     public Tetris() {
         game = new Game(this);
-        score = new TextField("SCORE");
-        topScore = new TextField("TOP SCORE");
-        level = new TextField("LEVEL");
-        goal = new TextField("GOAL");
+        score = new TextField("SCORE", 60);
+        topScore = new TextField("TOP SCORE", 60);
+        level = new TextField("LEVEL", 60);
+        goal = new TextField("GOAL", 60);
+        nextPiece = new TextField("NEXT PIECE", 100);
         loadResources();
         JFrame f = new JFrame("Tetris");
         f.add(this);
@@ -83,6 +84,10 @@ public class Tetris extends JPanel {
         // Draw goal
         goal.setValue("5");
         goal.draw(g2d, leftSide, 420 - 80);
+
+        // Draw nextPiece
+        nextPiece.setValue("");
+        nextPiece.draw(g2d, rightSide, 20);
 
         if (game.isOver()) {
             // Draw a shadow over the entire window

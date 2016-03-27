@@ -36,14 +36,11 @@ public class Matrix {
     // The top edge of where this matrix will be drawn
     public int top = 50;
 
-    // Default font
-    private Font font = new Font("Letter Gothic Std", Font.BOLD, 20);
 
     /**
      * Creates the matrix.
      */
     public Matrix() {
-        loadResources();
         board = new Mino[HEIGHT][WIDTH];
 
         // put cells in the board
@@ -131,33 +128,11 @@ public class Matrix {
      * @param g the Graphics context with which to draw
      */
     public void draw(Graphics g) {
-        // Convert Graphics into Graphics2D for better rendering effects
-        Graphics2D g2d = (Graphics2D) g;
-
-        // Turn on anti-aliasing
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-
         // Draw the background (slightly larger than the matrix playing area)
         g.setColor(ColorScheme.BASE_00.color);
         g.fillRect(left - BORDER, top - BORDER,
             WIDTH * Mino.WIDTH + 2 * BORDER,
             HEIGHT * Mino.HEIGHT + 2 * BORDER);
-
-        // Draw the next piece background
-        g.setColor(ColorScheme.BASE_00.color);
-        g.fillRect((left - BORDER) + (WIDTH * Mino.WIDTH + 2 * BORDER) + BORDER*2,
-                BORDER*2,
-                100, 130);
-
-        String nextPieceText = "Next Piece";
-        g2d.setFont(font);
-        g2d.setColor(ColorScheme.BASE_07.color);
-        FontMetrics fm = g2d.getFontMetrics(font);
-        int w = fm.stringWidth(nextPieceText);
-        g2d.drawString(nextPieceText,
-                (WIDTH * Mino.WIDTH + 2 * BORDER) + left + (w/5),
-                (BORDER*2) + 5);
 
         // Vertical stripes
         // g.setColor(ColorScheme.BASE_01.color);
@@ -173,19 +148,6 @@ public class Matrix {
                     board[r][c].draw(g, false);
                 }
             }
-        }
-    }
-
-    public void loadResources() {
-        try {
-            ClassLoader cl = this.getClass().getClassLoader();
-            InputStream dosisBold = cl.getResourceAsStream("resources/dosis/Dosis-Bold.otf");
-            System.out.println("Loaded fonts");
-            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, dosisBold));
-            font = new Font("Dosis", Font.BOLD, 20);
-        } catch (Exception e) {
-            System.err.println("Failed to load fonts.");
         }
     }
 }

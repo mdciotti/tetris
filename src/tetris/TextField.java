@@ -11,9 +11,9 @@ public class TextField extends InfoField {
 
     private static Font valueFont = new Font("Letter Gothic Std", Font.PLAIN, 32);
 
-    public TextField(String name) {
+    public TextField(String name, int height) {
         setTitle(name);
-        height = 60;
+        this.height = height;
     }
 
     public void setValue(String value) {
