@@ -16,21 +16,29 @@ public class Tetris extends JPanel {
     private TextField score, topScore, level, goal, nextPiece;
 //    private TetriminoField nextPiece, hold;
 
-    // Set up default (fallback) fonts
-    private Font titleFont = new Font("Letter Gothic Std", Font.BOLD, 32);
-    private Font bodyFont = new Font("Letter Gothic Std", Font.PLAIN, 20);
+    private Modal gameOver;
 
     /**
      * Sets up the parts for the Tetris game, display and user control.
      */
     public Tetris() {
+
+        // Create the game
         game = new Game(this);
+
+        // Information Fields
         score = new TextField("SCORE", 60);
         topScore = new TextField("TOP SCORE", 60);
         level = new TextField("LEVEL", 60);
         goal = new TextField("GOAL", 60);
         nextPiece = new TextField("NEXT PIECE", 100);
+
+        // Modals
+        gameOver = new Modal("G A M E   O V E R");
+
         loadResources();
+
+        // Create window
         JFrame f = new JFrame("Tetris");
         f.add(this);
         f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -48,6 +56,14 @@ public class Tetris extends JPanel {
      * Updates the display.
      */
     public void update() {
+        if (game != null) {
+            if (game.isOver()) {
+                gameOver.setBody("you scored 10 points");
+                gameOver.setVisible(true);
+            } else {
+                gameOver.setVisible(false);
+            }
+        }
         repaint();
     }
 
@@ -58,6 +74,8 @@ public class Tetris extends JPanel {
      */
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+
+        // Draw the actual game
         game.draw(g);
 
         // Convert Graphics into Graphics2D for better rendering effects
@@ -66,6 +84,7 @@ public class Tetris extends JPanel {
         // Turn on anti-aliasing
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
+        // Calculate sidebar offsets
         int rightSide = getWidth() / 2 + 130;
         int leftSide = getWidth() / 2 - 230;
 
@@ -89,35 +108,8 @@ public class Tetris extends JPanel {
         nextPiece.setValue("");
         nextPiece.draw(g2d, rightSide, 20);
 
-        if (game.isOver()) {
-            // Draw a shadow over the entire window
-            Color shade = ColorScheme.BASE_00.color;
-            g2d.setColor(new Color(shade.getRed(), shade.getGreen(), shade.getBlue(), 128));
-            g2d.fillRect(0, 0, getWidth(), getHeight());
-            
-            // Draw the overlay background
-            g2d.setColor(ColorScheme.BASE_07.color);
-            g2d.fillRect(0, 150, getWidth(), 150);
-
-            // Draw the overlay title
-            String titleText = "G A M E   O V E R";
-            g2d.setFont(titleFont);
-            g2d.setColor(ColorScheme.BASE_02.color);
-            FontMetrics fm = g2d.getFontMetrics(titleFont);
-            int w = fm.stringWidth(titleText);
-            g2d.drawString(titleText, (getWidth() - w) / 2, 200);
-            
-            // Draw the overlay body text
-            String bodyText1 = "press any key to play again";
-            String bodyText2 = "or press q to quit the game";
-            g2d.setFont(bodyFont);
-            g2d.setColor(ColorScheme.BASE_03.color);
-            FontMetrics bfm = g2d.getFontMetrics(bodyFont);
-            w = bfm.stringWidth(bodyText1);
-            g2d.drawString(bodyText1, (getWidth() - w) / 2, 240);
-            w = bfm.stringWidth(bodyText2);
-            g2d.drawString(bodyText2, (getWidth() - w) / 2, 270);
-        }
+        // Draw Game Over modal
+        if (gameOver.isVisible()) gameOver.draw(g2d, getWidth(), getHeight());
     }
 
     public void loadResources() {
@@ -129,8 +121,8 @@ public class Tetris extends JPanel {
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
             ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, dosisRegular));
             ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, dosisBold));
-            titleFont = new Font("Dosis", Font.BOLD, 32);
-            bodyFont = new Font("Dosis", Font.PLAIN, 20);
+            Modal.setTitleFont(new Font("Dosis", Font.BOLD, 32));
+            Modal.setBodyFont(new Font("Dosis", Font.PLAIN, 20));
             InfoField.setTitleFont(new Font("Dosis", Font.BOLD, 20));
             TextField.setValueFont(new Font("Dosis", Font.PLAIN, 32));
         } catch (Exception e) {
