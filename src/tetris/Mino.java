@@ -4,47 +4,47 @@ import java.awt.Graphics;
 import java.awt.Point;
 
 /**
- * One Square on our Tetris PlayField or one square in our Tetris game piece.
+ * One Mino on our Tetris Matrix or one square in our Tetris game piece.
  */
-public class Square {
+public class Mino {
 
-    // The environment where this Square is situated
-    private PlayField playField;
+    // The environment where this Mino is situated
+    private Matrix matrix;
 
-    // The playField location of this Square
+    // The matrix location of this Mino
     private int row, col;
 
     // Whether this piece is frozen or not
     private boolean ableToMove;
 
-    // The color of this Square
+    // The color of this Mino
     private ColorScheme color;
 
     // The possible move directions are defined by the Game class
 
-    // Dimensions of a Square in pixels
+    // Dimensions of a Mino in pixels
     public static final int WIDTH = 20;
     public static final int HEIGHT = 20;
 
     /**
      * Creates a square.
      * 
-     * @param g the PlayField for this Square
-     * @param row the row of this Square in the PlayField
-     * @param col the column of this Square in the PlayField
-     * @param c the Color of this Square
-     * @param mobile true if this Square can move
+     * @param g the Matrix for this Mino
+     * @param row the row of this Mino in the Matrix
+     * @param col the column of this Mino in the Matrix
+     * @param c the Color of this Mino
+     * @param mobile true if this Mino can move
      * 
-     * @throws IllegalArgumentException if row and col not within the PlayField
+     * @throws IllegalArgumentException if row and col not within the Matrix
      */
-    public Square(PlayField g, int row, int col, ColorScheme c, boolean mobile) {
-        if (row < 0 || row > PlayField.HEIGHT - 1)
+    public Mino(Matrix g, int row, int col, ColorScheme c, boolean mobile) {
+        if (row < 0 || row > Matrix.HEIGHT - 1)
             throw new IllegalArgumentException("Invalid row = " + row);
-        if (col < 0 || col > PlayField.WIDTH - 1)
+        if (col < 0 || col > Matrix.WIDTH - 1)
             throw new IllegalArgumentException("Invalid column  = " + col);
 
         // initialize instance variables
-        playField = g;
+        matrix = g;
         this.row = row;
         this.col = col;
         color = c;
@@ -52,20 +52,20 @@ public class Square {
     }
 
     /**
-     * Returns the row for this Square.
+     * Returns the row for this Mino.
      */
     public int getRow() {
         return row;
     }
     /**
-     * Returns the column for this Square.
+     * Returns the column for this Mino.
      */
     public int getCol() {
         return col;
     }
 
     /**
-     * Returns true if this Square can move one spot in direction d.
+     * Returns true if this Mino can move one spot in direction d.
      * 
      * @param direction the Direction to test for possible move
      */
@@ -77,7 +77,7 @@ public class Square {
         int c = col;
 
         // If the given direction is blocked, the square cannot move
-        // Remember to check the edges of the playField
+        // Remember to check the edges of the matrix
         switch (direction) {
             case DOWN: r = row + 1; break;
             case LEFT: c = col - 1; break;
@@ -109,8 +109,8 @@ public class Square {
     }
 
     private boolean canMoveTo(int r, int c) {
-        if ((0 <= r && r < playField.HEIGHT) && (0 <= c && c < playField.WIDTH)) {
-            return !playField.isSet(r, c);
+        if ((0 <= r && r < matrix.HEIGHT) && (0 <= c && c < matrix.WIDTH)) {
+            return !matrix.isSet(r, c);
         } else {
             return false;
         }
@@ -144,7 +144,7 @@ public class Square {
     }
 
     /**
-     * Returns true if this Square can rotate about the given center.
+     * Returns true if this Mino can rotate about the given center.
      * 
      * @param center the square about which to test for possible rotation
      */
@@ -229,8 +229,8 @@ public class Square {
     public void draw(Graphics g, boolean isGhost) {
 
         // Calculate the upper left (x,y) coordinate of this square
-        int actualX = playField.left + col * WIDTH;
-        int actualY = playField.top + row * HEIGHT;
+        int actualX = matrix.left + col * WIDTH;
+        int actualY = matrix.top + row * HEIGHT;
         if (isGhost) {
             g.setColor(ColorScheme.BASE_02.color);
             g.fillRect(actualX + 1, actualY + 1, WIDTH - 2, HEIGHT - 2);

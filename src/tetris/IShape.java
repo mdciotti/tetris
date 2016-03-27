@@ -7,7 +7,7 @@ package tetris;
  * 
  * [0][1][2][3]
  */
-public class IShape extends Tetromino {
+public class IShape extends Tetrimino {
 
     private static final ColorScheme COLOR = ColorScheme.BASE_0C;
 
@@ -17,17 +17,17 @@ public class IShape extends Tetromino {
      * 
      * @param r row location for this piece
      * @param c column location for this piece
-     * @param g the PlayField for this game piece
+     * @param g the Matrix for this game piece
      */
-    public IShape(int r, int c, PlayField g) {
-        playField = g;
-        cells = new Square[CELL_COUNT];
+    public IShape(int r, int c, Matrix g) {
+        matrix = g;
+        cells = new Mino[CELL_COUNT];
         ableToMove = true;
 
         // Create the cells
-        cells[0] = new Square(g, r, c - 1, COLOR, true);
-        cells[1] = new Square(g, r, c, COLOR, true);
-        cells[2] = new Square(g, r, c + 1, COLOR, true);
-        cells[3] = new Square(g, r, c + 2, COLOR, true);
+        cells[0] = new Mino(g, r, c - 1, COLOR, true);
+        cells[1] = new Mino(g, r, c, COLOR, true);
+        cells[2] = new Mino(g, r, c + 1, COLOR, true);
+        cells[3] = new Mino(g, r, c + 2, COLOR, true);
     }
 }

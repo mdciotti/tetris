@@ -6,18 +6,18 @@ import java.awt.Point;
 /**
  * A generic piece (4-polyomino) in the Tetris Game.
  * 
- * The game piece "floats above" the PlayField. The (row, col) coordinates are the
- * location of the middle Square on the side within the PlayField.
+ * The game piece "floats above" the Matrix. The (row, col) coordinates are the
+ * location of the middle Mino on the side within the Matrix.
  */
-abstract public class Tetromino implements Cloneable {
+abstract public class Tetrimino implements Cloneable {
     // Whether this piece is frozen or not
     protected boolean ableToMove;
 
     // The cells that make up this piece
-    protected Square[] cells;
+    protected Mino[] cells;
 
     // The board this piece is on, made up of CELL_COUNT cells
-    protected PlayField playField;
+    protected Matrix matrix;
 
     // Number of cells in one Tetris game piece
     protected static final int CELL_COUNT = 4;
@@ -28,7 +28,7 @@ abstract public class Tetromino implements Cloneable {
     // The color of this piece
     private static final ColorScheme COLOR = ColorScheme.BASE_03;
 
-    // Whether this tetromino is a ghost piece
+    // Whether this Tetrimino is a ghost piece
     private boolean isGhost = false;
 
     /**
@@ -60,7 +60,7 @@ abstract public class Tetromino implements Cloneable {
     }
 
     /**
-     * Returns the (row, col) playField coordinates occupied by this Piece.
+     * Returns the (row, col) matrix coordinates occupied by this Piece.
      * 
      * @return an Array of (row, col) Points
      */
@@ -135,20 +135,20 @@ abstract public class Tetromino implements Cloneable {
 
     /**
      * Creates a ghost version of this piece.
-     * @return the ghost Tetromino
+     * @return the ghost Tetrimino
      */
-    public Tetromino makeGhost() {
+    public Tetrimino makeGhost() {
         try {
             // Clone the current object to create the ghost
-            Tetromino ghost = (Tetromino) super.clone();
+            Tetrimino ghost = (Tetrimino) super.clone();
             ghost.isGhost = true;
 
             // Make new cells at location of current piece's cells
-            ghost.cells = new Square[4];
+            ghost.cells = new Mino[4];
             for (int i = 0; i < CELL_COUNT; i++) {
                 int r = cells[i].getRow();
                 int c = cells[i].getCol();
-                ghost.cells[i] = new Square(playField, r, c, PlayField.EMPTY, true);
+                ghost.cells[i] = new Mino(matrix, r, c, Matrix.EMPTY, true);
             }
             return ghost;
         } catch (Exception e) {
