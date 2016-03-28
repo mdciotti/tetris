@@ -11,8 +11,6 @@ public class TetriminoField extends InfoField {
 
     private Tetrimino piece;
 
-    private static Font valueFont = new Font("Letter Gothic Std", Font.PLAIN, 32);
-
     public TetriminoField(String name) {
         setTitle(name);
         this.height = 100;

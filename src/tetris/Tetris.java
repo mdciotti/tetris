@@ -37,8 +37,6 @@ public class Tetris extends JPanel {
         // Modals
         gameOver = new Modal("G A M E   O V E R");
 
-        loadResources();
-
         // Create window
         JFrame f = new JFrame("Tetris");
         f.add(this);
@@ -83,7 +81,9 @@ public class Tetris extends JPanel {
         Graphics2D g2d = (Graphics2D) g;
 
         // Turn on anti-aliasing
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.setRenderingHint(
+                RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
 
         // Calculate sidebar offsets
         int rightSide = getWidth() / 2 + 130;
@@ -117,9 +117,9 @@ public class Tetris extends JPanel {
         if (gameOver.isVisible()) gameOver.draw(g2d, getWidth(), getHeight());
     }
 
-    public void loadResources() {
+    private static void loadResources() {
         try {
-            ClassLoader cl = this.getClass().getClassLoader();
+            ClassLoader cl = Tetris.class.getClassLoader();
             InputStream dosisRegular = cl.getResourceAsStream("resources/dosis/Dosis-Regular.otf");
             InputStream dosisBold = cl.getResourceAsStream("resources/dosis/Dosis-Bold.otf");
             System.out.println("Loaded fonts");
@@ -141,6 +141,7 @@ public class Tetris extends JPanel {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        loadResources();
         new Tetris();
     }
 }

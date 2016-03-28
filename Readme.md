@@ -123,19 +123,15 @@ Pieces are assigned colors as follows:
 Work Allocation
 ---------------
 
-Randomization should occur when creating the `nextPiece`.
-
-- [ ] Music
-- [ ] Hold
-- [ ] Display level, goal, score, top score
-- [ ] Display hold, next piece
 - [ ] Last-second rotations
-- [ ] Pause menu
-- [ ] Game menu
-- [ ] Quit menu
 
 ### Max
 
+- [ ] Pause menu
+- [ ] Game menu
+- [ ] Quit menu
+- [x] Display hold, next piece
+- [x] Hold
 - [x] [GhostPiece](https://tetris.wiki/Ghost_piece)
 - [x] Implement rotate algorithm
 - [x] AbstractPiece
@@ -145,9 +141,11 @@ Randomization should occur when creating the `nextPiece`.
 
 ### Brandon
 
+- [ ] Music
+- [ ] Display level, goal, score, top score
 - [ ] Piece randomizer (grab bag)
-- [ ] NextPiece
 - [ ] Score
+- [x] NextPiece
 - [x] ZShape
 - [x] SquareShape
 - [x] JShape

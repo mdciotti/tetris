@@ -47,17 +47,28 @@ public class Game {
         restart();
     }
 
+    /**
+     * Gets the next Tetrimino in the queue.
+     *
+     * @return the next Tetrimino
+     */
     public Tetrimino getNextPiece() {
         return nextPiece;
     }
 
+    /**
+     * Gets the Tetrimino that was previously held off to the side by the
+     * player, or null if no Tetrimino has been held yet.
+     *
+     * @return the held Tetrimino (or null if none is held)
+     */
     public Tetrimino getHeldPiece() {
         return heldPiece;
     }
 
     /**
-     * Holds the currently falling piece off to the side so that
-     * the player can use it later when it is more convenient.
+     * Holds the currently falling piece off to the side so that the player can
+     * use it later when it is more convenient.
      */
     public void holdPiece() {
         // Don't do anything if the last piece was held
@@ -88,7 +99,8 @@ public class Game {
      */
     public void draw(Graphics g) {
 
-        matrix.setPosition((display.getWidth() - matrix.getCols() * Mino.WIDTH) / 2, 10);
+        int w = matrix.getCols() * Mino.WIDTH;
+        matrix.setPosition((display.getWidth() - w) / 2, 10);
 
         matrix.draw(g);
         if (ghost != null) ghost.draw(g);
@@ -96,7 +108,7 @@ public class Game {
     }
 
     /**
-     * Moves the piece in the given direction.
+     * Moves the current Tetrimino in the given direction.
      * 
      * @param direction the direction to move
      */
@@ -108,7 +120,7 @@ public class Game {
     }
 
     /**
-     * Drops the piece to the bottom immediately.
+     * Drops the current Tetrimino to the bottom immediately.
      */
     public void dropPiece() {
         if (piece != null) {
@@ -119,9 +131,9 @@ public class Game {
     }
 
     /**
-     * Checks whether the game end condition has been met. The game is over
-     * if the piece occupies the same space as some non-empty part of the
-     * matrix. This usually happens when a new piece is made.
+     * Checks whether the game end condition "Block Out" has been met. The game
+     * is over if the piece occupies the same space as some non-empty part of
+     * the matrix. This usually happens when a new piece is made.
      */
     private void checkBlockOut() {
         if (piece == null) return;
@@ -144,6 +156,12 @@ public class Game {
             }
         }
     }
+
+    /**
+     * Checks whether the game end condition "Lock Out" has been met. This
+     * occurs when a piece is locked down at least partially above the top of
+     * the Matrix.
+     */
     private void checkLockOut() {
         if (piece == null) return;
 
@@ -155,7 +173,6 @@ public class Game {
         Point[] p = piece.getLocations();
         for (int i = 0; i < p.length; i++) {
             int row = (int) p[i].getX();
-            int col = (int) p[i].getY();
 
             // Check for Lock Out condition
             if (row < 0) {
@@ -165,6 +182,9 @@ public class Game {
         }
     }
 
+    /**
+     * Ends the current game.
+     */
     private void end() {
         isOver = true;
         piece = null;
@@ -173,6 +193,7 @@ public class Game {
 
     /**
      * Whether this game is over or not.
+     *
      * @return the game over state
      */
     public boolean isOver() {
@@ -186,6 +207,8 @@ public class Game {
         matrix = new Matrix(20, 10);
         matrix.setPosition(100, 50);
         isOver = false;
+        heldPiece = null;
+        lastPieceHeld = false;
         nextPiece = generatePiece(null, 1, 2);
         piece = generatePiece(matrix, 0, matrix.getCols() / 2 - 1);
         updateGhost();
@@ -251,9 +274,10 @@ public class Game {
      * Updates the piece.
      */
     private void updatePiece() {
-        // When the piece reaches 'ground', set Matrix positions corresponding to
-        // frozen piece and then release the piece
+        // When the piece reaches 'ground', set Matrix positions corresponding
+        // to frozen piece and then release the piece
         if (!piece.canMove(Direction.DOWN)) {
+            // TODO: fix crash
             checkLockOut();
             piece.lockDown();
             piece = null;

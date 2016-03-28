@@ -31,10 +31,20 @@ abstract public class Tetrimino implements Cloneable {
     // Whether this Tetrimino is a ghost piece
     private boolean isGhost = false;
 
+    /**
+     * Gets the Matrix that this Tetrimino belongs to.
+     *
+     * @return a reference to the Matrix
+     */
     public Matrix getMatrix() {
         return matrix;
     }
 
+    /**
+     * Sets the Matrix that this Tetrimino belongs to.
+     *
+     * @param m the new Matrix
+     */
     public void setMatrix(Matrix m) {
         matrix = m;
         for (int i = 0; i < CELL_COUNT; i++) {
@@ -42,6 +52,16 @@ abstract public class Tetrimino implements Cloneable {
         }
     }
 
+    /**
+     * Sets the position of this Tetrimino by moving all its cells from their
+     * current location to the desired location.
+     *
+     * This follows the convention that the (row, col) pair specifies the
+     * CENTER cell.
+     *
+     * @param row the new row for the CENTER cell
+     * @param col the new column for the CENTER cell
+     */
     public void setPosition(int row, int col) {
         int centerRow = cells[CENTER].getRow();
         int centerCol = cells[CENTER].getCol();
@@ -54,7 +74,7 @@ abstract public class Tetrimino implements Cloneable {
     }
 
     /**
-     * Draws the piece on the given Graphics context.
+     * Draws the Tetrimino on the given Graphics context.
      * 
      * @param g the Graphics context on which to draw
      */
@@ -65,8 +85,8 @@ abstract public class Tetrimino implements Cloneable {
     }
 
     /**
-     * Moves the piece if possible, otherwise freeze the piece if it cannot move
-     * down anymore.
+     * Moves the Tetrimino if possible, otherwise freeze the piece if it cannot
+     * move down anymore.
      * 
      * @param direction the Direction to move
      */
@@ -82,7 +102,8 @@ abstract public class Tetrimino implements Cloneable {
     }
 
     /**
-     * Returns the (row, col) matrix coordinates occupied by this Piece.
+     * Gets all the (row, col) Matrix coordinates occupied by this
+     * Tetrimino's cells.
      * 
      * @return an Array of (row, col) Points
      */
@@ -95,7 +116,8 @@ abstract public class Tetrimino implements Cloneable {
     }
 
     /**
-     * Return the color of this piece.
+     * Gets the color of this Tetrimino.
+     * @return the color of this Tetrimino
      */
     public ColorScheme getColor() {
         // All cells of this piece have the same color
@@ -103,13 +125,14 @@ abstract public class Tetrimino implements Cloneable {
     }
 
     /**
-     * Returns if this piece can move in the given direction.
+     * Checks if this Tetrimino can move one block in the specified direction
+     * by querying all of its constituent cells.
      * 
      * @param direction the Direction to check for movement capability
+     * @return true if this Tetrimino can move in the given direction
      */
     public boolean canMove(Direction direction) {
-        if (!ableToMove)
-            return false;
+        if (!ableToMove) return false;
 
         // Each square must be able to move in that direction
         boolean answer = true;
@@ -121,14 +144,19 @@ abstract public class Tetrimino implements Cloneable {
     }
 
     /**
-     * Returns if this piece can rotate.
+     * Checks whether this Tetrimino can rotate by querying all of its
+     * constituent cells.
+     *
+     * @return true if this Tetrimino can rotate
      */
     public boolean canRotate() {
-        if (!ableToMove)
-            return false;
+        if (!ableToMove) return false;
 
         // Each square must be able to move in that direction
-        Point center = new Point(cells[CENTER].getCol(), cells[CENTER].getRow());
+        Point center = new Point(
+                cells[CENTER].getCol(),
+                cells[CENTER].getRow());
+
         boolean answer = true;
 
         // System.out.println("Rotating piece around (" + center + ")");
@@ -143,11 +171,15 @@ abstract public class Tetrimino implements Cloneable {
     }
 
     /**
-    * Rotate the Piece in the direction specified.
-    */
+     * Rotate this Tetrimino in the direction specified by telling all of its
+     * constituent cells to rotate about the central cell.
+     */
     public void rotate() {
         if (canRotate()) {
-            Point center = new Point(cells[CENTER].getCol(), cells[CENTER].getRow());
+            Point center = new Point(
+                    cells[CENTER].getCol(),
+                    cells[CENTER].getRow());
+
             for (int i = 0; i < CELL_COUNT; i++) {
                 if (i == CENTER) continue;
                 cells[i].rotateAbout(center);
@@ -156,7 +188,9 @@ abstract public class Tetrimino implements Cloneable {
     }
 
     /**
-     * Creates a ghost version of this piece.
+     * Creates a ghost version of this Tetrimino in the same position and
+     * orientation as this Tetrimino.
+     *
      * @return the ghost Tetrimino
      */
     public Tetrimino makeGhost() {
@@ -180,7 +214,8 @@ abstract public class Tetrimino implements Cloneable {
     }
 
     /**
-     * Locks down this Tetrimino's cells at their current location in the Matrix.
+     * Locks down this Tetrimino's cells at their current location in
+     * the Matrix.
      */
     public void lockDown() {
         // Tell all Minos to lock down

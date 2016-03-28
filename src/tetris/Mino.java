@@ -45,35 +45,57 @@ public class Mino {
     }
 
     /**
-     * Returns the row for this Mino.
+     * Gets the Row for this Mino.
+     *
+     * @return the row
      */
     public int getRow() {
         return row;
     }
+
     /**
-     * Returns the column for this Mino.
+     * Gets the column for this Mino.
+     *
+     * @return the column
      */
     public int getCol() {
         return col;
     }
 
+    /**
+     * Sets the position of this Mino.
+     *
+     * @param row the new row
+     * @param col the new column
+     */
     public void setPosition(int row, int col) {
         this.row = row;
         this.col = col;
     }
 
+    /**
+     * Gets the Matrix that this Mino resides in.
+     *
+     * @return the matrix
+     */
     public Matrix getMatrix() {
         return matrix;
     }
 
+    /**
+     * Sets the Matrix that this Mino resides in.
+     *
+     * @param m the new matrix
+     */
     public void setMatrix(Matrix m) {
         matrix = m;
     }
 
     /**
-     * Returns true if this Mino can move one spot in direction d.
+     * Check whether this Mino can move one spot in a particular direction.
      * 
      * @param direction the Direction to test for possible move
+     * @return true if the Mino can move
      */
     public boolean canMove(Direction direction) {
         if (!ableToMove)
@@ -114,6 +136,13 @@ public class Mino {
         }
     }
 
+    /**
+     * Checks if this Mino can be moved to an arbitrary location on its matrix.
+     *
+     * @param r the row in the matrix to check
+     * @param c the column in the matrix to check
+     * @return true if it can be moved to that location
+     */
     private boolean canMoveTo(int r, int c) {
         if ((0 <= r && r < matrix.getRows()) && (0 <= c && c < matrix.getCols())) {
             return !matrix.isSet(r, c);
@@ -124,8 +153,9 @@ public class Mino {
 
     /**
      * Gives the direction to move next when in the process of rotating a piece.
-     *
-     * Works in a clockwise fashion.
+     * The center here is defined as the central cell in a Tetrimino, and
+     * therefore all cells rotate about that central cell as if it were the
+     * center of the diagram below. Works in a clockwise fashion.
      *
      * > > > > > > V 
      * ^ > > > > V V 
@@ -150,9 +180,13 @@ public class Mino {
     }
 
     /**
-     * Returns true if this Mino can rotate about the given center.
+     * Check whether this Mino can rotate about the given center. This algorithm
+     * assumes that each Mino in a Tetrimino must move in a rectilinear manner
+     * and pass through all intermediate cells to the destination. As long as
+     * nothing obstructs the Mino's path, the rotation is valid.
      * 
      * @param center the square about which to test for possible rotation
+     * @return true if the rotation is possible
      */
     public boolean canRotateAbout(Point center) {
         if (!ableToMove)
@@ -200,7 +234,7 @@ public class Mino {
     }
 
     /**
-     * Rotates this square if possible.
+     * Rotates this square, whether or not it is possible.
      * 
      * @param center the location to rotate around
      */
@@ -219,7 +253,7 @@ public class Mino {
     }
 
     /**
-     * Changes the color of this square.
+     * Changes the color of this Mino.
      * 
      * @param c the new Color
      */
@@ -228,7 +262,9 @@ public class Mino {
     }
 
     /**
-     * Gets the color of this square.
+     * Gets the ColorScheme value of this Mino.
+     *
+     * @return the color
      */
     public ColorScheme getColor() {
         return color;
