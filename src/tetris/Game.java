@@ -134,12 +134,14 @@ public class Game {
      * Checks whether the game end condition "Block Out" has been met. The game
      * is over if the piece occupies the same space as some non-empty part of
      * the matrix. This usually happens when a new piece is made.
+     *
+     * @return true if a blockout condition is detected
      */
-    private void checkBlockOut() {
-        if (piece == null) return;
+    private boolean checkBlockOut() {
+        if (piece == null) return false;
 
         // Check if game is already over
-        if (isOver) return;
+        if (isOver) return false;
 
         // Check every part of the piece
         // NOTE: p.x = row, p.y = col
@@ -149,24 +151,25 @@ public class Game {
             int col = (int) p[i].getY();
             if (row > 0) {
                 // Check for Block Out condition
-                if (matrix.isSet(row, col)) {
-                    end();
-                    return;
-                }
+                if (matrix.isSet(row, col)) return true;
             }
         }
+
+        return false;
     }
 
     /**
      * Checks whether the game end condition "Lock Out" has been met. This
      * occurs when a piece is locked down at least partially above the top of
      * the Matrix.
+     *
+     * @return true if a lockout condition is detected
      */
-    private void checkLockOut() {
-        if (piece == null) return;
+    private boolean checkLockOut() {
+        if (piece == null) return false;
 
         // Check if game is already over
-        if (isOver) return;
+        if (isOver) return false;
 
         // Check every part of the piece
         // NOTE: p.x = row, p.y = col
@@ -175,11 +178,10 @@ public class Game {
             int row = (int) p[i].getX();
 
             // Check for Lock Out condition
-            if (row < 0) {
-                end();
-                return;
-            }
+            if (row < 0) return true;
         }
+
+        return false;
     }
 
     /**
@@ -244,7 +246,7 @@ public class Game {
             piece.setPosition(0, matrix.getCols() / 2 - 1);
             nextPiece = generatePiece(null, 1, 2);
             lastPieceHeld = false;
-            checkBlockOut();
+            if (checkBlockOut()) end();
         } else {
             updatePiece();
         }
@@ -278,8 +280,8 @@ public class Game {
         // to frozen piece and then release the piece
         if (!piece.canMove(Direction.DOWN)) {
             // TODO: fix crash
-            checkLockOut();
-            piece.lockDown();
+            if (checkLockOut()) end();
+            else piece.lockDown();
             piece = null;
             ghost = null;
         }
