@@ -29,22 +29,15 @@ public class Mino {
     /**
      * Creates a square.
      * 
-     * @param g the Matrix for this Mino
+     * @param m the Matrix for this Mino
      * @param row the row of this Mino in the Matrix
      * @param col the column of this Mino in the Matrix
      * @param c the Color of this Mino
      * @param mobile true if this Mino can move
-     * 
-     * @throws IllegalArgumentException if row and col not within the Matrix
      */
-    public Mino(Matrix g, int row, int col, ColorScheme c, boolean mobile) {
-        if (row < 0 || row > Matrix.HEIGHT - 1)
-            throw new IllegalArgumentException("Invalid row = " + row);
-        if (col < 0 || col > Matrix.WIDTH - 1)
-            throw new IllegalArgumentException("Invalid column  = " + col);
-
+    public Mino(Matrix m, int row, int col, ColorScheme c, boolean mobile) {
         // initialize instance variables
-        matrix = g;
+        matrix = m;
         this.row = row;
         this.col = col;
         color = c;
@@ -62,6 +55,19 @@ public class Mino {
      */
     public int getCol() {
         return col;
+    }
+
+    public void setPosition(int row, int col) {
+        this.row = row;
+        this.col = col;
+    }
+
+    public Matrix getMatrix() {
+        return matrix;
+    }
+
+    public void setMatrix(Matrix m) {
+        matrix = m;
     }
 
     /**
@@ -109,7 +115,7 @@ public class Mino {
     }
 
     private boolean canMoveTo(int r, int c) {
-        if ((0 <= r && r < matrix.HEIGHT) && (0 <= c && c < matrix.WIDTH)) {
+        if ((0 <= r && r < matrix.getRows()) && (0 <= c && c < matrix.getCols())) {
             return !matrix.isSet(r, c);
         } else {
             return false;
@@ -236,8 +242,9 @@ public class Mino {
     public void draw(Graphics g, boolean isGhost) {
 
         // Calculate the upper left (x,y) coordinate of this square
-        int actualX = matrix.left + col * WIDTH;
-        int actualY = matrix.top + row * HEIGHT;
+        Point topleft = matrix.getPosition();
+        int actualX = topleft.x + col * WIDTH;
+        int actualY = topleft.y + row * HEIGHT;
         if (isGhost) {
             g.setColor(ColorScheme.BASE_02.color);
             g.fillRect(actualX + 1, actualY + 1, WIDTH - 2, HEIGHT - 2);

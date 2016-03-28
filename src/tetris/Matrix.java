@@ -21,33 +21,34 @@ public class Matrix {
 
     private Mino[][] board;
 
-    // Width and Height of Matrix in number of cells
-    public static final int HEIGHT = 20;
-
-    public static final int WIDTH = 10;
-
+    // The padding around the matrix
     private static final int BORDER = 10;
 
+    // The background color of the matrix
     public static final ColorScheme EMPTY = ColorScheme.BASE_00;
 
+    // The number of rows and columns of Matrix in number of cells
+    private int rows, cols;
+
     // The left edge of where this matrix will be drawn
-    public int left = 100;
+    private int left = 100;
 
     // The top edge of where this matrix will be drawn
-    public int top = 50;
+    private int top = 50;
 
 
     /**
      * Creates the matrix.
      */
-    public Matrix() {
-        board = new Mino[HEIGHT][WIDTH];
+    public Matrix(int rows, int cols) {
+        this.rows = rows;
+        this.cols = cols;
+        board = new Mino[rows][cols];
 
         // put cells in the board
-        for (int row = 0; row < HEIGHT; row++) {
-            for (int col = 0; col < WIDTH; col++) {
-                board[row][col] = new Mino(this, row, col, EMPTY, false);
-
+        for (int r = 0; r < rows; r++) {
+            for (int c = 0; c < cols; c++) {
+                board[r][c] = new Mino(this, r, c, EMPTY, false);
             }
         }
 
@@ -76,6 +77,23 @@ public class Matrix {
         board[row][col].setColor(c);
     }
 
+    public int getRows() {
+        return rows;
+    }
+
+    public int getCols() {
+        return cols;
+    }
+
+    public Point getPosition() {
+        return new Point(left, top);
+    }
+
+    public void setPosition(int left, int top) {
+        this.left = left;
+        this.top = top;
+    }
+
     /**
      * Checks for and remove all solid rows of cells.
      * 
@@ -86,13 +104,13 @@ public class Matrix {
      */
     private void removeRow(int r) {
         // Change color of that row to empty
-        for (int col = 0; col < WIDTH; col++) {
+        for (int col = 0; col < cols; col++) {
             set(r, col, EMPTY);
         }
 
         // Move the remaining rows down one
         for (int row = r-1; row >= 0; row--) {
-            for (int col = 0; col < WIDTH; col++) {
+            for (int col = 0; col < cols; col++) {
                 if (isSet(row, col)) {
                     ColorScheme c = board[row][col].getColor();
                     board[row][col].setColor(EMPTY);
@@ -108,14 +126,14 @@ public class Matrix {
     public void checkRows() {
         int col, row;
 
-        for (row = 0; row < HEIGHT; row++) {
-            for (col = 0; col < WIDTH; col++) {
+        for (row = 0; row < rows; row++) {
+            for (col = 0; col < cols; col++) {
                 // Move to next row if this square is empty
                 if (!isSet(row, col)) break;
             }
 
             // A row is filled when col contains WIDTH cells
-            if (col == WIDTH) {
+            if (col == cols) {
                 // Remove the row
                 removeRow(row);
             }
@@ -131,8 +149,8 @@ public class Matrix {
         // Draw the background (slightly larger than the matrix playing area)
         g.setColor(ColorScheme.BASE_00.color);
         g.fillRect(left - BORDER, top - BORDER,
-            WIDTH * Mino.WIDTH + 2 * BORDER,
-            HEIGHT * Mino.HEIGHT + 2 * BORDER);
+            cols * Mino.WIDTH + 2 * BORDER,
+            rows * Mino.HEIGHT + 2 * BORDER);
 
         // Vertical stripes
         // g.setColor(ColorScheme.BASE_01.color);
@@ -142,8 +160,8 @@ public class Matrix {
         // }
 
         // Draw all the cells in the matrix, skipping empty ones
-        for (int r = 0; r < HEIGHT; r++) {
-            for (int c = 0; c < WIDTH; c++) {
+        for (int r = 0; r < rows; r++) {
+            for (int c = 0; c < cols; c++) {
                 if (!board[r][c].getColor().equals(EMPTY)) {
                     board[r][c].draw(g, false);
                 }

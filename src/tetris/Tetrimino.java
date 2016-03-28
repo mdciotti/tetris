@@ -31,6 +31,28 @@ abstract public class Tetrimino implements Cloneable {
     // Whether this Tetrimino is a ghost piece
     private boolean isGhost = false;
 
+    public Matrix getMatrix() {
+        return matrix;
+    }
+
+    public void setMatrix(Matrix m) {
+        matrix = m;
+        for (int i = 0; i < CELL_COUNT; i++) {
+            cells[i].setMatrix(m);
+        }
+    }
+
+    public void setPosition(int row, int col) {
+        int centerRow = cells[CENTER].getRow();
+        int centerCol = cells[CENTER].getCol();
+
+        for (int i = 0; i < CELL_COUNT; i++) {
+            int dRow = cells[i].getRow() - centerRow;
+            int dCol = cells[i].getCol() - centerCol;
+            cells[i].setPosition(row + dRow, col + dCol);
+        }
+    }
+
     /**
      * Draws the piece on the given Graphics context.
      * 

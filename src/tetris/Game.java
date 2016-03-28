@@ -41,6 +41,10 @@ public class Game {
         restart();
     }
 
+    public Tetrimino getNextPiece() {
+        return nextPiece;
+    }
+
     /**
      * Draws the current state of the game.
      * 
@@ -48,8 +52,7 @@ public class Game {
      */
     public void draw(Graphics g) {
 
-        matrix.left = (display.getWidth() - Matrix.WIDTH * Mino.WIDTH) / 2;
-        matrix.top = 10;
+        matrix.setPosition((display.getWidth() - matrix.getCols() * Mino.WIDTH) / 2, 10);
 
         matrix.draw(g);
         if (ghost != null) ghost.draw(g);
@@ -84,7 +87,7 @@ public class Game {
      * if the piece occupies the same space as some non-empty part of the
      * matrix. This usually happens when a new piece is made.
      */
-    private void checkEndConditions() {
+    private void checkBlockOut() {
         if (piece == null) return;
 
         // Check if game is already over
@@ -94,15 +97,32 @@ public class Game {
         // NOTE: p.x = row, p.y = col
         Point[] p = piece.getLocations();
         for (int i = 0; i < p.length; i++) {
-
-            // Check for Block Out condition
-            if (matrix.isSet((int) p[i].getX(), (int) p[i].getY())) {
-                end();
-                return;
+            int row = (int) p[i].getX();
+            int col = (int) p[i].getY();
+            if (row > 0) {
+                // Check for Block Out condition
+                if (matrix.isSet(row, col)) {
+                    end();
+                    return;
+                }
             }
+        }
+    }
+    private void checkLockOut() {
+        if (piece == null) return;
+
+        // Check if game is already over
+        if (isOver) return;
+
+        // Check every part of the piece
+        // NOTE: p.x = row, p.y = col
+        Point[] p = piece.getLocations();
+        for (int i = 0; i < p.length; i++) {
+            int row = (int) p[i].getX();
+            int col = (int) p[i].getY();
 
             // Check for Lock Out condition
-            if (p[i].getY() < 0) {
+            if (row < 0) {
                 end();
                 return;
             }
@@ -127,9 +147,11 @@ public class Game {
      * Restarts the game from scratch.
      */
     public void restart() {
-        matrix = new Matrix();
+        matrix = new Matrix(20, 10);
+        matrix.setPosition(100, 50);
         isOver = false;
-        piece = generatePiece(0, Matrix.WIDTH / 2 - 1);
+        nextPiece = generatePiece(null, 1, 2);
+        piece = generatePiece(matrix, 0, matrix.getCols() / 2 - 1);
         updateGhost();
         display.update();
     }
@@ -140,16 +162,16 @@ public class Game {
      * @param row the row to set the center of the piece
      * @param col the column to set the center of the piece
      */
-    private Tetrimino generatePiece(int row, int col) {
+    private Tetrimino generatePiece(Matrix m, int row, int col) {
         switch ((int)(NUM_PIECES * Math.random())) {
             default:
-            case 0: return new ZShape(row, col, matrix);
-            case 1: return new OShape(row, col, matrix);
-            case 2: return new JShape(row + 1, col, matrix);
-            case 3: return new TShape(row, col, matrix);
-            case 4: return new SShape(row, col, matrix);
-            case 5: return new IShape(row, col, matrix);
-            case 6: return new LShape(row + 1, col, matrix);
+            case 0: return new ZShape(row, col, m);
+            case 1: return new OShape(row, col, m);
+            case 2: return new JShape(row + 1, col + 1, m);
+            case 3: return new TShape(row, col, m);
+            case 4: return new SShape(row, col, m);
+            case 5: return new IShape(row, col, m);
+            case 6: return new LShape(row + 1, col - 1, m);
         }
     }
 
@@ -158,8 +180,11 @@ public class Game {
      */
     public void update() {
         if (piece == null) {
-            piece = generatePiece(0, Matrix.WIDTH / 2 - 1);
-            checkEndConditions();
+            piece = nextPiece;
+            piece.setMatrix(matrix);
+            piece.setPosition(0, matrix.getCols() / 2 - 1);
+            nextPiece = generatePiece(null, 1, 2);
+            checkBlockOut();
         } else {
             updatePiece();
         }
@@ -192,7 +217,7 @@ public class Game {
         // When the piece reaches 'ground', set Matrix positions corresponding to
         // frozen piece and then release the piece
         if (!piece.canMove(Direction.DOWN)) {
-            checkEndConditions();
+            checkLockOut();
             piece.lockDown();
             piece = null;
             ghost = null;

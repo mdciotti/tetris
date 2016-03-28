@@ -13,8 +13,8 @@ public class Tetris extends JPanel {
 
     private Game game;
 
-    private TextField score, topScore, level, goal, nextPiece;
-//    private TetriminoField nextPiece, hold;
+    private TextField score, topScore, level, goal;
+    private TetriminoField nextPiece, hold;
 
     private Modal gameOver;
 
@@ -31,7 +31,7 @@ public class Tetris extends JPanel {
         topScore = new TextField("TOP SCORE", 60);
         level = new TextField("LEVEL", 60);
         goal = new TextField("GOAL", 60);
-        nextPiece = new TextField("NEXT PIECE", 100);
+        nextPiece = new TetriminoField("NEXT");
 
         // Modals
         gameOver = new Modal("G A M E   O V E R");
@@ -105,7 +105,7 @@ public class Tetris extends JPanel {
         goal.draw(g2d, leftSide, 420 - 80);
 
         // Draw nextPiece
-        nextPiece.setValue("");
+        nextPiece.setTetrimino(game.getNextPiece());
         nextPiece.draw(g2d, rightSide, 20);
 
         // Draw Game Over modal
