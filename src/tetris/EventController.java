@@ -67,7 +67,7 @@ public class EventController extends KeyAdapter implements ActionListener {
                 break;
             case KeyEvent.VK_C:
             case KeyEvent.VK_SHIFT:
-                // game.holdPiece();
+                 game.holdPiece();
                 break;
             }
         } else {

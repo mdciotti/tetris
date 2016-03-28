@@ -21,6 +21,12 @@ public class Game {
     // The next piece that will be in play
     private Tetrimino nextPiece;
 
+    // The piece that the player is holding off to the side
+    private Tetrimino heldPiece;
+
+    // Whether the player held the last piece or not
+    private boolean lastPieceHeld = false;
+
     // The preview of where the piece will fall
     private Tetrimino ghost;
 
@@ -43,6 +49,36 @@ public class Game {
 
     public Tetrimino getNextPiece() {
         return nextPiece;
+    }
+
+    public Tetrimino getHeldPiece() {
+        return heldPiece;
+    }
+
+    /**
+     * Holds the currently falling piece off to the side so that
+     * the player can use it later when it is more convenient.
+     */
+    public void holdPiece() {
+        // Don't do anything if the last piece was held
+        if (lastPieceHeld) return;
+
+        if (heldPiece == null) {
+            // No piece in hold yet
+            heldPiece = piece;
+            piece = nextPiece;
+            nextPiece = generatePiece(null, 1, 2);
+        } else {
+            // A piece is already in hold, swap
+            Tetrimino temp = piece;
+            piece = heldPiece;
+            heldPiece = temp;
+        }
+
+        piece.setMatrix(matrix);
+        piece.setPosition(0, matrix.getCols() / 2 - 1);
+        heldPiece.setPosition(1, 2);
+        lastPieceHeld = true;
     }
 
     /**
@@ -184,6 +220,7 @@ public class Game {
             piece.setMatrix(matrix);
             piece.setPosition(0, matrix.getCols() / 2 - 1);
             nextPiece = generatePiece(null, 1, 2);
+            lastPieceHeld = false;
             checkBlockOut();
         } else {
             updatePiece();

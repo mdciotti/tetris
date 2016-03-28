@@ -22,8 +22,10 @@ public class TetriminoField extends InfoField {
 
     public void setTetrimino(Tetrimino tetrimino) {
         this.piece = tetrimino;
-        for (int i = 0; i < this.piece.cells.length; i++) {
-            this.piece.cells[i].setMatrix(matrix);
+        if (this.piece != null) {
+            for (int i = 0; i < this.piece.cells.length; i++) {
+                this.piece.cells[i].setMatrix(matrix);
+            }
         }
     }
 

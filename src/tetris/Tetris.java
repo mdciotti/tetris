@@ -32,6 +32,7 @@ public class Tetris extends JPanel {
         level = new TextField("LEVEL", 60);
         goal = new TextField("GOAL", 60);
         nextPiece = new TetriminoField("NEXT");
+        hold = new TetriminoField("HOLD");
 
         // Modals
         gameOver = new Modal("G A M E   O V E R");
@@ -107,6 +108,10 @@ public class Tetris extends JPanel {
         // Draw nextPiece
         nextPiece.setTetrimino(game.getNextPiece());
         nextPiece.draw(g2d, rightSide, 20);
+
+        // Draw hold
+        hold.setTetrimino(game.getHeldPiece());
+        hold.draw(g2d, leftSide, 20);
 
         // Draw Game Over modal
         if (gameOver.isVisible()) gameOver.draw(g2d, getWidth(), getHeight());
