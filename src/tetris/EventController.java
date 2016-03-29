@@ -18,9 +18,6 @@ public class EventController extends KeyAdapter implements ActionListener {
     private Game game;
     private Timer timer;
 
-    // Wait 0.8 s every time the piece moves down, increase to slow it down
-    private static final double PIECE_MOVE_TIME = 0.8;
-
     /**
      * Creates an EventController to handle key and timer events.
      * 
@@ -28,7 +25,7 @@ public class EventController extends KeyAdapter implements ActionListener {
      */
     public EventController(Game game) {
         this.game = game;
-        double delay = 1000 * PIECE_MOVE_TIME; // in milliseconds
+        double delay = Tetris.START_SPEED; // in milliseconds
         timer = new Timer((int) delay, this);
         timer.start();
     }
@@ -85,6 +82,10 @@ public class EventController extends KeyAdapter implements ActionListener {
      */
     public void actionPerformed(ActionEvent e) {
         game.tick();
+        double speed = Tetris.START_SPEED * Math.pow(
+                Tetris.SPEED_GROWTH_FACTOR,
+                game.getLevel());
+        timer.setDelay((int) Math.round(1000.0 / speed));
         if (game.isOver()) timer.stop();
     }
 }
