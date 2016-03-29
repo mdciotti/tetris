@@ -122,9 +122,12 @@ public class Matrix {
 
     /**
      * Check all rows for a completed (filled) row.
+     *
+     * @return the number of full rows that were removed
      */
-    public void checkRows() {
+    public int checkRows() {
         int col, row;
+        int count = 0;
 
         for (row = 0; row < rows; row++) {
             for (col = 0; col < cols; col++) {
@@ -136,8 +139,10 @@ public class Matrix {
             if (col == cols) {
                 // Remove the row
                 removeRow(row);
+                count++;
             }
-        } 
+        }
+        return count;
     }
 
     /**

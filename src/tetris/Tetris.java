@@ -118,6 +118,8 @@ public class Tetris extends JPanel {
     }
 
     private static void loadResources() {
+        AudioManager.init();
+
         try {
             ClassLoader cl = Tetris.class.getClassLoader();
             InputStream dosisRegular = cl.getResourceAsStream("resources/dosis/Dosis-Regular.otf");
@@ -132,6 +134,7 @@ public class Tetris extends JPanel {
             TextField.setValueFont(new Font("Dosis", Font.PLAIN, 32));
         } catch (Exception e) {
             System.err.println("Failed to load fonts.");
+            e.printStackTrace();
         }
     }
 

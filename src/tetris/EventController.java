@@ -84,7 +84,7 @@ public class EventController extends KeyAdapter implements ActionListener {
      * @param e the ActionEvent passed to this handler
      */
     public void actionPerformed(ActionEvent e) {
-        game.movePiece(Direction.DOWN);
+        game.tick();
         if (game.isOver()) timer.stop();
     }
 }

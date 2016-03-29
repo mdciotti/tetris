@@ -120,6 +120,19 @@ Pieces are assigned colors as follows:
 | `LShape`  | `BASE_09`         |
 
 
+Sounds
+------
+
+Sound effects are needed for the following events:
+
+- Piece move (tap.wav)
+- Line clear (pop.wav)
+- Hold (scuff.wav)
+- Can't hold (dink.wav)
+- Drop (thump.wav)
+- Level up (ding-ding.wav)
+
+
 Work Allocation
 ---------------
 

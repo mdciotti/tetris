@@ -72,10 +72,18 @@ public class Game {
      */
     public void holdPiece() {
         // Don't do anything if the last piece was held
-        if (lastPieceHeld) return;
+        if (lastPieceHeld) {
+            AudioManager.NO_HOLD.play();
+            return;
+        }
 
         // Don't do anything if piece is null
-        if (piece == null) return;
+        if (piece == null) {
+            AudioManager.NO_HOLD.play();
+            return;
+        }
+
+        AudioManager.HOLD.play();
 
         if (heldPiece == null) {
             // No piece in hold yet
@@ -112,6 +120,16 @@ public class Game {
     }
 
     /**
+     * On every tick the game piece falls down one block. Over time, the amount
+     * of time between ticks decreases to make the game progressively harder.
+     */
+    public void tick() {
+        if (piece != null)
+            piece.move(Direction.DOWN);
+        update();
+    }
+
+    /**
      * Moves the current Tetrimino in the given direction.
      * 
      * @param direction the direction to move
@@ -119,6 +137,7 @@ public class Game {
     public void movePiece(Direction direction) {
         if (piece != null) {
             piece.move(direction);
+            AudioManager.PIECE_MOVE.play();
         }
         update();
     }
@@ -256,7 +275,11 @@ public class Game {
             updatePiece();
         }
         updateGhost();
-        matrix.checkRows();
+        int numLinesCleared = matrix.checkRows();
+        if (numLinesCleared == 1) AudioManager.LINE_CLEAR_1.play();
+        else if (numLinesCleared == 2) AudioManager.LINE_CLEAR_2.play();
+        else if (numLinesCleared == 3) AudioManager.LINE_CLEAR_3.play();
+        else if (numLinesCleared == 4) AudioManager.LINE_CLEAR_4.play();
         display.update();
     }
 
@@ -295,7 +318,10 @@ public class Game {
      * Rotate the piece.
      */
     public void rotatePiece() {
-        if (piece != null) piece.rotate();
+        if (piece != null) {
+            AudioManager.PIECE_MOVE.play();
+            piece.rotate();
+        }
         update();
     }
 }
