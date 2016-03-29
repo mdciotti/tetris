@@ -196,6 +196,7 @@ public class Game {
      * @return true if a blockout condition is detected
      */
     private boolean checkBlockOut() {
+        // TODO: investigate this not working
         if (piece == null) return false;
 
         // Check if game is already over

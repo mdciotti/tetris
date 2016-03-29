@@ -81,11 +81,13 @@ public class EventController extends KeyAdapter implements ActionListener {
      * @param e the ActionEvent passed to this handler
      */
     public void actionPerformed(ActionEvent e) {
-        game.tick();
-        double speed = Tetris.START_SPEED * Math.pow(
-                Tetris.SPEED_GROWTH_FACTOR,
-                game.getLevel());
-        timer.setDelay((int) Math.round(1000.0 / speed));
         if (game.isOver()) timer.stop();
+        else {
+            game.tick();
+            double speed = Tetris.START_SPEED * Math.pow(
+                    Tetris.SPEED_GROWTH_FACTOR,
+                    game.getLevel());
+            timer.setDelay((int) Math.round(1000.0 / speed));
+        }
     }
 }
