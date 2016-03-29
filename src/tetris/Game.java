@@ -74,20 +74,24 @@ public class Game {
         // Don't do anything if the last piece was held
         if (lastPieceHeld) return;
 
+        // Don't do anything if piece is null
+        if (piece == null) return;
+
         if (heldPiece == null) {
             // No piece in hold yet
             heldPiece = piece;
-            piece = nextPiece;
-            nextPiece = generatePiece(null, 1, 2);
+            piece = null;
+            update();
         } else {
             // A piece is already in hold, swap
             Tetrimino temp = piece;
             piece = heldPiece;
+            piece.setMatrix(matrix);
+            piece.setPosition(1, 4);
             heldPiece = temp;
+            update();
         }
 
-        piece.setMatrix(matrix);
-        piece.setPosition(0, matrix.getCols() / 2 - 1);
         heldPiece.setPosition(1, 2);
         lastPieceHeld = true;
     }
@@ -126,6 +130,7 @@ public class Game {
         if (piece != null) {
             while (piece.canMove(Direction.DOWN))
                 piece.move(Direction.DOWN);
+            updatePiece();
             update();
         }
     }
@@ -279,7 +284,6 @@ public class Game {
         // When the piece reaches 'ground', set Matrix positions corresponding
         // to frozen piece and then release the piece
         if (!piece.canMove(Direction.DOWN)) {
-            // TODO: fix crash
             if (checkLockOut()) end();
             else piece.lockDown();
             piece = null;
