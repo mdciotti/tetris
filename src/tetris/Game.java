@@ -33,6 +33,18 @@ public class Game {
     // Whether the game is over or not
     private boolean isOver;
 
+    // The current score
+    private int score;
+
+    // The high score of the current playing session
+    private int highScore = 0;
+
+    // The current level (difficulty)
+    private int level;
+
+    // The number of line clears left to the next level
+    private int goal;
+
     // The number of different pieces
     private final int NUM_PIECES = 7;
 
@@ -45,6 +57,22 @@ public class Game {
         this.display = display;
         this.display.update();
         restart();
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public int getHighScore() {
+        return highScore;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public int getGoal() {
+        return goal;
     }
 
     /**
@@ -136,8 +164,9 @@ public class Game {
      */
     public void movePiece(Direction direction) {
         if (piece != null) {
-            piece.move(direction);
             AudioManager.PIECE_MOVE.play();
+            piece.move(direction);
+            if (direction == Direction.DOWN) score++;
         }
         update();
     }
@@ -147,8 +176,13 @@ public class Game {
      */
     public void dropPiece() {
         if (piece != null) {
-            while (piece.canMove(Direction.DOWN))
+            // AudioManager.HARD_DROP.play();
+            int m = 0;
+            while (piece.canMove(Direction.DOWN)) {
                 piece.move(Direction.DOWN);
+                m++;
+            }
+            score += 2 * m;
             updatePiece();
             update();
         }
@@ -230,6 +264,9 @@ public class Game {
      * Restarts the game from scratch.
      */
     public void restart() {
+        goal = 5;
+        level = 1;
+        score = 0;
         matrix = new Matrix(20, 10);
         matrix.setPosition(100, 50);
         isOver = false;
@@ -275,11 +312,58 @@ public class Game {
             updatePiece();
         }
         updateGhost();
+
         int numLinesCleared = matrix.checkRows();
-        if (numLinesCleared == 1) AudioManager.LINE_CLEAR_1.play();
-        else if (numLinesCleared == 2) AudioManager.LINE_CLEAR_2.play();
-        else if (numLinesCleared == 3) AudioManager.LINE_CLEAR_3.play();
-        else if (numLinesCleared == 4) AudioManager.LINE_CLEAR_4.play();
+        int pointsAwarded = 0;
+        int lineClearsAwarded = 0;
+
+        // TODO: determine if back-to-back
+        boolean backToBack = false;
+
+        switch (numLinesCleared) {
+            case 1:
+                AudioManager.LINE_CLEAR_1.play();
+                pointsAwarded = 100 * level;
+                lineClearsAwarded = 1;
+                break;
+            case 2:
+                AudioManager.LINE_CLEAR_2.play();
+                pointsAwarded = 300 * level;
+                lineClearsAwarded = 3;
+                break;
+            case 3:
+                AudioManager.LINE_CLEAR_3.play();
+                pointsAwarded = 500 * level;
+                lineClearsAwarded = 5;
+                break;
+            case 4:
+                AudioManager.LINE_CLEAR_4.play();
+                pointsAwarded = 800 * level;
+                lineClearsAwarded = 8;
+                break;
+        }
+
+        if (backToBack) {
+            // AudioManager.BACK_TO_BACK.play();
+            // TODO: keep track of points better, to include points earned from
+            // hard and soft drops
+            lineClearsAwarded += lineClearsAwarded;
+            pointsAwarded += pointsAwarded;
+        }
+
+        score += pointsAwarded;
+
+        // Assign high score if current is best
+        if (score > highScore) highScore = score;
+
+        if (goal - lineClearsAwarded <= 0) {
+            // AudioManager.LEVEL_UP.play();
+            level++;
+            goal = level * 5;
+        } else {
+            goal -= lineClearsAwarded;
+        }
+
         display.update();
     }
 

@@ -90,19 +90,19 @@ public class Tetris extends JPanel {
         int leftSide = getWidth() / 2 - 230;
 
         // Draw score
-        score.setValue("42");
+        score.setValue(Integer.toString(game.getScore()));
         score.draw(g2d, rightSide, 420 - 160);
 
         // Draw top score
-        topScore.setValue("3,141");
+        topScore.setValue(Integer.toString(game.getHighScore()));
         topScore.draw(g2d, rightSide, 420 - 80);
 
         // Draw level
-        level.setValue("1");
+        level.setValue(Integer.toString(game.getLevel()));
         level.draw(g2d, leftSide, 420 - 160);
 
         // Draw goal
-        goal.setValue("5");
+        goal.setValue(Integer.toString(game.getGoal()));
         goal.draw(g2d, leftSide, 420 - 80);
 
         // Draw nextPiece
