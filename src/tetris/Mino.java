@@ -144,11 +144,16 @@ public class Mino {
      * @return true if it can be moved to that location
      */
     private boolean canMoveTo(int r, int c) {
-        if ((0 <= r && r < matrix.getRows()) && (0 <= c && c < matrix.getCols())) {
+        boolean inRowRange = 0 <= r && r < matrix.getRows();
+        boolean inColRange = 0 <= c && c < matrix.getCols();
+
+        if (inRowRange && inColRange) {
+            // Can only move if the cell is empty
             return !matrix.isSet(r, c);
-        } else {
-            return false;
-        }
+        } else if (r < 0 && inColRange) {
+            // We assume there is no ceiling, so Minos above it can move
+            return true;
+        } else return false;
     }
 
     /**
