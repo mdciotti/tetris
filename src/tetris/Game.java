@@ -176,6 +176,9 @@ public class Game {
     public void pause() {
         paused = !paused;
         display.update();
+        // Lower volume when paused
+        if (paused) AudioManager.THEME_A.setVolume(0.2);
+        else AudioManager.THEME_A.setVolume(0.5);
     }
 
     /**
@@ -281,6 +284,7 @@ public class Game {
         isOver = true;
         piece = null;
         ghost = null;
+        AudioManager.THEME_A.stop();
     }
 
     /**
@@ -296,6 +300,7 @@ public class Game {
      * Restarts the game from scratch.
      */
     public void restart() {
+        // TODO: countdown
         goal = 5;
         level = 1;
         score = 0;
@@ -308,6 +313,8 @@ public class Game {
         piece = generatePiece(matrix, 0, matrix.getCols() / 2 - 1);
         updateGhost();
         display.update();
+        AudioManager.THEME_A.play(true);
+        AudioManager.THEME_A.setVolume(0.5);
     }
 
     /**

@@ -40,6 +40,7 @@ public class EventController extends KeyAdapter implements ActionListener {
         // If key pressed was 'Q', quit the game
         if (e.getKeyCode() == KeyEvent.VK_Q) {
             timer.stop();
+            AudioManager.stopAll();
             ((JFrame) e.getSource()).dispose();
         }
 

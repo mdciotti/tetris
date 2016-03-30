@@ -17,7 +17,7 @@ public class AudioManager {
     public static void init() {
         TinySound.init();
 
-        // THEME_A = TinySound.loadMusic("theme_a.wav");
+        THEME_A = TinySound.loadMusic("resources/music/theme_a.wav");
         PIECE_MOVE = TinySound.loadSound("resources/sfx/tap.wav");
         LINE_CLEAR_1 = TinySound.loadSound("resources/sfx/pop.wav");
         LINE_CLEAR_2 = TinySound.loadSound("resources/sfx/pop2.wav");
@@ -26,5 +26,9 @@ public class AudioManager {
         HOLD = TinySound.loadSound("resources/sfx/scuff.wav");
         NO_HOLD = TinySound.loadSound("resources/sfx/dink.wav");
         HARD_DROP = TinySound.loadSound("resources/sfx/thump.wav");
+    }
+
+    public static void stopAll() {
+        TinySound.shutdown();
     }
 }
