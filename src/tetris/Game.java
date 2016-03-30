@@ -187,7 +187,8 @@ public class Game {
      */
     public void dropPiece() {
         if (piece != null) {
-            // AudioManager.HARD_DROP.play();
+             AudioManager.HARD_DROP.play();
+
             int m = 0;
             while (piece.canMove(Direction.DOWN)) {
                 piece.move(Direction.DOWN);
