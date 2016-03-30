@@ -45,6 +45,9 @@ public class Game {
     // The number of line clears left to the next level
     private int goal;
 
+    // Whether the game should lock the piece down on the next tick
+    private boolean lockOnNextTick = false;
+
     // The number of different pieces
     private final int NUM_PIECES = 7;
 
@@ -152,8 +155,14 @@ public class Game {
      * of time between ticks decreases to make the game progressively harder.
      */
     public void tick() {
-        if (piece != null)
-            piece.move(Direction.DOWN);
+        if (piece != null) {
+            if (lockOnNextTick && !piece.canMove(Direction.DOWN)) {
+                piece.lockDown();
+                piece = null;
+                ghost = null;
+            } else piece.move(Direction.DOWN);
+        }
+        lockOnNextTick = false;
         update();
     }
 
@@ -183,7 +192,14 @@ public class Game {
                 m++;
             }
             score += 2 * m;
-            updatePiece();
+
+            if (checkLockOut()) end();
+            else {
+                piece.lockDown();
+                piece = null;
+                ghost = null;
+            }
+
             update();
         }
     }
@@ -310,7 +326,15 @@ public class Game {
             lastPieceHeld = false;
             if (checkBlockOut()) end();
         } else {
-            updatePiece();
+            // When the piece reaches 'ground', set Matrix positions corresponding
+            // to frozen piece and then release the piece
+            if (!piece.canMove(Direction.DOWN)) {
+                if (checkLockOut()) end();
+                else lockOnNextTick = true;
+//            else piece.lockDown();
+//            piece = null;
+//            ghost = null;
+            }
         }
         updateGhost();
 
@@ -382,20 +406,6 @@ public class Game {
                 while (ghost.canMove(Direction.DOWN))
                     ghost.move(Direction.DOWN);
             }
-        }
-    }
-
-    /**
-     * Updates the piece.
-     */
-    private void updatePiece() {
-        // When the piece reaches 'ground', set Matrix positions corresponding
-        // to frozen piece and then release the piece
-        if (!piece.canMove(Direction.DOWN)) {
-            if (checkLockOut()) end();
-            else piece.lockDown();
-            piece = null;
-            ghost = null;
         }
     }
 
