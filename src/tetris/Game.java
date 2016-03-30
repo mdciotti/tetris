@@ -173,9 +173,11 @@ public class Game {
      */
     public void movePiece(Direction direction) {
         if (piece != null) {
-            AudioManager.PIECE_MOVE.play();
-            piece.move(direction);
-            if (direction == Direction.DOWN) score++;
+            if (piece.canMove(direction)) {
+                AudioManager.PIECE_MOVE.play();
+                piece.move(direction);
+                if (direction == Direction.DOWN) score++;
+            }
         }
         update();
     }
@@ -414,8 +416,10 @@ public class Game {
      */
     public void rotatePiece() {
         if (piece != null) {
-            AudioManager.PIECE_MOVE.play();
-            piece.rotate();
+            if (piece.canRotate()) {
+                AudioManager.PIECE_MOVE.play();
+                piece.rotate();
+            }
         }
         update();
     }

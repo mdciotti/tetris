@@ -91,14 +91,8 @@ abstract public class Tetrimino implements Cloneable {
      * @param direction the Direction to move
      */
     public void move(Direction direction) {
-        if (canMove(direction)) {
-            for (int i = 0; i < CELL_COUNT; i++)
-                cells[i].move(direction);
-        }
-        // If we couldn't move, see if because we're at the bottom
-        else if (direction == Direction.DOWN) {
-            ableToMove = false;
-        }
+        for (int i = 0; i < CELL_COUNT; i++)
+            cells[i].move(direction);
     }
 
     /**
@@ -175,15 +169,13 @@ abstract public class Tetrimino implements Cloneable {
      * constituent cells to rotate about the central cell.
      */
     public void rotate() {
-        if (canRotate()) {
-            Point center = new Point(
-                    cells[CENTER].getCol(),
-                    cells[CENTER].getRow());
+        Point center = new Point(
+                cells[CENTER].getCol(),
+                cells[CENTER].getRow());
 
-            for (int i = 0; i < CELL_COUNT; i++) {
-                if (i == CENTER) continue;
-                cells[i].rotateAbout(center);
-            }
+        for (int i = 0; i < CELL_COUNT; i++) {
+            if (i == CENTER) continue;
+            cells[i].rotateAbout(center);
         }
     }
 
