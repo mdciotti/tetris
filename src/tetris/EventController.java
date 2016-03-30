@@ -43,8 +43,17 @@ public class EventController extends KeyAdapter implements ActionListener {
             ((JFrame) e.getSource()).dispose();
         }
 
+        if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+            if (!game.isOver()) {
+                game.pause();
+                if (game.isPaused()) timer.stop();
+                else timer.start();
+            }
+            return;
+        }
+
         // Handle user input events only if the game is not over
-        if (!game.isOver()) {
+        if (!game.isOver() && !game.isPaused()) {
             switch (e.getKeyCode()) {
             case KeyEvent.VK_X:
             case KeyEvent.VK_UP:
@@ -67,7 +76,7 @@ public class EventController extends KeyAdapter implements ActionListener {
                  game.holdPiece();
                 break;
             }
-        } else {
+        } else if (game.isOver()) {
             // Restart game on keypress
             game.restart();
             timer.setInitialDelay(1000);

@@ -16,7 +16,7 @@ public class Tetris extends JPanel {
     private TextField score, topScore, level, goal;
     private TetriminoField nextPiece, hold;
 
-    private Modal gameOver;
+    private Modal gameOver, paused;
 
     // The number of ticks per second
     public static double START_SPEED = 1.0;
@@ -42,6 +42,11 @@ public class Tetris extends JPanel {
 
         // Modals
         gameOver = new Modal("G A M E   O V E R");
+        gameOver.setBody("press any key to play again",
+                "or press q to quit the game");
+        paused = new Modal("P A U S E D");
+        paused.setBody("press escape to resume play",
+                "or press q to quit the game");
 
         // Create window
         JFrame f = new JFrame("Tetris");
@@ -63,11 +68,13 @@ public class Tetris extends JPanel {
     public void update() {
         if (game != null) {
             if (game.isOver()) {
-                gameOver.setBody("you scored 10 points");
+//                gameOver.setBody("you scored 10 points");
                 gameOver.setVisible(true);
             } else {
                 gameOver.setVisible(false);
             }
+
+            paused.setVisible(game.isPaused());
         }
         repaint();
     }
@@ -121,6 +128,9 @@ public class Tetris extends JPanel {
 
         // Draw Game Over modal
         if (gameOver.isVisible()) gameOver.draw(g2d, getWidth(), getHeight());
+
+        // Draw pause modal
+        if (paused.isVisible()) paused.draw(g2d, getWidth(), getHeight());
     }
 
     private static void loadResources() {

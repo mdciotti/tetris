@@ -33,6 +33,9 @@ public class Game {
     // Whether the game is over or not
     private boolean isOver;
 
+    // Whether the game is paused or not
+    private boolean paused;
+
     // The current score
     private int score;
 
@@ -76,6 +79,10 @@ public class Game {
 
     public int getGoal() {
         return goal;
+    }
+
+    public boolean isPaused() {
+        return paused;
     }
 
     /**
@@ -164,6 +171,11 @@ public class Game {
         }
         lockOnNextTick = false;
         update();
+    }
+
+    public void pause() {
+        paused = !paused;
+        display.update();
     }
 
     /**

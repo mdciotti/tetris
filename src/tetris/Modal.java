@@ -11,7 +11,7 @@ public class Modal {
     private String title;
 
     // The lines of body text in this modal
-    private String body;
+    private String[] body;
 
     // Whether this modal is currently visible
     private boolean visible = false;
@@ -25,14 +25,16 @@ public class Modal {
 
     public Modal(String title) {
         setTitle(title);
+        body = new String[2];
     }
 
     public void setTitle(String title) {
         this.title = title;
     }
 
-    public void setBody(String body) {
-        this.body = body;
+    public void setBody(String line1, String line2) {
+        this.body[0] = line1;
+        this.body[1] = line2;
     }
 
     public void setVisible(boolean visible) {
@@ -78,14 +80,14 @@ public class Modal {
         g2d.drawString(title, (width - w) / 2, 200);
 
         // Draw the overlay body text
-        String bodyText1 = "press any key to play again";
-        String bodyText2 = "or press q to quit the game";
+
         g2d.setFont(bodyFont);
         g2d.setColor(ColorScheme.BASE_03.color);
         FontMetrics bfm = g2d.getFontMetrics(bodyFont);
-        w = bfm.stringWidth(bodyText1);
-        g2d.drawString(bodyText1, (width - w) / 2, 240);
-        w = bfm.stringWidth(bodyText2);
-        g2d.drawString(bodyText2, (width - w) / 2, 270);
+
+        for (int i = 0; i < body.length; i++) {
+            w = bfm.stringWidth(body[i]);
+            g2d.drawString(body[i], (width - w) / 2, 240 + i * 30);
+        }
     }
 }
