@@ -309,6 +309,7 @@ public class Game {
         matrix = new Matrix(20, 10);
         matrix.setPosition(100, 50);
         isOver = false;
+        paused = false;
         heldPiece = null;
         lastPieceHeld = false;
         nextPiece = generatePiece(null, 1, 2);

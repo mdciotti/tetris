@@ -53,19 +53,22 @@ public class GameScreen extends Screen implements ActionListener {
         // Modals
         gameOver = new Modal("G A M E   O V E R");
         gameOver.setBody("press any key to play again",
-                "or press q to quit the game");
+                "or press q to quit to the menu");
         paused = new Modal("P A U S E D");
         paused.setBody("press escape to resume play",
-                "or press q to quit the game");
+                "or press q to quit to the menu");
     }
 
     public void load() {
         game.restart();
         timer.start();
+
+        gameOver.setVisible(false);
+        paused.setVisible(false);
     }
 
     public void unload() {
-        AudioManager.stopAll();
+        AudioManager.THEME_A.stop();
         timer.stop();
     }
 
@@ -180,10 +183,20 @@ public class GameScreen extends Screen implements ActionListener {
                     break;
             }
         } else if (game.isOver()) {
-            // Restart game on keypress
-            game.restart();
-            timer.setInitialDelay(1000);
-            timer.restart();
+            if (e.getKeyCode() == KeyEvent.VK_Q) {
+                // Quit to menu
+                display.setScreen(ScreenType.MAIN_MENU);
+            } else {
+                // Restart game on keypress
+                game.restart();
+                timer.setInitialDelay(1000);
+                timer.restart();
+            }
+        } else if (game.isPaused()) {
+            if (e.getKeyCode() == KeyEvent.VK_Q) {
+                // Quit to menu
+                display.setScreen(ScreenType.MAIN_MENU);
+            }
         }
     }
 

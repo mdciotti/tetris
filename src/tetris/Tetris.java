@@ -24,9 +24,11 @@ public class Tetris extends JPanel implements KeyListener {
 
         // Create screens
         screens = new EnumMap<>(ScreenType.class);
-        // screens.put(ScreenType.MAIN_MENU, new MenuScreen(this));
+        screens.put(ScreenType.MAIN_MENU, new MenuScreen(this));
         screens.put(ScreenType.GAME, new GameScreen(this));
-        setScreen(ScreenType.GAME);
+        setScreen(ScreenType.MAIN_MENU);
+
+        GameAction.setDisplay(this);
 
         // Create window
         JFrame f = new JFrame("Tetris");
@@ -53,6 +55,7 @@ public class Tetris extends JPanel implements KeyListener {
             if (currentScreen != null) currentScreen.unload();
             currentScreen = screen;
             currentScreen.load();
+            update();
         }
     }
 
@@ -72,7 +75,9 @@ public class Tetris extends JPanel implements KeyListener {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        currentScreen.draw(g);
+        if (currentScreen != null) {
+            currentScreen.draw(g);
+        }
     }
 
     /**
@@ -81,15 +86,6 @@ public class Tetris extends JPanel implements KeyListener {
      * @param e the KeyEvent containing info about the key pressed
      */
     public void keyPressed(KeyEvent e) {
-        // If key pressed was 'Q', quit the game
-        if (e.getKeyCode() == KeyEvent.VK_Q) {
-            // timer.stop();
-            AudioManager.stopAll();
-            ((JFrame) e.getSource()).dispose();
-            System.exit(0);
-            return;
-        }
-
         // Send to current screen
         currentScreen.keyPressed(e);
     }
@@ -97,6 +93,14 @@ public class Tetris extends JPanel implements KeyListener {
     // We don't use these but must implement them to satisfy the interface
     public void keyReleased(KeyEvent e) {}
     public void keyTyped(KeyEvent e) {}
+
+    /**
+     * Quits the game immediately.
+     */
+    public static void quit() {
+        AudioManager.stopAll();
+        System.exit(0);
+    }
 
     /**
      * Loads all application resources.
@@ -114,6 +118,8 @@ public class Tetris extends JPanel implements KeyListener {
             ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, dosisBold));
             Modal.setTitleFont(new Font("Dosis", Font.BOLD, 32));
             Modal.setBodyFont(new Font("Dosis", Font.PLAIN, 20));
+            GameMenu.setTitleFont(new Font("Dosis", Font.BOLD, 48));
+            GameMenu.setBodyFont(new Font("Dosis", Font.PLAIN, 30));
             InfoField.setTitleFont(new Font("Dosis", Font.BOLD, 20));
             TextField.setValueFont(new Font("Dosis", Font.PLAIN, 32));
         } catch (Exception e) {
