@@ -10,8 +10,6 @@ public class GameMenu {
 
     private Tetris display;
 
-    private String title;
-
     private GameMenu parent;
 
     private ArrayList<MenuOption> options;
@@ -21,7 +19,6 @@ public class GameMenu {
     private int numOptions = 0;
 
     // Set up default (fallback) fonts
-    private static Font titleFont = new Font("Letter Gothic Std", Font.BOLD, 48);
     private static Font bodyFont = new Font("Letter Gothic Std", Font.PLAIN, 30);
 
     /**
@@ -67,9 +64,8 @@ public class GameMenu {
         }
     }
 
-    public GameMenu(Tetris display, String title) {
+    public GameMenu(Tetris display) {
         this.display = display;
-        this.title = title;
         options = new ArrayList<>();
     }
 
@@ -79,10 +75,6 @@ public class GameMenu {
 
     public GameMenu getParent() {
         return parent;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public void addOption(String title, ScreenType s) {
@@ -114,10 +106,6 @@ public class GameMenu {
         options.get(selectedIndex).select();
     }
 
-    public static void setTitleFont(Font font) {
-        titleFont = font;
-    }
-
     public static void setBodyFont(Font font) {
         bodyFont = font;
     }
@@ -126,32 +114,12 @@ public class GameMenu {
 
         Graphics2D g2d = (Graphics2D) g;
 
-        // Turn on anti-aliasing
-        g2d.setRenderingHint(
-                RenderingHints.KEY_ANTIALIASING,
-                RenderingHints.VALUE_ANTIALIAS_ON);
-
-        // Draw background
-        g2d.setColor(ColorScheme.BASE_00.color);
-        g2d.fillRect(0, 0, display.getWidth(), display.getHeight());
-
-        // Draw the overlay background
-        g2d.setColor(ColorScheme.BASE_07.color);
-        g2d.fillRect(0, 20, display.getWidth(), display.getHeight() - 40);
-
-        // Draw the menu title
-        g2d.setFont(titleFont);
-        g2d.setColor(ColorScheme.BASE_02.color);
-        FontMetrics fm = g2d.getFontMetrics(titleFont);
-        int w = fm.stringWidth(title);
-        g2d.drawString(title, (display.getWidth() - w) / 2, 120);
-
         // Draw the menu options
         g2d.setFont(bodyFont);
         g2d.setColor(ColorScheme.BASE_03.color);
         FontMetrics bfm = g2d.getFontMetrics(bodyFont);
 
-        for (int i = 0; i < options.size(); i++) {
+        for (int i = 0, w; i < options.size(); i++) {
             MenuOption o = options.get(i);
             g2d.setColor((i == selectedIndex) ?
                     ColorScheme.BASE_0D.color :
