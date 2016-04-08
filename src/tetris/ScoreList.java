@@ -107,29 +107,38 @@ public class ScoreList {
             if (i >= numScores) break;
 
             PlayerScore o = scores.get(i);
-            g2d.setColor((i == selectedIndex) ?
-                    ColorScheme.BASE_0D.color :
-                    ColorScheme.BASE_03.color);
 
             int pad = 20;
-            int y = 126 + (i - startIndex) * 40;
-            int w;
+            int w = display.getWidth() - pad * 2;
+            int y = 100 + (i - startIndex) * 40;
             String numeral = nf.format(i + 1);
 
+            if (i == selectedIndex) {
+                // Draw selection indication
+                g2d.setColor(ColorScheme.BASE_0D.color);
+                g2d.fillRect(pad, y, w, 40);
+                g2d.setColor(ColorScheme.BASE_07.color);
+            } else if (i % 2 == 0) {
+                // Draw banded rows
+                Color shade = ColorScheme.BASE_06.color;
+                g2d.setColor(new Color(shade.getRed(), shade.getGreen(), shade.getBlue(), 96));
+                g2d.fillRect(pad, y, w, 40);
+                g2d.setColor(ColorScheme.BASE_03.color);
+            } else {
+                g2d.setColor(ColorScheme.BASE_03.color);
+            }
+
             // Draw numeral
-            g2d.drawString(numeral, pad, y);
+            g2d.drawString(numeral, pad * 2, y + 30);
 
             // Draw player name
             w = bfm.stringWidth(numeral);
-            g2d.drawString(o.player, pad + w + pad, y);
-
-            // TODO: Draw dots
-            w = bfm.stringWidth(o.player);
+            g2d.drawString(o.player, pad * 2 + w + pad, y + 30);
 
             // Draw score
             String score = nf.format(o.score);
             w = bfm.stringWidth(score);
-            g2d.drawString(score, (display.getWidth() - w) - pad, y);
+            g2d.drawString(score, (display.getWidth() - w) - pad * 2, y + 30);
         }
     }
 }

@@ -121,11 +121,20 @@ public class BasicMenu {
 
         for (int i = 0, w; i < options.size(); i++) {
             MenuOption o = options.get(i);
-            g2d.setColor((i == selectedIndex) ?
-                    ColorScheme.BASE_0D.color :
-                    ColorScheme.BASE_03.color);
+
             w = bfm.stringWidth(o.title);
-            g2d.drawString(o.title, (display.getWidth() - w) / 2, 200 + i * 40);
+            int y = 200 + i * 40;
+            if (i == selectedIndex) {
+                // Draw selection indication
+                g2d.setColor(ColorScheme.BASE_0D.color);
+                g2d.fillRect((display.getWidth() - w - 40) / 2, y - 28, w + 40, 40);
+                g2d.setColor(ColorScheme.BASE_07.color);
+            } else {
+                g2d.setColor(ColorScheme.BASE_03.color);
+            }
+
+            // Draw menu item text
+            g2d.drawString(o.title, (display.getWidth() - w) / 2, y);
         }
     }
 }
