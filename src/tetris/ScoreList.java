@@ -50,6 +50,16 @@ public class ScoreList {
         scores = new ArrayList<>();
     }
 
+    public void scrollToStart() {
+        selectedIndex = 0;
+        currentPage = 1;
+    }
+
+    public void scrollToEnd() {
+        selectedIndex = numScores - 1;
+        currentPage = (numScores / numScoresPerPage) + 1;
+    }
+
     public void addScore(String player, int score) {
         scores.add(new PlayerScore(player, score));
         Collections.sort(scores);
@@ -59,10 +69,7 @@ public class ScoreList {
     public void moveDown() {
         selectedIndex += 1;
         if (selectedIndex >= numScoresPerPage * currentPage) currentPage += 1;
-        if (selectedIndex >= numScores) {
-            selectedIndex = 0;
-            currentPage = 1;
-        }
+        if (selectedIndex >= numScores) scrollToStart();
         AudioManager.PIECE_MOVE.play();
         display.update();
     }
@@ -70,10 +77,7 @@ public class ScoreList {
     public void moveUp() {
         selectedIndex -= 1;
         if (selectedIndex < numScoresPerPage * (currentPage - 1)) currentPage -= 1;
-        if (selectedIndex < 0) {
-            selectedIndex = numScores - 1;
-            currentPage = (numScores / numScoresPerPage) + 1;
-        }
+        if (selectedIndex < 0) scrollToEnd();
         AudioManager.PIECE_MOVE.play();
         display.update();
     }

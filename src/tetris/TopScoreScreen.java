@@ -46,6 +46,8 @@ public class TopScoreScreen extends Screen {
         scores.draw(g);
     }
 
+    public void load() { scores.scrollToStart(); }
+
     public void update() {}
 
     public void keyPressed(KeyEvent e) {
