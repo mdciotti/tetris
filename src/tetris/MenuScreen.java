@@ -7,7 +7,7 @@ import java.awt.event.KeyEvent;
  * Created by max on 2016-04-01.
  */
 public class MenuScreen extends Screen {
-    private GameMenu menu;
+    private BasicMenu menu;
     private String title;
     private Tetris display;
     private static Font titleFont = new Font("Letter Gothic Std", Font.BOLD, 48);
@@ -16,7 +16,7 @@ public class MenuScreen extends Screen {
         this.display = display;
         title = "T E T R I S";
 
-        menu = new GameMenu(display);
+        menu = new BasicMenu(display);
         menu.addOption("play", ScreenType.GAME);
         menu.addOption("top scores", ScreenType.TOP_SCORES);
         menu.addOption("settings", ScreenType.SETTINGS);

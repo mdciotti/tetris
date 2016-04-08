@@ -120,7 +120,7 @@ public class Tetris extends JPanel implements KeyListener {
             Modal.setTitleFont(new Font("Dosis", Font.BOLD, 32));
             Modal.setBodyFont(new Font("Dosis", Font.PLAIN, 20));
             MenuScreen.setTitleFont(new Font("Dosis", Font.BOLD, 48));
-            GameMenu.setBodyFont(new Font("Dosis", Font.PLAIN, 30));
+            BasicMenu.setBodyFont(new Font("Dosis", Font.PLAIN, 30));
             ScoreList.setBodyFont(new Font("Dosis", Font.PLAIN, 30));
             InfoField.setTitleFont(new Font("Dosis", Font.BOLD, 20));
             TextField.setValueFont(new Font("Dosis", Font.PLAIN, 32));

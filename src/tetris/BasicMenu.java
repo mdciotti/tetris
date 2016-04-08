@@ -6,11 +6,11 @@ import java.util.ArrayList;
 /**
  * Created by max on 2016-04-01.
  */
-public class GameMenu {
+public class BasicMenu {
 
     private Tetris display;
 
-    private GameMenu parent;
+    private BasicMenu parent;
 
     private ArrayList<MenuOption> options;
 
@@ -64,16 +64,16 @@ public class GameMenu {
         }
     }
 
-    public GameMenu(Tetris display) {
+    public BasicMenu(Tetris display) {
         this.display = display;
         options = new ArrayList<>();
     }
 
-    public void setParent(GameMenu p) {
+    public void setParent(BasicMenu p) {
         parent = p;
     }
 
-    public GameMenu getParent() {
+    public BasicMenu getParent() {
         return parent;
     }
 
