@@ -26,6 +26,7 @@ public class Tetris extends JPanel implements KeyListener {
         screens = new EnumMap<>(ScreenType.class);
         screens.put(ScreenType.MAIN_MENU, new MenuScreen(this));
         screens.put(ScreenType.GAME, new GameScreen(this));
+        screens.put(ScreenType.TOP_SCORES, new TopScoreScreen(this));
         setScreen(ScreenType.MAIN_MENU);
 
         GameAction.setDisplay(this);
@@ -120,6 +121,7 @@ public class Tetris extends JPanel implements KeyListener {
             Modal.setBodyFont(new Font("Dosis", Font.PLAIN, 20));
             MenuScreen.setTitleFont(new Font("Dosis", Font.BOLD, 48));
             GameMenu.setBodyFont(new Font("Dosis", Font.PLAIN, 30));
+            ScoreList.setBodyFont(new Font("Dosis", Font.PLAIN, 30));
             InfoField.setTitleFont(new Font("Dosis", Font.BOLD, 20));
             TextField.setValueFont(new Font("Dosis", Font.PLAIN, 32));
         } catch (Exception e) {
