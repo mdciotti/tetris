@@ -80,6 +80,7 @@ public class GameScreen extends Screen implements ActionListener {
             if (game.isOver()) {
 //                gameOver.setBody("you scored 10 points");
                 gameOver.setVisible(true);
+                ScoreManager.add("Alexey", game.getScore());
             } else {
                 gameOver.setVisible(false);
             }

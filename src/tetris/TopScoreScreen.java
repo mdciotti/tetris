@@ -15,8 +15,6 @@ public class TopScoreScreen extends Screen {
         this.display = display;
 
         scores = new ScoreList(display);
-
-        //scores.addScore("Alexey", 9999999);
     }
 
     public void draw(Graphics g) {
@@ -61,10 +59,6 @@ public class TopScoreScreen extends Screen {
                 break;
             case KeyEvent.VK_UP:
                 scores.moveUp();
-                break;
-            case KeyEvent.VK_ENTER:
-                scores.addScore("Alexey", (int) Math.round(Math.random() * 1000000));
-                display.update();
                 break;
         }
     }

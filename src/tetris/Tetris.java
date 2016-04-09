@@ -124,6 +124,7 @@ public class Tetris extends JPanel implements KeyListener {
             ScoreList.setBodyFont(new Font("Dosis", Font.PLAIN, 30));
             InfoField.setTitleFont(new Font("Dosis", Font.BOLD, 20));
             TextField.setValueFont(new Font("Dosis", Font.PLAIN, 32));
+            ScoreManager.init();
         } catch (Exception e) {
             System.err.println("Failed to load fonts.");
             e.printStackTrace();

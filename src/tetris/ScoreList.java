@@ -13,41 +13,17 @@ public class ScoreList {
 
     private Tetris display;
 
-    private ArrayList<PlayerScore> scores;
-
     private int selectedIndex = 0;
 
     private int currentPage = 1;
-
-    private int numScores = 0;
 
     private static int numScoresPerPage = 7;
 
     // Set up default (fallback) fonts
     private static Font bodyFont = new Font("Letter Gothic Std", Font.PLAIN, 30);
 
-    /**
-     * Define a player score. A single topscore screen will have a few of these.
-     */
-    private class PlayerScore implements Comparable<PlayerScore> {
-        private String player;
-        private int score;
-        public PlayerScore(String player, int score) {
-            this.player = player;
-            this.score = score;
-        }
-
-        /**
-         * Sort high-to-low.
-         */
-        public int compareTo(PlayerScore ps) {
-            return ps.score - score;
-        }
-    }
-
     public ScoreList(Tetris display) {
         this.display = display;
-        scores = new ArrayList<>();
     }
 
     public void scrollToStart() {
@@ -56,20 +32,14 @@ public class ScoreList {
     }
 
     public void scrollToEnd() {
-        selectedIndex = numScores - 1;
-        currentPage = (numScores / numScoresPerPage) + 1;
-    }
-
-    public void addScore(String player, int score) {
-        scores.add(new PlayerScore(player, score));
-        Collections.sort(scores);
-        numScores++;
+        selectedIndex = ScoreManager.getNumScores() - 1;
+        currentPage = (ScoreManager.getNumScores() / numScoresPerPage) + 1;
     }
 
     public void moveDown() {
         selectedIndex += 1;
         if (selectedIndex >= numScoresPerPage * currentPage) currentPage += 1;
-        if (selectedIndex >= numScores) scrollToStart();
+        if (selectedIndex >= ScoreManager.getNumScores()) scrollToStart();
         AudioManager.PIECE_MOVE.play();
         display.update();
     }
@@ -98,7 +68,7 @@ public class ScoreList {
         NumberFormat nf = NumberFormat.getInstance(Locale.ENGLISH);
 
         // Draw "no scores" text
-        if (numScores == 0) {
+        if (ScoreManager.getNumScores() == 0) {
             int w = bfm.stringWidth("no scores");
             g2d.drawString("no scores", (display.getWidth() - w) / 2, 200);
             return;
@@ -108,9 +78,9 @@ public class ScoreList {
         int startIndex = (currentPage - 1) * numScoresPerPage;
         int endIndex = currentPage * numScoresPerPage;
         for (int i = startIndex; i < endIndex; i++) {
-            if (i >= numScores) break;
+            if (i >= ScoreManager.getNumScores()) break;
 
-            PlayerScore o = scores.get(i);
+            PlayerScore o = ScoreManager.get(i);
 
             int pad = 20;
             int w = display.getWidth() - pad * 2;
@@ -137,10 +107,10 @@ public class ScoreList {
 
             // Draw player name
             w = bfm.stringWidth(numeral);
-            g2d.drawString(o.player, pad * 2 + w + pad, y + 30);
+            g2d.drawString(o.getPlayer(), pad * 2 + w + pad, y + 30);
 
             // Draw score
-            String score = nf.format(o.score);
+            String score = nf.format(o.getScore());
             w = bfm.stringWidth(score);
             g2d.drawString(score, (display.getWidth() - w) - pad * 2, y + 30);
         }
