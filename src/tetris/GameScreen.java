@@ -158,7 +158,6 @@ public class GameScreen extends Screen implements ActionListener {
                 if (game.isPaused()) timer.stop();
                 else timer.start();
             }
-            return;
         }
 
         // Handle user input events only if the game is not over
