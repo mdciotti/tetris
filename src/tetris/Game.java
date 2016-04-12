@@ -73,7 +73,7 @@ public class Game {
     }
 
     public int getHighScore() {
-        return highScore;
+        return ScoreManager.getTopScore().getScore();
     }
 
     public int getLevel() {

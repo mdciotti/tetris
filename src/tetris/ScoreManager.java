@@ -31,6 +31,10 @@ public class ScoreManager {
         return scores.size();
     }
 
+    public static PlayerScore getTopScore() {
+        return scores.get(0);
+    }
+
     public static void save() {
         FileOutputStream fileOut;
         ObjectOutputStream objOut;
