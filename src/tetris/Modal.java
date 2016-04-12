@@ -26,7 +26,7 @@ public class Modal implements KeyListener {
 
     // Set up default (fallback) fonts
     private static Font titleFont = new Font("Letter Gothic Std", Font.BOLD, 32);
-    private static Font bodyFont = new Font("Letter Gothic Std", Font.PLAIN, 20);
+    protected static Font bodyFont = new Font("Letter Gothic Std", Font.PLAIN, 20);
 
     public Modal(String title) {
         setTitle(title);

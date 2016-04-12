@@ -12,20 +12,28 @@ import java.util.regex.Pattern;
  */
 public class TextInputModal extends Modal implements ActionListener {
 
-    private String textInput;
+    private StringBuilder textInput;
     private int caretIndex;
+    private static final int MAX_INPUT_CHARS = 16;
 
     private static final Pattern alphanumeric = Pattern.compile("[a-zA-Z0-9 ]");
 
     public TextInputModal(String title) {
         super(title);
-        textInput = "";
-        caretIndex = 0;
+        setInputText("");
 
         setHeight(200);
     }
 
-    public String getTextInput() { return textInput; }
+    public String getTextInput() { return textInput.toString(); }
+
+    public void setInputText(String text) {
+        int end = Math.min(text.length(), MAX_INPUT_CHARS);
+        textInput = new StringBuilder(MAX_INPUT_CHARS);
+        textInput.append(text.substring(0, end));
+        // Move caret to end
+        caretIndex = end;
+    }
 
     /**
      * The enter key is pressed or an accept button is selected.
@@ -39,8 +47,27 @@ public class TextInputModal extends Modal implements ActionListener {
         super.keyPressed(e);
 
         switch (e.getKeyCode()) {
+            case KeyEvent.VK_LEFT:
+                if (caretIndex > 0) caretIndex--;
+                break;
+            case KeyEvent.VK_RIGHT:
+                if (caretIndex < textInput.length()) caretIndex++;
+                break;
+            case KeyEvent.VK_UP:
+                caretIndex = 0;
+                break;
+            case KeyEvent.VK_DOWN:
+                caretIndex = textInput.length();
+                break;
             case KeyEvent.VK_BACK_SPACE:
-                // TODO: delete at caret
+                if (caretIndex > 0) {
+                    textInput.deleteCharAt(caretIndex - 1);
+                    caretIndex -= 1;
+                }
+                break;
+            case KeyEvent.VK_DELETE:
+                if (caretIndex < textInput.length())
+                    textInput.deleteCharAt(caretIndex);
                 break;
         }
     }
@@ -48,13 +75,11 @@ public class TextInputModal extends Modal implements ActionListener {
     public void keyTyped(KeyEvent e) {
         super.keyTyped(e);
 
-        //System.out.print(e.getKeyChar());
         char c = e.getKeyChar();
         Matcher m = alphanumeric.matcher(Character.toString(c));
-        if (!e.isActionKey() && m.matches()) {
-            // TODO: insert at caret index
-            textInput += c;
-            // TODO: limit to max input length
+        if (!e.isActionKey() && m.matches() && textInput.length() < MAX_INPUT_CHARS) {
+            textInput.insert(caretIndex, c);
+            caretIndex += 1;
         }
     }
 
@@ -62,14 +87,22 @@ public class TextInputModal extends Modal implements ActionListener {
         super.draw(g2d, w, h);
 
         int y = (h - getHeight()) / 2;
-
         int textField_x = (w - 200) / 2;
+        int textField_y = y + getHeight() - 60;
+
+        // Draw input text field
         g2d.setColor(ColorScheme.BASE_06.color);
-        g2d.fillRect(textField_x, y + getHeight() - 60, 200, 40);
+        g2d.fillRect(textField_x, textField_y, 200, 40);
 
+        // Draw input text
         g2d.setColor(ColorScheme.BASE_00.color);
-        g2d.drawString(textInput, textField_x + 20, y + getHeight() - 60 + 30 - 5);
+        g2d.drawString(getTextInput(), textField_x + 10, textField_y + 30 - 5);
 
-        // TODO: draw caret at x = stringWidth(textBeforeCaret);
+        // Draw caret
+        g2d.setColor(ColorScheme.BASE_0D.color);
+        FontMetrics fm = g2d.getFontMetrics(bodyFont);
+        String textBeforeCaret = textInput.substring(0, caretIndex);
+        int caret_xOffset = fm.stringWidth(textBeforeCaret);
+        g2d.fillRect(textField_x + caret_xOffset + 10, textField_y + 5, 2, 30);
     }
 }

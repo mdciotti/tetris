@@ -53,8 +53,8 @@ public class GameScreen extends Screen implements ActionListener {
 
         // Modals
         gameOver = new TextInputModal("G A M E   O V E R");
-        gameOver.setBody("press any key to play again",
-                "or press q to quit to the menu");
+        gameOver.setBody("enter your name to save score",
+                "or press esc to quit to the menu");
         paused = new Modal("P A U S E D");
         paused.setBody("press escape to resume play",
                 "or press q to quit to the menu");
@@ -78,10 +78,11 @@ public class GameScreen extends Screen implements ActionListener {
      */
     public void update() {
         if (game != null) {
-            if (game.isOver()) {
+            if (game.isOver() && !gameOver.isVisible()) {
 //                gameOver.setBody("you scored 10 points");
+                gameOver.setInputText("Anonymous");
                 gameOver.setVisible(true);
-            } else {
+            } else if (!game.isOver()) {
                 gameOver.setVisible(false);
             }
 
@@ -186,6 +187,7 @@ public class GameScreen extends Screen implements ActionListener {
             }
         } else if (game.isOver()) {
             gameOver.keyPressed(e);
+            display.update();
 
             if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
                 // Quit to menu (don't save score)
