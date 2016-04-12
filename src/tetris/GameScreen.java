@@ -21,7 +21,8 @@ public class GameScreen extends Screen implements ActionListener {
     private TextField score, topScore, level, goal;
     private TetriminoField nextPiece, hold;
 
-    private Modal gameOver, paused;
+    private Modal paused;
+    private TextInputModal gameOver;
 
     // The number of ticks per second
     public static double START_SPEED = 1.0;
@@ -51,7 +52,7 @@ public class GameScreen extends Screen implements ActionListener {
         hold = new TetriminoField("HOLD");
 
         // Modals
-        gameOver = new Modal("G A M E   O V E R");
+        gameOver = new TextInputModal("G A M E   O V E R");
         gameOver.setBody("press any key to play again",
                 "or press q to quit to the menu");
         paused = new Modal("P A U S E D");
@@ -80,7 +81,6 @@ public class GameScreen extends Screen implements ActionListener {
             if (game.isOver()) {
 //                gameOver.setBody("you scored 10 points");
                 gameOver.setVisible(true);
-                ScoreManager.add("Alexey", game.getScore());
             } else {
                 gameOver.setVisible(false);
             }
@@ -149,6 +149,7 @@ public class GameScreen extends Screen implements ActionListener {
      * @param e the KeyEvent containing info about the key pressed
      */
     public void keyPressed(KeyEvent e) {
+        super.keyPressed(e);
 
         if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
             if (!game.isOver()) {
@@ -184,20 +185,29 @@ public class GameScreen extends Screen implements ActionListener {
                     break;
             }
         } else if (game.isOver()) {
-            if (e.getKeyCode() == KeyEvent.VK_Q) {
-                // Quit to menu
+            gameOver.keyPressed(e);
+
+            if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+                // Quit to menu (don't save score)
                 display.setScreen(ScreenType.MAIN_MENU);
-            } else {
-                // Restart game on keypress
-                game.restart();
-                timer.setInitialDelay(1000);
-                timer.restart();
+            } else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                // Save score and quit to menu
+                ScoreManager.add(gameOver.getTextInput(), game.getScore());
+                display.setScreen(ScreenType.MAIN_MENU);
             }
         } else if (game.isPaused()) {
             if (e.getKeyCode() == KeyEvent.VK_Q) {
                 // Quit to menu
                 display.setScreen(ScreenType.MAIN_MENU);
             }
+        }
+    }
+
+    public void keyTyped(KeyEvent e) {
+        super.keyTyped(e);
+        if (game.isOver()) {
+            gameOver.keyTyped(e);
+            display.update();
         }
     }
 

@@ -92,8 +92,12 @@ public class Tetris extends JPanel implements KeyListener {
     }
 
     // We don't use these but must implement them to satisfy the interface
-    public void keyReleased(KeyEvent e) {}
-    public void keyTyped(KeyEvent e) {}
+    public void keyReleased(KeyEvent e) {
+        currentScreen.keyReleased(e);
+    }
+    public void keyTyped(KeyEvent e) {
+        currentScreen.keyTyped(e);
+    }
 
     /**
      * Quits the game immediately.

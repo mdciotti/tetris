@@ -136,13 +136,13 @@ Sound effects are needed for the following events:
 Work Allocation
 ---------------
 
-- [ ] Last-second rotations
-
 ### Max
 
-- [ ] Pause menu
-- [ ] Game menu
-- [ ] Quit menu
+- [x] Save scores to disk
+- [x] Top score list
+- [x] Last-second rotations
+- [x] Pause menu
+- [x] Game menu
 - [x] Display hold, next piece
 - [x] Hold
 - [x] [GhostPiece](https://tetris.wiki/Ghost_piece)
@@ -155,9 +155,9 @@ Work Allocation
 ### Brandon
 
 - [ ] Music
-- [ ] Display level, goal, score, top score
+- [x] Display level, goal, score, top score
 - [ ] Piece randomizer (grab bag)
-- [ ] Score
+- [x] Score
 - [x] NextPiece
 - [x] ZShape
 - [x] SquareShape
