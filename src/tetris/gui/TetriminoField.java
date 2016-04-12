@@ -1,5 +1,7 @@
-package tetris;
+package tetris.gui;
 
+import tetris.*;
+import tetris.tetrimino.*;
 import java.awt.*;
 
 /**
@@ -20,11 +22,8 @@ public class TetriminoField extends InfoField {
 
     public void setTetrimino(Tetrimino tetrimino) {
         this.piece = tetrimino;
-        if (this.piece != null) {
-            for (int i = 0; i < this.piece.cells.length; i++) {
-                this.piece.cells[i].setMatrix(matrix);
-            }
-        }
+        if (this.piece != null)
+            this.piece.setMatrix(this.matrix);
     }
 
     public void draw(Graphics2D g2d, int x, int y) {

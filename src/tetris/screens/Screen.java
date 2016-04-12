@@ -1,4 +1,4 @@
-package tetris;
+package tetris.screens;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;

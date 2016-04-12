@@ -1,4 +1,8 @@
-package tetris;
+package tetris.screens;
+
+import tetris.*;
+import tetris.gui.*;
+import tetris.gui.TextField;
 
 import javax.swing.*;
 import java.awt.*;

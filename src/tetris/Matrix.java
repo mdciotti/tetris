@@ -1,7 +1,9 @@
 package tetris;
 
+import tetris.gui.ColorScheme;
+import tetris.tetrimino.*;
+
 import java.awt.*;
-import java.io.InputStream;
 
 /**
  * This is the Tetris board represented by a (HEIGHT - by - WIDTH) matrix of

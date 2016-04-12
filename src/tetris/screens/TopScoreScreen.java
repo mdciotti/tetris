@@ -1,5 +1,7 @@
-package tetris;
+package tetris.screens;
 
+import tetris.*;
+import tetris.gui.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 

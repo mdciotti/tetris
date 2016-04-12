@@ -1,4 +1,7 @@
-package tetris;
+package tetris.tetrimino;
+
+import tetris.*;
+import tetris.gui.ColorScheme;
 
 import java.awt.Graphics;
 import java.awt.Point;

@@ -1,5 +1,6 @@
 package tetris;
 
+import tetris.tetrimino.*;
 import java.awt.Graphics;
 import java.awt.Point;
 

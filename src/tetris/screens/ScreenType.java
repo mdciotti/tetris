@@ -1,4 +1,4 @@
-package tetris;
+package tetris.screens;
 
 /**
  * Created by max on 2016-04-01.

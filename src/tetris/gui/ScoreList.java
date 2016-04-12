@@ -1,9 +1,8 @@
-package tetris;
+package tetris.gui;
 
+import tetris.*;
 import java.awt.*;
 import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Locale;
 
 /**

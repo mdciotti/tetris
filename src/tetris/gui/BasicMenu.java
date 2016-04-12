@@ -1,5 +1,7 @@
-package tetris;
+package tetris.gui;
 
+import tetris.*;
+import tetris.screens.*;
 import java.awt.*;
 import java.util.ArrayList;
 

@@ -1,4 +1,7 @@
-package tetris;
+package tetris.tetrimino;
+
+import tetris.Matrix;
+import tetris.gui.ColorScheme;
 
 /**
  * An S-Shape piece in the Tetris Game.

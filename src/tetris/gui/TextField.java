@@ -1,4 +1,4 @@
-package tetris;
+package tetris.gui;
 
 import java.awt.*;
 
