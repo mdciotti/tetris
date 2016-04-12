@@ -86,9 +86,14 @@ public class TextInputModal extends Modal implements ActionListener {
     public void draw(Graphics2D g2d, int w, int h) {
         super.draw(g2d, w, h);
 
+        FontMetrics fm = g2d.getFontMetrics(bodyFont);
+
         int y = (h - getHeight()) / 2;
         int textField_x = (w - 200) / 2;
         int textField_y = y + getHeight() - 60;
+        int textField_center = (textField_x + 100);
+        int textWidth = fm.stringWidth(getTextInput());
+        int textField_start = textField_center - textWidth / 2;
 
         // Draw input text field
         g2d.setColor(ColorScheme.BASE_06.color);
@@ -96,13 +101,12 @@ public class TextInputModal extends Modal implements ActionListener {
 
         // Draw input text
         g2d.setColor(ColorScheme.BASE_00.color);
-        g2d.drawString(getTextInput(), textField_x + 10, textField_y + 30 - 5);
+        g2d.drawString(getTextInput(), textField_start, textField_y + 30 - 5);
 
         // Draw caret
-        g2d.setColor(ColorScheme.BASE_0D.color);
-        FontMetrics fm = g2d.getFontMetrics(bodyFont);
         String textBeforeCaret = textInput.substring(0, caretIndex);
         int caret_xOffset = fm.stringWidth(textBeforeCaret);
-        g2d.fillRect(textField_x + caret_xOffset + 10, textField_y + 5, 2, 30);
+        g2d.setColor(ColorScheme.BASE_0D.color);
+        g2d.fillRect(textField_start + caret_xOffset, textField_y + 5, 2, 30);
     }
 }
