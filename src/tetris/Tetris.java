@@ -39,6 +39,8 @@ public class Tetris extends JPanel implements KeyListener {
         setMinimumSize(new Dimension(500, 420));
         f.setResizable(false);
         f.pack();
+        // Center window in screen
+        f.setLocationRelativeTo(null);
         f.setVisible(true);
         f.addKeyListener(this);
         setBackground(ColorScheme.BASE_02.color);
