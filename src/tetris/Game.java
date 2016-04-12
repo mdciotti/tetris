@@ -61,8 +61,10 @@ public class Game {
      */
     public Game(Tetris display) {
         this.display = display;
-        this.display.update();
-        restart();
+        matrix = new Matrix(20, 10);
+        matrix.setPosition(100, 50);
+        //this.display.update();
+        //restart();
     }
 
     public int getScore() {
@@ -307,6 +309,7 @@ public class Game {
         matrix = new Matrix(20, 10);
         matrix.setPosition(100, 50);
         isOver = false;
+        paused = false;
         heldPiece = null;
         lastPieceHeld = false;
         nextPiece = generatePiece(null, 1, 2);
@@ -340,14 +343,14 @@ public class Game {
      * Runs all testing conditions and creates a new piece if need be.
      */
     public void update() {
-        if (piece == null) {
+        if (piece == null && nextPiece != null) {
             piece = nextPiece;
             piece.setMatrix(matrix);
             piece.setPosition(0, matrix.getCols() / 2 - 1);
             nextPiece = generatePiece(null, 1, 2);
             lastPieceHeld = false;
             if (checkBlockOut()) end();
-        } else {
+        } else if (piece != null) {
             // When the piece reaches 'ground', set Matrix positions corresponding
             // to frozen piece and then release the piece
             if (!piece.canMove(Direction.DOWN)) {
