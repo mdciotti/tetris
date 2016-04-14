@@ -38,7 +38,7 @@ public class GameScreen extends Screen implements ActionListener {
      * Sets up the parts for the Tetris game, display and user control.
      */
     public GameScreen(Tetris display) {
-
+        registerType(ScreenType.GAME);
         this.display = display;
 
         double delay = GameScreen.START_SPEED; // in milliseconds
@@ -194,16 +194,16 @@ public class GameScreen extends Screen implements ActionListener {
 
             if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
                 // Quit to menu (don't save score)
-                display.setScreen(ScreenType.MAIN_MENU);
+                display.transitionScreen(ScreenType.MAIN_MENU);
             } else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                 // Save score and quit to menu
                 ScoreManager.add(gameOver.getTextInput(), game.getScore());
-                display.setScreen(ScreenType.MAIN_MENU);
+                display.transitionScreen(ScreenType.MAIN_MENU);
             }
         } else if (game.isPaused()) {
             if (e.getKeyCode() == KeyEvent.VK_Q) {
                 // Quit to menu
-                display.setScreen(ScreenType.MAIN_MENU);
+                display.transitionScreen(ScreenType.MAIN_MENU);
             }
         }
     }

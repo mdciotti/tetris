@@ -46,7 +46,7 @@ public class BasicMenu {
         }
 
         public void select() {
-            display.setScreen(screen);
+            display.transitionScreen(screen);
         }
     }
 

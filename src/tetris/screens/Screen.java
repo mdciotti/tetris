@@ -10,8 +10,18 @@ import java.awt.event.KeyListener;
  */
 public abstract class Screen implements KeyListener {
 
+    private ScreenType type;
+
     public abstract void draw(Graphics g);
     public abstract void update();
+
+    public void registerType(ScreenType s) {
+        type = s;
+    }
+
+    public ScreenType getType() {
+        return type;
+    }
 
     // Define default load and unload methods
     // Subclasses may override these for their own purposes

@@ -14,6 +14,7 @@ public class TopScoreScreen extends Screen {
     private Tetris display;
 
     public TopScoreScreen(Tetris display) {
+        registerType(ScreenType.TOP_SCORES);
         this.display = display;
 
         scores = new ScoreList(display);
@@ -54,7 +55,7 @@ public class TopScoreScreen extends Screen {
 
         switch (e.getKeyCode()) {
             case KeyEvent.VK_ESCAPE:
-                display.setScreen(ScreenType.MAIN_MENU);
+                display.transitionScreen(ScreenType.MAIN_MENU);
                 break;
             case KeyEvent.VK_DOWN:
                 scores.moveDown();
