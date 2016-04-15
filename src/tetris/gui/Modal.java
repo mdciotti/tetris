@@ -99,16 +99,16 @@ public class Modal implements KeyListener {
         int width = screen.getWidth();
         int height = screen.getHeight();
 
-        if (windowShade) {
-            // Draw a shadow over the entire window
-            Color shade = ColorScheme.BASE_00.color;
-            g2d.setColor(new Color(shade.getRed(), shade.getGreen(), shade.getBlue(), 192));
-            g2d.fillRect(0, 0, width, height);
-        }
-
         if (blurBackground) {
             // Draw the blurred background
             g2d.drawImage(bgBlur, 0, 0, null);
+        }
+
+        if (windowShade) {
+            // Draw a shadow over the entire window
+            Color shade = ColorScheme.BASE_00.color;
+            g2d.setColor(new Color(shade.getRed(), shade.getGreen(), shade.getBlue(), 128));
+            g2d.fillRect(0, 0, width, height);
         }
 
         int y = (height - this.height) / 2;
