@@ -197,16 +197,16 @@ public class GameScreen extends Screen implements ActionListener {
 
             if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
                 // Quit to menu (don't save score)
-                display.transitionScreen(ScreenType.MAIN_MENU);
+                display.transitionScreen(ScreenType.MAIN_MENU, Direction.RIGHT);
             } else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                 // Save score and quit to menu
                 ScoreManager.add(gameOver.getTextInput(), game.getScore());
-                display.transitionScreen(ScreenType.MAIN_MENU);
+                display.transitionScreen(ScreenType.MAIN_MENU, Direction.RIGHT);
             }
         } else if (game.isPaused()) {
             if (e.getKeyCode() == KeyEvent.VK_Q) {
                 // Quit to menu
-                display.transitionScreen(ScreenType.MAIN_MENU);
+                display.transitionScreen(ScreenType.MAIN_MENU, Direction.RIGHT);
             }
         }
     }

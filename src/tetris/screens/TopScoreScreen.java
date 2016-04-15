@@ -56,7 +56,7 @@ public class TopScoreScreen extends Screen {
 
         switch (e.getKeyCode()) {
             case KeyEvent.VK_ESCAPE:
-                display.transitionScreen(ScreenType.MAIN_MENU);
+                display.transitionScreen(ScreenType.MAIN_MENU, Direction.RIGHT);
                 break;
             case KeyEvent.VK_DOWN:
                 scores.moveDown();

@@ -25,6 +25,9 @@ public class TransitionScreen extends Screen implements Runnable {
     // The duration of the animation, in seconds
     private double duration = 0.5;
 
+    // The direction to animate the screen transition
+    private Direction direction = Direction.LEFT;
+
     public TransitionScreen(Tetris display) {
         registerType(ScreenType.TRANSITION);
         this.display = display;
@@ -51,13 +54,29 @@ public class TransitionScreen extends Screen implements Runnable {
         duration = seconds;
     }
 
+    public void setDirection(Direction dir) {
+        direction = dir;
+    }
+
     public void draw(Graphics g) {
         int w = display.getWidth();
-        int x = (int) -Math.round(progression * w);
-        g.translate(x, 0);
-        if (current != null) current.draw(g);
-        g.translate(w, 0);
-        if (next != null) next.draw(g);
+        int h = display.getHeight();
+        int x = (int) Math.round(progression * w);
+
+        switch (direction) {
+            case LEFT:
+                g.translate(-x, 0);
+                if (current != null) current.draw(g);
+                g.translate(w, 0);
+                if (next != null) next.draw(g);
+                break;
+            case RIGHT:
+                g.translate(-w + x, 0);
+                if (next != null) next.draw(g);
+                g.translate(w, 0);
+                if (current != null) current.draw(g);
+                break;
+        }
     }
 
     public void load() {
