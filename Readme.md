@@ -7,6 +7,8 @@ Final project for COSC 1320.
 ![Preview 2](https://github.com/mdciotti/tetris/blob/master/preview-02.png)
 ![Preview 3](https://github.com/mdciotti/tetris/blob/master/preview-03.png)
 
+![Demonstration](https://github.com/mdciotti/tetris/blob/master/preview.gif)
+
 Game partially conforms to the [guidelines available on the Tetris Wiki](https://tetris.wiki/Tetris_Guideline). Many other elements are inspired from [TetrisFriends](http://www.tetrisfriends.com/help/tips_appendix.php).
 
 We have changed some nomenclature to match that of the official Tetris guidelines rather than what was provided in the skeleton code.
