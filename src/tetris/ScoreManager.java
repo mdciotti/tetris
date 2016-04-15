@@ -31,8 +31,13 @@ public class ScoreManager {
         return scores.size();
     }
 
+    /**
+     * Retrieves the first score in the sorted scores list.
+     * @return the first PlayerScore, or null if the list is empty
+     */
     public static PlayerScore getTopScore() {
-        return scores.get(0);
+        if (scores.isEmpty()) return null;
+        else return scores.get(0);
     }
 
     public static void save() {

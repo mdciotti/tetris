@@ -50,10 +50,11 @@ public class Tetris extends JPanel implements KeyListener {
         setBackground(ColorScheme.BASE_02.color);
     }
 
-    public void transitionScreen(ScreenType s) {
+    public void transitionScreen(ScreenType s, Direction dir) {
         Screen screen = screens.get(s);
         if (screen != null) {
             TransitionScreen transition = new TransitionScreen(this);
+            transition.setDirection(dir);
             transition.setCurrent(currentScreen);
             transition.setNext(screen);
             // transition.setDuration(0.5);

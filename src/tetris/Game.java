@@ -70,7 +70,9 @@ public class Game {
     }
 
     public int getHighScore() {
-        return ScoreManager.getTopScore().getScore();
+        PlayerScore topScore = ScoreManager.getTopScore();
+        if (topScore != null) return topScore.getScore();
+        else return 0;
     }
 
     public int getLevel() {
