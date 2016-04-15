@@ -26,6 +26,13 @@ public abstract class Screen implements KeyListener {
     // Define default load and unload methods
     // Subclasses may override these for their own purposes
     public void load() {}
+
+    /**
+     * Unload is called after the screen has fully left the view (if
+     * transitioning to a new screen) or immediately if a new screen is set
+     * explicitly. Subclasses of Screen are expected but not required to
+     * override this method with their own unloading code.
+     */
     public void unload() {}
 
     /**

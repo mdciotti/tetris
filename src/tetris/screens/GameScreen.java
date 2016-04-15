@@ -65,7 +65,7 @@ public class GameScreen extends Screen implements ActionListener {
     }
 
     public void load() {
-        game.restart();
+        game.start();
         timer.start();
 
         gameOver.setVisible(false);
@@ -73,8 +73,11 @@ public class GameScreen extends Screen implements ActionListener {
     }
 
     public void unload() {
-        AudioManager.THEME_A.stop();
+        game.reset();
         timer.stop();
+
+        gameOver.setVisible(false);
+        paused.setVisible(false);
     }
 
     /**

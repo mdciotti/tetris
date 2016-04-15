@@ -62,10 +62,7 @@ public class Game {
      */
     public Game(Tetris display) {
         this.display = display;
-        matrix = new Matrix(20, 10);
-        matrix.setPosition(100, 50);
-        //this.display.update();
-        //restart();
+        reset();
     }
 
     public int getScore() {
@@ -300,10 +297,9 @@ public class Game {
     }
 
     /**
-     * Restarts the game from scratch.
+     * Clears all game states and sets them to their initial values.
      */
-    public void restart() {
-        // TODO: countdown
+    public void reset() {
         goal = 5;
         level = 1;
         score = 0;
@@ -313,6 +309,16 @@ public class Game {
         paused = false;
         heldPiece = null;
         lastPieceHeld = false;
+        nextPiece = null;
+        piece = null;
+    }
+
+    /**
+     * Starts the game from scratch.
+     */
+    public void start() {
+        reset();
+        // TODO: countdown
         nextPiece = generatePiece(null, 1, 2);
         piece = generatePiece(matrix, 0, matrix.getCols() / 2 - 1);
         updateGhost();

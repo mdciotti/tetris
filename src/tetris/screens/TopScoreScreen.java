@@ -48,6 +48,7 @@ public class TopScoreScreen extends Screen {
     }
 
     public void load() { scores.scrollToStart(); }
+    public void unload() { scores.scrollToStart(); }
 
     public void update() {}
 
