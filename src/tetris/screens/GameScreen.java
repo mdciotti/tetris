@@ -32,7 +32,7 @@ public class GameScreen extends Screen implements ActionListener {
     public static double START_SPEED = 1.0;
 
     // The multiplier amount by which the speed increases every level
-    public static double SPEED_GROWTH_FACTOR = 1.2;
+    public static double SPEED_GROWTH_FACTOR = 1.15;
 
     /**
      * Sets up the parts for the Tetris game, display and user control.
