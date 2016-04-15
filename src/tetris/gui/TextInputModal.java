@@ -1,5 +1,7 @@
 package tetris.gui;
 
+import tetris.screens.Screen;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,8 +20,8 @@ public class TextInputModal extends Modal implements ActionListener {
 
     private static final Pattern alphanumeric = Pattern.compile("[a-zA-Z0-9 ]");
 
-    public TextInputModal(String title) {
-        super(title);
+    public TextInputModal(String title, Screen screen) {
+        super(title, screen);
         setInputText("");
 
         setHeight(200);
@@ -83,8 +85,11 @@ public class TextInputModal extends Modal implements ActionListener {
         }
     }
 
-    public void draw(Graphics2D g2d, int w, int h) {
-        super.draw(g2d, w, h);
+    public void draw(Graphics2D g2d) {
+        super.draw(g2d);
+
+        int w = screen.getWidth();
+        int h = screen.getHeight();
 
         FontMetrics fm = g2d.getFontMetrics(bodyFont);
 

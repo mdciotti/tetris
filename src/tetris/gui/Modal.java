@@ -1,8 +1,13 @@
 package tetris.gui;
 
+import tetris.Tetris;
+import tetris.screens.Screen;
+import tetris.util.GaussianBlur;
+
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
 
 /**
  * Created by max on 2016-03-27.
@@ -24,14 +29,25 @@ public class Modal implements KeyListener {
     // Whether to draw a shade over the window when the modal is visible
     private boolean windowShade = true;
 
+    // Whether to blur the contents behind the modal window
+    private boolean blurBackground = true;
+    private BufferedImage bgBlur;
+    GaussianBlur blurEffect;
+
+    // A reference to the screen onto which this modal window should be drawn
+    protected Screen screen;
+
     // Set up default (fallback) fonts
     private static Font titleFont = new Font("Letter Gothic Std", Font.BOLD, 32);
     protected static Font bodyFont = new Font("Letter Gothic Std", Font.PLAIN, 20);
 
-    public Modal(String title) {
+    public Modal(String title, Screen s) {
+        screen = s;
         setTitle(title);
         body = new String[2];
         setHeight(150);
+
+        blurEffect = new GaussianBlur(8, 3);
     }
 
     public void setTitle(String title) {
@@ -45,6 +61,12 @@ public class Modal implements KeyListener {
 
     public void setVisible(boolean visible) {
         this.visible = visible;
+        if (visible && blurBackground) {
+            // Blur the background behind the modal
+            Tetris display = screen.getDisplay();
+            BufferedImage buffer = display.getScreenBuffer();
+            bgBlur = blurEffect.apply(buffer);
+        }
     }
 
     public boolean isVisible() {
@@ -71,15 +93,22 @@ public class Modal implements KeyListener {
      * Draws this modal on the window.
      *
      * @param g2d the Graphics2D context onto which we should draw
-     * @param width the width of the window we're drawing to
-     * @param height the height of the window we're drawing to
      */
-    public void draw(Graphics2D g2d, int width, int height) {
+    public void draw(Graphics2D g2d) {
+
+        int width = screen.getWidth();
+        int height = screen.getHeight();
+
         if (windowShade) {
             // Draw a shadow over the entire window
             Color shade = ColorScheme.BASE_00.color;
             g2d.setColor(new Color(shade.getRed(), shade.getGreen(), shade.getBlue(), 192));
             g2d.fillRect(0, 0, width, height);
+        }
+
+        if (blurBackground) {
+            // Draw the blurred background
+            g2d.drawImage(bgBlur, 0, 0, null);
         }
 
         int y = (height - this.height) / 2;

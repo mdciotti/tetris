@@ -7,6 +7,7 @@ import tetris.screens.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.EnumMap;
 
@@ -20,18 +21,15 @@ public class Tetris extends JPanel implements KeyListener {
 
     private Screen currentScreen;
     private EnumMap<ScreenType, Screen> screens;
+    private BufferedImage screenBuffer;
+
+    public final int WIDTH = 500;
+    public final int HEIGHT = 420;
 
     /**
      * Sets up the parts for the Tetris game, display and user control.
      */
     public Tetris() {
-
-        // Create screens
-        screens = new EnumMap<>(ScreenType.class);
-        screens.put(ScreenType.MAIN_MENU, new MenuScreen(this));
-        screens.put(ScreenType.GAME, new GameScreen(this));
-        screens.put(ScreenType.TOP_SCORES, new TopScoreScreen(this));
-        setScreen(ScreenType.MAIN_MENU);
 
         GameAction.setDisplay(this);
 
@@ -39,8 +37,8 @@ public class Tetris extends JPanel implements KeyListener {
         JFrame f = new JFrame("Tetris");
         f.add(this);
         f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setPreferredSize(new Dimension(500, 420));
-        setMinimumSize(new Dimension(500, 420));
+        setPreferredSize(new Dimension(WIDTH, HEIGHT));
+        setMinimumSize(new Dimension(WIDTH, HEIGHT));
         f.setResizable(false);
         f.pack();
         // Center window in screen
@@ -48,6 +46,21 @@ public class Tetris extends JPanel implements KeyListener {
         f.setVisible(true);
         f.addKeyListener(this);
         setBackground(ColorScheme.BASE_02.color);
+
+        // Create screen buffer image
+        screenBuffer = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_ARGB);
+
+        // Create screens
+        screens = new EnumMap<>(ScreenType.class);
+        screens.put(ScreenType.MAIN_MENU, new MenuScreen(this));
+        screens.put(ScreenType.GAME, new GameScreen(this));
+        screens.put(ScreenType.TOP_SCORES, new TopScoreScreen(this));
+        screens.put(ScreenType.OPTIONS, new OptionScreen(this));
+        setScreen(ScreenType.MAIN_MENU);
+    }
+
+    public BufferedImage getScreenBuffer() {
+        return screenBuffer;
     }
 
     public void transitionScreen(ScreenType s, Direction dir) {
@@ -88,7 +101,16 @@ public class Tetris extends JPanel implements KeyListener {
      */
     public void update() {
         currentScreen.update();
+        render();
         repaint();
+    }
+
+    public void render() {
+        Graphics sg = screenBuffer.getGraphics();
+
+        if (currentScreen != null) {
+            currentScreen.draw(sg);
+        }
     }
 
     /**
@@ -99,9 +121,7 @@ public class Tetris extends JPanel implements KeyListener {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        if (currentScreen != null) {
-            currentScreen.draw(g);
-        }
+        g.drawImage(screenBuffer, 0, 0, null);
     }
 
     /**

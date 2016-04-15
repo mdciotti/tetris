@@ -1,5 +1,7 @@
 package tetris.screens;
 
+import tetris.Tetris;
+
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -10,10 +12,16 @@ import java.awt.event.KeyListener;
  */
 public abstract class Screen implements KeyListener {
 
+    protected Tetris display;
+
     private ScreenType type;
 
     public abstract void draw(Graphics g);
     public abstract void update();
+
+    public Tetris getDisplay() {
+        return display;
+    }
 
     public void registerType(ScreenType s) {
         type = s;
@@ -21,6 +29,14 @@ public abstract class Screen implements KeyListener {
 
     public ScreenType getType() {
         return type;
+    }
+
+    public int getWidth() {
+        return display.WIDTH;
+    }
+
+    public int getHeight() {
+        return display.HEIGHT;
     }
 
     // Define default load and unload methods

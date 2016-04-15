@@ -88,6 +88,7 @@ public class TransitionScreen extends Screen implements Runnable {
         long now = System.nanoTime();
         double dt = (now - t0) / 1E9d;
         progression = easing.easeOut(dt / duration);
+        display.render();
         display.repaint();
         if (dt >= duration) {
             display.setScreen(next.getType());

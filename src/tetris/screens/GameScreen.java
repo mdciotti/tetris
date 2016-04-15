@@ -17,8 +17,6 @@ import java.awt.event.KeyEvent;
  */
 public class GameScreen extends Screen implements ActionListener {
 
-    private Tetris display;
-
     private Game game;
     private Timer timer;
 
@@ -56,10 +54,10 @@ public class GameScreen extends Screen implements ActionListener {
         hold = new TetriminoField("HOLD");
 
         // Modals
-        gameOver = new TextInputModal("G A M E   O V E R");
+        gameOver = new TextInputModal("G A M E   O V E R", this);
         gameOver.setBody("enter your name to save score",
                 "or press esc to quit to the menu");
-        paused = new Modal("P A U S E D");
+        paused = new Modal("P A U S E D", this);
         paused.setBody("press escape to resume play",
                 "or press q to quit to the menu");
     }
@@ -104,6 +102,10 @@ public class GameScreen extends Screen implements ActionListener {
      */
     public void draw(Graphics g) {
 
+        // Draw the background
+        g.setColor(ColorScheme.BASE_02.color);
+        g.fillRect(0, 0, display.getWidth(), display.getHeight());
+
         // Draw the actual game
         game.draw(g);
 
@@ -144,10 +146,10 @@ public class GameScreen extends Screen implements ActionListener {
         hold.draw(g2d, leftSide, 20);
 
         // Draw Game Over modal
-        if (gameOver.isVisible()) gameOver.draw(g2d, display.getWidth(), display.getHeight());
+        if (gameOver.isVisible()) gameOver.draw(g2d);
 
         // Draw pause modal
-        if (paused.isVisible()) paused.draw(g2d, display.getWidth(), display.getHeight());
+        if (paused.isVisible()) paused.draw(g2d);
     }
 
     /**
