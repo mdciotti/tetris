@@ -24,7 +24,7 @@ public class TextInputModal extends Modal implements ActionListener {
         super(title, screen);
         setInputText("");
 
-        setHeight(200);
+        height = 140;
     }
 
     public String getTextInput() { return textInput.toString(); }
@@ -93,16 +93,20 @@ public class TextInputModal extends Modal implements ActionListener {
 
         FontMetrics fm = g2d.getFontMetrics(bodyFont);
 
-        int y = (h - getHeight()) / 2;
-        int textField_x = (w - 200) / 2;
-        int textField_y = y + getHeight() - 60;
-        int textField_center = (textField_x + 100);
+        // Calculate maximum textfield width by em-width
+        int m_width = fm.stringWidth("m");
+        int textField_w = m_width * MAX_INPUT_CHARS + 40;
+
+        int y = (h - height) / 2;
+        int textField_x = (w - textField_w) / 2;
+        int textField_y = y + height - 60;
+        int textField_center = (textField_x + textField_w / 2);
         int textWidth = fm.stringWidth(getTextInput());
         int textField_start = textField_center - textWidth / 2;
 
         // Draw input text field
         g2d.setColor(ColorScheme.BASE_06.color);
-        g2d.fillRect(textField_x, textField_y, 200, 40);
+        g2d.fillRect(textField_x, textField_y, textField_w, 40);
 
         // Draw input text
         g2d.setColor(ColorScheme.BASE_00.color);
@@ -112,6 +116,6 @@ public class TextInputModal extends Modal implements ActionListener {
         String textBeforeCaret = textInput.substring(0, caretIndex);
         int caret_xOffset = fm.stringWidth(textBeforeCaret);
         g2d.setColor(ColorScheme.BASE_0D.color);
-        g2d.fillRect(textField_start + caret_xOffset, textField_y + 5, 2, 30);
+        g2d.fillRect(textField_start + caret_xOffset - 1, textField_y + 5, 2, 30);
     }
 }

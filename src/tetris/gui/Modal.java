@@ -8,6 +8,7 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 /**
  * Created by max on 2016-03-27.
@@ -18,13 +19,14 @@ public class Modal implements KeyListener {
     private String title;
 
     // The lines of body text in this modal
-    private String[] body;
+    private ArrayList<String> body;
 
     // Whether this modal is currently visible
     private boolean visible = false;
 
     // The height of the modal window
-    private int height;
+    protected int height;
+    private int lineHeight = 30;
 
     // Whether to draw a shade over the window when the modal is visible
     private boolean windowShade = true;
@@ -44,8 +46,8 @@ public class Modal implements KeyListener {
     public Modal(String title, Screen s) {
         screen = s;
         setTitle(title);
-        body = new String[2];
-        setHeight(150);
+        body = new ArrayList<>();
+        height = 90;
 
         blurEffect = new GaussianBlur(8, 3);
     }
@@ -54,9 +56,24 @@ public class Modal implements KeyListener {
         this.title = title;
     }
 
-    public void setBody(String line1, String line2) {
-        this.body[0] = line1;
-        this.body[1] = line2;
+    /**
+     * Appends a line of text to the body.
+     * @param line the line of text to add
+     */
+    public void addBodyLine(String line) {
+        body.add(line);
+        height += lineHeight;
+    }
+
+    /**
+     * Sets an existing line of text in the body to a new string.
+     * @param i the index of the line to set
+     * @param line the new string
+     */
+    public void setBodyLine(int i, String line) {
+        if (body.get(i) != null) {
+            body.set(i, line);
+        }
     }
 
     public void setVisible(boolean visible) {
@@ -72,10 +89,6 @@ public class Modal implements KeyListener {
     public boolean isVisible() {
         return visible;
     }
-
-    public int getHeight() { return height; }
-
-    public void setHeight(int h) { this.height = h; }
 
     public static void setTitleFont(Font font) {
         titleFont = font;
@@ -130,9 +143,10 @@ public class Modal implements KeyListener {
         g2d.setColor(ColorScheme.BASE_03.color);
         FontMetrics bfm = g2d.getFontMetrics(bodyFont);
 
-        for (int i = 0; i < body.length; i++) {
-            w = bfm.stringWidth(body[i]);
-            g2d.drawString(body[i], (width - w) / 2, y + 90 + i * 30);
+        for (int i = 0; i < body.size(); i++) {
+            String line = body.get(i);
+            w = bfm.stringWidth(line);
+            g2d.drawString(line, (width - w) / 2, y + 90 + i * lineHeight);
         }
     }
 }
