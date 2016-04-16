@@ -20,9 +20,9 @@ public class MenuScreen extends Screen {
         title = "T E T R I S";
 
         menu = new BasicMenu(display);
-        menu.addOption("play", ScreenType.GAME);
-        menu.addOption("top scores", ScreenType.TOP_SCORES);
-        menu.addOption("options", ScreenType.OPTIONS);
+        menu.addOption("play", ScreenType.GAME, Direction.DOWN);
+        menu.addOption("top scores", ScreenType.TOP_SCORES, Direction.LEFT);
+        menu.addOption("options", ScreenType.OPTIONS, Direction.RIGHT);
         menu.addOption("quit", GameAction.QUIT);
     }
 

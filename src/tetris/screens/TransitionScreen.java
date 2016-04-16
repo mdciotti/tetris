@@ -62,6 +62,7 @@ public class TransitionScreen extends Screen implements Runnable {
         int w = display.getWidth();
         int h = display.getHeight();
         int x = (int) Math.round(progression * w);
+        int y = (int) Math.round(progression * h);
 
         switch (direction) {
             case LEFT:
@@ -75,6 +76,18 @@ public class TransitionScreen extends Screen implements Runnable {
                 if (next != null) next.draw(g);
                 g.translate(w, 0);
                 if (current != null) current.draw(g);
+                break;
+            case UP:
+                g.translate(0, -h + y);
+                if (next != null) next.draw(g);
+                g.translate(0, h);
+                if (current != null) current.draw(g);
+                break;
+            case DOWN:
+                g.translate(0, -y);
+                if (current != null) current.draw(g);
+                g.translate(0, h);
+                if (next != null) next.draw(g);
                 break;
         }
     }

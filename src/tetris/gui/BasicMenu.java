@@ -39,14 +39,16 @@ public class BasicMenu {
      */
     private class ScreenMenuOption extends MenuOption {
         private ScreenType screen;
+        private Direction transitionDirection;
 
-        public ScreenMenuOption(String title, ScreenType s) {
+        public ScreenMenuOption(String title, ScreenType s, Direction d) {
             setTitle(title);
             screen = s;
+            transitionDirection = d;
         }
 
         public void select() {
-            display.transitionScreen(screen, Direction.LEFT);
+            display.transitionScreen(screen, transitionDirection);
         }
     }
 
@@ -79,8 +81,8 @@ public class BasicMenu {
         return parent;
     }
 
-    public void addOption(String title, ScreenType s) {
-        options.add(new ScreenMenuOption(title, s));
+    public void addOption(String title, ScreenType s, Direction d) {
+        options.add(new ScreenMenuOption(title, s, d));
         numOptions++;
     }
 
