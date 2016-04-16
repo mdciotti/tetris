@@ -282,7 +282,7 @@ public class Game {
     /**
      * Ends the current game.
      */
-    private void end() {
+    public void end() {
         isOver = true;
         piece = null;
         ghost = null;

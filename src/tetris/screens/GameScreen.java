@@ -212,6 +212,7 @@ public class GameScreen extends Screen implements ActionListener {
         } else if (game.isPaused()) {
             if (e.getKeyCode() == KeyEvent.VK_Q) {
                 // Quit to menu
+                game.end();
                 display.transitionScreen(ScreenType.MAIN_MENU, Direction.UP);
             }
         }
