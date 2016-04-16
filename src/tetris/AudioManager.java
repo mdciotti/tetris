@@ -14,6 +14,40 @@ public class AudioManager {
     public static Sound PIECE_MOVE, LINE_CLEAR_1, LINE_CLEAR_2, LINE_CLEAR_3,
             LINE_CLEAR_4, HOLD, NO_HOLD, HARD_DROP;
 
+    private static double musicVolume = 0.8;
+    private static double soundVolume = 1.0;
+
+    private static boolean muted = false;
+
+    public static double getMusicVolume() {
+        return musicVolume;
+    }
+
+    public static double getSoundVolume() {
+        return soundVolume;
+    }
+
+    public static void setMusicVolume(double v) {
+        musicVolume = Math.max(0.0, Math.min(v, 1.0));
+    }
+
+    public static void setSoundVolume(double v) {
+        soundVolume = Math.max(0.0, Math.min(v, 1.0));
+    }
+
+    public static void toggleMute() {
+        TinySound.setGlobalVolume(muted ? 0.0 : 1.0);
+    }
+
+    public static void play(Sound s) {
+        s.play(soundVolume);
+    }
+
+    public static void play(Music m, boolean loop) {
+        // Reduce volume (why is it so loud?)
+        m.play(loop, 0.5 * musicVolume);
+    }
+
     public static void init() {
         TinySound.init();
 

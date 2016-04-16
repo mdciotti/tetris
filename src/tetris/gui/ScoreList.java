@@ -39,7 +39,7 @@ public class ScoreList {
         selectedIndex += 1;
         if (selectedIndex >= numScoresPerPage * currentPage) currentPage += 1;
         if (selectedIndex >= ScoreManager.getNumScores()) scrollToStart();
-        AudioManager.PIECE_MOVE.play();
+        AudioManager.play(AudioManager.PIECE_MOVE);
         display.update();
     }
 
@@ -47,7 +47,7 @@ public class ScoreList {
         selectedIndex -= 1;
         if (selectedIndex < numScoresPerPage * (currentPage - 1)) currentPage -= 1;
         if (selectedIndex < 0) scrollToEnd();
-        AudioManager.PIECE_MOVE.play();
+        AudioManager.play(AudioManager.PIECE_MOVE);
         display.update();
     }
 

@@ -94,14 +94,14 @@ public class BasicMenu {
     public void moveDown() {
         selectedIndex += 1;
         if (selectedIndex >= numOptions) selectedIndex -= numOptions;
-        AudioManager.PIECE_MOVE.play();
+        AudioManager.play(AudioManager.PIECE_MOVE);
         display.update();
     }
 
     public void moveUp() {
         selectedIndex -= 1;
         if (selectedIndex < 0) selectedIndex += numOptions;
-        AudioManager.PIECE_MOVE.play();
+        AudioManager.play(AudioManager.PIECE_MOVE);
         display.update();
     }
 

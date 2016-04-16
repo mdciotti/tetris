@@ -113,17 +113,18 @@ public class Game {
     public void holdPiece() {
         // Don't do anything if the last piece was held
         if (lastPieceHeld) {
-            AudioManager.NO_HOLD.play();
+            AudioManager.play(AudioManager.NO_HOLD);
             return;
         }
 
         // Don't do anything if piece is null
         if (piece == null) {
             AudioManager.NO_HOLD.play();
+            AudioManager.play(AudioManager.NO_HOLD);
             return;
         }
 
-        AudioManager.HOLD.play();
+        AudioManager.play(AudioManager.HOLD);
 
         if (heldPiece == null) {
             // No piece in hold yet
@@ -178,9 +179,8 @@ public class Game {
     public void pause() {
         paused = !paused;
         display.update();
-        // Lower volume when paused
-        if (paused) AudioManager.THEME_A.setVolume(0.2);
-        else AudioManager.THEME_A.setVolume(0.5);
+        // Mute music when paused
+        AudioManager.toggleMute();
     }
 
     /**
@@ -191,7 +191,7 @@ public class Game {
     public void movePiece(Direction direction) {
         if (piece != null) {
             if (piece.canMove(direction)) {
-                AudioManager.PIECE_MOVE.play();
+                AudioManager.play(AudioManager.PIECE_MOVE);
                 piece.move(direction);
                 if (direction == Direction.DOWN) score++;
             }
@@ -204,7 +204,7 @@ public class Game {
      */
     public void dropPiece() {
         if (piece != null) {
-             AudioManager.HARD_DROP.play();
+            AudioManager.play(AudioManager.HARD_DROP);
 
             int m = 0;
             while (piece.canMove(Direction.DOWN)) {
@@ -325,8 +325,7 @@ public class Game {
         piece = generatePiece(matrix, 0, matrix.getCols() / 2 - 1);
         updateGhost();
         display.update();
-        AudioManager.THEME_A.play(true);
-        AudioManager.THEME_A.setVolume(0.5);
+        AudioManager.play(AudioManager.THEME_A, true);
     }
 
     /**
@@ -381,22 +380,22 @@ public class Game {
 
         switch (numLinesCleared) {
             case 1:
-                AudioManager.LINE_CLEAR_1.play();
+                AudioManager.play(AudioManager.LINE_CLEAR_1);
                 pointsAwarded = 100 * level;
                 lineClearsAwarded = 1;
                 break;
             case 2:
-                AudioManager.LINE_CLEAR_2.play();
+                AudioManager.play(AudioManager.LINE_CLEAR_2);
                 pointsAwarded = 300 * level;
                 lineClearsAwarded = 3;
                 break;
             case 3:
-                AudioManager.LINE_CLEAR_3.play();
+                AudioManager.play(AudioManager.LINE_CLEAR_3);
                 pointsAwarded = 500 * level;
                 lineClearsAwarded = 5;
                 break;
             case 4:
-                AudioManager.LINE_CLEAR_4.play();
+                AudioManager.play(AudioManager.LINE_CLEAR_4);
                 pointsAwarded = 800 * level;
                 lineClearsAwarded = 8;
                 break;
@@ -449,7 +448,7 @@ public class Game {
     public void rotatePiece() {
         if (piece != null) {
             if (piece.canRotate()) {
-                AudioManager.PIECE_MOVE.play();
+                AudioManager.play(AudioManager.PIECE_MOVE);
                 piece.rotate();
             }
         }
