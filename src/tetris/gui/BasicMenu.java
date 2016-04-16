@@ -14,7 +14,7 @@ public class BasicMenu {
 
     private BasicMenu parent;
 
-    private ArrayList<MenuOption> options;
+    private ArrayList<MenuItem> options;
 
     private int selectedIndex = 0;
 
@@ -26,7 +26,7 @@ public class BasicMenu {
     /**
      * Define a menu option. A single menu will have a few of these.
      */
-    private abstract class MenuOption {
+    private abstract class MenuItem {
         private String title;
         public void setTitle(String title) {
             this.title = title;
@@ -37,11 +37,11 @@ public class BasicMenu {
     /**
      * A screen menu option takes the user to a new screen.
      */
-    private class ScreenMenuOption extends MenuOption {
+    private class ScreenMenuItem extends MenuItem {
         private ScreenType screen;
         private Direction transitionDirection;
 
-        public ScreenMenuOption(String title, ScreenType s, Direction d) {
+        public ScreenMenuItem(String title, ScreenType s, Direction d) {
             setTitle(title);
             screen = s;
             transitionDirection = d;
@@ -55,10 +55,10 @@ public class BasicMenu {
     /**
      * An action menu option performs an action.
      */
-    private class ActionMenuOption extends MenuOption {
+    private class ActionMenuItem extends MenuItem {
         private GameAction action;
 
-        public ActionMenuOption(String title, GameAction a) {
+        public ActionMenuItem(String title, GameAction a) {
             setTitle(title);
             action = a;
         }
@@ -82,12 +82,12 @@ public class BasicMenu {
     }
 
     public void addOption(String title, ScreenType s, Direction d) {
-        options.add(new ScreenMenuOption(title, s, d));
+        options.add(new ScreenMenuItem(title, s, d));
         numOptions++;
     }
 
     public void addOption(String title, GameAction a) {
-        options.add(new ActionMenuOption(title, a));
+        options.add(new ActionMenuItem(title, a));
         numOptions++;
     }
 
@@ -124,7 +124,7 @@ public class BasicMenu {
         FontMetrics bfm = g2d.getFontMetrics(bodyFont);
 
         for (int i = 0, w; i < options.size(); i++) {
-            MenuOption o = options.get(i);
+            MenuItem o = options.get(i);
 
             w = bfm.stringWidth(o.title);
             int y = 200 + i * 40;
