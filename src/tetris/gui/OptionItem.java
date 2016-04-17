@@ -83,6 +83,10 @@ public abstract class OptionItem {
             enabled = initial;
         }
 
+        public void setEnabled(boolean enabled) {
+            this.enabled = enabled;
+        }
+
         // Toggle
         public void select() {
             enabled = !enabled;

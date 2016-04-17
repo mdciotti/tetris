@@ -5,6 +5,11 @@ package tetris;
  */
 public enum GameAction {
     NONE { public void perform() {} },
+    FULL_SCREEN {
+        public void perform() {
+            display.toggleFullScreen();
+        }
+    },
     QUIT {
         public void perform() {
             Tetris.quit();

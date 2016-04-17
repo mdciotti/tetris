@@ -5,23 +5,26 @@ import tetris.gui.TextField;
 import tetris.screens.*;
 
 import java.awt.*;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.EnumMap;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
+
 
 /**
  * Create and control the game Tetris.
  */
-public class Tetris extends JPanel implements KeyListener {
+public class Tetris extends JPanel implements KeyListener, ComponentListener {
 
     private Screen currentScreen;
     private EnumMap<ScreenType, Screen> screens;
     private BufferedImage screenBuffer;
+    private GameWindow window;
 
     public final int WIDTH = 500;
     public final int HEIGHT = 420;
@@ -34,17 +37,8 @@ public class Tetris extends JPanel implements KeyListener {
         GameAction.setDisplay(this);
 
         // Create window
-        JFrame f = new JFrame("Tetris");
-        f.add(this);
-        f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setPreferredSize(new Dimension(WIDTH, HEIGHT));
-        setMinimumSize(new Dimension(WIDTH, HEIGHT));
-        f.setResizable(false);
-        f.pack();
-        // Center window in screen
-        f.setLocationRelativeTo(null);
-        f.setVisible(true);
-        f.addKeyListener(this);
+        window = new GameWindow("Tetris", this);
+
         setBackground(ColorScheme.BASE_02.color);
 
         // Create screen buffer image
@@ -57,6 +51,12 @@ public class Tetris extends JPanel implements KeyListener {
         screens.put(ScreenType.TOP_SCORES, new TopScoreScreen(this));
         screens.put(ScreenType.OPTIONS, new OptionScreen(this));
         setScreen(ScreenType.MAIN_MENU);
+
+        addComponentListener(this);
+    }
+
+    public GameWindow getWindow() {
+        return window;
     }
 
     public BufferedImage getScreenBuffer() {
@@ -124,6 +124,14 @@ public class Tetris extends JPanel implements KeyListener {
         g.drawImage(screenBuffer, 0, 0, null);
     }
 
+    public void componentHidden(ComponentEvent e) {}
+    public void componentMoved(ComponentEvent e) {}
+    public void componentShown(ComponentEvent e) {}
+    public void componentResized(ComponentEvent e) {
+        screenBuffer = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
+        update();
+    }
+
     /**
      * Delegates key presses to the current screen.
      *
@@ -140,6 +148,35 @@ public class Tetris extends JPanel implements KeyListener {
     }
     public void keyTyped(KeyEvent e) {
         currentScreen.keyTyped(e);
+    }
+
+    /**
+     * Make the display full screen.
+     */
+    public void toggleFullScreen() {
+//        GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+//
+//        if (gd.isFullScreenSupported()) {
+//            if (isFullScreen) {
+//                fullScreenWindow.remove(this);
+//                window.add(this);
+//                gd.setFullScreenWindow(null);
+//            } else {
+//                window.remove(this);
+//                fullScreenWindow.add(this);
+//                gd.setFullScreenWindow(fullScreenWindow);
+//            }
+//        } else {
+//            System.err.println("Full screen is not supported on this device.");
+//        }
+
+        if (System.getProperty("os.name").contains("Mac OS X")) {
+            // Attempt to toggle OS X full-screen window mode
+            com.apple.eawt.Application.getApplication().requestToggleFullScreen(window);
+        } else {
+            System.err.println("Full screen not support on your platform" +
+                " (" + System.getProperty("os.name") + ")");
+        }
     }
 
     /**
@@ -169,6 +206,7 @@ public class Tetris extends JPanel implements KeyListener {
             MenuScreen.setTitleFont(new Font("Dosis", Font.BOLD, 48));
             BasicMenu.setBodyFont(new Font("Dosis", Font.PLAIN, 30));
             ScoreList.setBodyFont(new Font("Dosis", Font.PLAIN, 30));
+            OptionList.setBodyFont(new Font("Dosis", Font.PLAIN, 30));
             InfoField.setTitleFont(new Font("Dosis", Font.BOLD, 20));
             TextField.setValueFont(new Font("Dosis", Font.PLAIN, 32));
             ScoreManager.init();

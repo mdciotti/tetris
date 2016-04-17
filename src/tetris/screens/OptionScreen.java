@@ -14,6 +14,8 @@ public class OptionScreen extends Screen {
 
     OptionList options;
 
+    OptionItem.Toggle fullScreen;
+
     public OptionScreen(Tetris display) {
         registerType(ScreenType.OPTIONS);
         this.display = display;
@@ -21,7 +23,7 @@ public class OptionScreen extends Screen {
         options = new OptionList(display);
 
         // Full Screen Toggle
-        OptionItem.Toggle fullScreen = new OptionItem.Toggle("Full screen", false);
+        fullScreen = new OptionItem.Toggle("Full screen", display.getWindow().isFullScreen());
         fullScreen.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 GameAction.FULL_SCREEN.perform();
@@ -53,6 +55,9 @@ public class OptionScreen extends Screen {
             }
         });
         options.add(soundVolume);
+
+    public void update() {
+        fullScreen.setEnabled(display.getWindow().isFullScreen());
     }
 
     public void draw(Graphics g) {

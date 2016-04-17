@@ -17,7 +17,7 @@ public abstract class Screen implements KeyListener {
     private ScreenType type;
 
     public abstract void draw(Graphics g);
-    public abstract void update();
+    public void update() {}
 
     public Tetris getDisplay() {
         return display;
@@ -32,11 +32,11 @@ public abstract class Screen implements KeyListener {
     }
 
     public int getWidth() {
-        return display.WIDTH;
+        return display.getWidth();
     }
 
     public int getHeight() {
-        return display.HEIGHT;
+        return display.getHeight();
     }
 
     // Define default load and unload methods
@@ -57,7 +57,6 @@ public abstract class Screen implements KeyListener {
      * @param e the KeyEvent containing info about the key pressed
      */
     public void keyPressed(KeyEvent e) {}
-
     public void keyTyped(KeyEvent e) {}
     public void keyReleased(KeyEvent e) {}
 }
