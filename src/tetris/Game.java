@@ -1,6 +1,8 @@
 package tetris;
 
 import tetris.tetrimino.*;
+import tetris.util.Randomizer;
+
 import java.awt.Graphics;
 import java.awt.Point;
 
@@ -55,6 +57,9 @@ public class Game {
     // The number of different pieces
     private final int NUM_PIECES = 7;
 
+    // The randomizer determines which tetriminoes get generated in sequence
+    private Randomizer randomizer;
+
     /**
      * Creates a Tetris game.
      * 
@@ -62,6 +67,7 @@ public class Game {
      */
     public Game(Tetris display) {
         this.display = display;
+        randomizer = new Randomizer(NUM_PIECES);
         reset();
     }
 
@@ -335,7 +341,7 @@ public class Game {
      * @param col the column to set the center of the piece
      */
     private Tetrimino generatePiece(Matrix m, int row, int col) {
-        switch ((int)(NUM_PIECES * Math.random())) {
+        switch (randomizer.next()) {
             default:
             case 0: return new ZShape(row, col, m);
             case 1: return new OShape(row, col, m);
