@@ -3,12 +3,6 @@ Tetris
 
 Final project for COSC 1320.
 
-![Preview 1](https://github.com/mdciotti/tetris/blob/master/preview-01.png)
-![Preview 2](https://github.com/mdciotti/tetris/blob/master/preview-02.png)
-![Preview 3](https://github.com/mdciotti/tetris/blob/master/preview-03.png)
-
-![Demonstration](https://github.com/mdciotti/tetris/blob/master/preview.gif)
-
 Game partially conforms to the [guidelines available on the Tetris Wiki](https://tetris.wiki/Tetris_Guideline). Many other elements are inspired from [TetrisFriends](http://www.tetrisfriends.com/help/tips_appendix.php).
 
 We have changed some nomenclature to match that of the official Tetris guidelines rather than what was provided in the skeleton code.
@@ -88,22 +82,6 @@ java -cp build/classes/main/ tetris.Tetris
 ```
 
 
-Controls
---------
-
-| Key      | Action       |
-|----------|--------------|
-| Left     | Move left    |
-| Right    | Move right   |
-| Down     | Soft drop    |
-| Up, X    | Rotate right |
-| Z        | Rotate left  |
-| Space    | Hard drop    |
-| Shift, C | Hold         |
-| Escape   | Pause game   |
-| Q        | Quit game    |
-
-
 Colors
 ------
 
@@ -133,34 +111,3 @@ Sound effects are needed for the following events:
 - Can't hold (dink.wav)
 - Drop (thump.wav)
 - Level up (ding-ding.wav)
-
-
-Work Allocation
----------------
-
-### Max
-
-- [x] Save scores to disk
-- [x] Top score list
-- [x] Last-second rotations
-- [x] Pause menu
-- [x] Game menu
-- [x] Display hold, next piece
-- [x] Hold
-- [x] [GhostPiece](https://tetris.wiki/Ghost_piece)
-- [x] Implement rotate algorithm
-- [x] AbstractPiece
-- [x] TShape
-- [x] SShape
-- [x] BarShape
-
-### Brandon
-
-- [ ] Music
-- [x] Display level, goal, score, top score
-- [ ] Piece randomizer (grab bag)
-- [x] Score
-- [x] NextPiece
-- [x] ZShape
-- [x] SquareShape
-- [x] JShape
