@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Tetris by mdciotti</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Tetris</h1>
+      <h2 class="project-tagline">Final project for COSC 1320</h2>
+      <a href="https://github.com/mdciotti/tetris" class="btn">View on GitHub</a>
+      <a href="https://github.com/mdciotti/tetris/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/mdciotti/tetris/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="tetris" class="anchor" href="#tetris" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Tetris</h1>
+
+<p>Final project for COSC 1320.</p>
+
+<p><img src="https://github.com/mdciotti/tetris/blob/master/preview-01.png" alt="Preview 1">
+<img src="https://github.com/mdciotti/tetris/blob/master/preview-02.png" alt="Preview 2">
+<img src="https://github.com/mdciotti/tetris/blob/master/preview-03.png" alt="Preview 3"></p>
+
+<p><img src="https://github.com/mdciotti/tetris/blob/master/preview.gif" alt="Demonstration"></p>
+
+<p>Game partially conforms to the <a href="https://tetris.wiki/Tetris_Guideline">guidelines available on the Tetris Wiki</a>. Many other elements are inspired from <a href="http://www.tetrisfriends.com/help/tips_appendix.php">TetrisFriends</a>.</p>
+
+<p>We have changed some nomenclature to match that of the official Tetris guidelines rather than what was provided in the skeleton code.</p>
+
+<ul>
+<li>
+<code>Grid</code> is now <code>Matrix</code>
+</li>
+<li>
+<code>BarShape</code> is now <code>IShape</code>
+</li>
+<li>
+<code>SquareShape</code> is now <code>OShape</code>
+</li>
+<li>
+<code>AbstractPiece</code> is now <code>Tetrimino</code>
+</li>
+<li>
+<code>Square</code> is now <code>Mino</code>
+</li>
+</ul>
+
+<h2>
+<a id="definitions" class="anchor" href="#definitions" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Definitions</h2>
+
+<ul>
+<li>
+<strong>Mino</strong>: a single square-shaped building block of a shape called a Tetrimino. Four Minos arranged into any of their various connected patterns is known as a Tetrimino.</li>
+<li>
+<strong>Tetrimino</strong>: a geometric shape formed by four Minos connected along their sides. A total of 7 possible Tetriminos can be made using four Mino, each represented by a single unique color.</li>
+<li>
+<strong>Level</strong>: the indication of progress, determines the speed at which pieces fall. Starts at 1, increases by 1 every time the goal is reached.</li>
+<li>
+<strong>Goal</strong>: the number of lines left that need to be cleared to advance to the next level. Starts at 5, and counts down with line clears. Increases by 5 every time the goal is reached.</li>
+<li>
+<strong>Matrix</strong>: the rectangular arrangement of cells that create the active game area, usually 10 columns wide by 20 rows high. Tetriminos fall from the top-middle just above the top of the matrix (off-screen) to the bottom.</li>
+<li>
+<strong>Hold</strong>: this action removes the Tetrimino in play and places into the Hold Queue. If there was a Tetrimino in the Hold Queue already, it will start to fall from the top of the Matrix, beginning from its originating position and orientation. <em>You must Lock Down the swapped out Tetrimino before you can perform a Hold again.</em>
+</li>
+<li>
+<strong>Hold queue</strong>: the storage place where players can hold any falling Tetrimino for use later. When called for, the held Tetrimino swaps places with the currently falling Tetrimino, and begins falling from the top of the Matrix.</li>
+<li>
+<strong>Next queue</strong>: shows the player what the next Tetrimino will be. The next Tetrimino will begin to fall once the previous Tetrimino locks down.</li>
+<li>
+<strong>Line clear</strong>: the result of when a horizontal row is completely filled with blocks and removed from the Matrix. All pieces above the Line Clear shift down to fill the space.</li>
+<li>
+<strong>Lock down</strong>: the condition after landing when a Tetrimino can no longer move. (There is a brief pause period once a Tetrimino lands in the Matrix where it can still be moved.)</li>
+<li>
+<strong>Soft drop</strong>: an action that causes the Tetrimino in play to drop at an accelerated rate from its current location.</li>
+<li>
+<strong>Hard drop</strong>: an action that causes the Tetrimino in play to drop straight down instantly from its current location and Lock Down on the first surface it lands on. Once performed, the player cannot further manipulate this Tetrimino.</li>
+<li>
+<strong>Single</strong>: when one line is cleared at once.</li>
+<li>
+<strong>Double</strong>: when two lines are cleared at once.</li>
+<li>
+<strong>Triple</strong>: when three lines are cleared at once.</li>
+<li>
+<strong>Tetris</strong>: the result of using a vertical I-Tetrimino to clear four lines at the same time---the maximum possible---for a large scoring bonus.</li>
+<li>
+<strong>Back-to-back bonus</strong>: when one or more lines are cleared immediately after the last piece cleared one or more lines.</li>
+<li>
+<strong>Combo</strong>: a chain of one or more Line Clears performed consecutively. if a Tetrimino locks down without clearing a line during a Combo, the Combo chain is broken. Longer Combo chains will yield more points resulting in a higher score.</li>
+<li>
+<strong>Block out</strong>: the Game Over condition that occurs when part of a newly generated Tetrimino cannot fall due to an existing block in the Matrix.</li>
+<li>
+<strong>Lock out</strong>: the Game Over condition that occurs when a Tetrimino Locks Down completely above the top of the Matrix.</li>
+</ul>
+
+<h2>
+<a id="scoring" class="anchor" href="#scoring" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Scoring</h2>
+
+<p><strong>Back-to-back</strong> is a bonus, awarded on top of any other action award.</p>
+
+<table>
+<thead>
+<tr>
+<th>Action</th>
+<th>Awarded points</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Single</td>
+<td>100 * level</td>
+</tr>
+<tr>
+<td>Double</td>
+<td>300 * level</td>
+</tr>
+<tr>
+<td>Triple</td>
+<td>500 * level</td>
+</tr>
+<tr>
+<td>Tetris</td>
+<td>800 * level</td>
+</tr>
+<tr>
+<td>Back-to-back</td>
+<td>0.5 * action total</td>
+</tr>
+<tr>
+<td>Soft drop</td>
+<td>n*</td>
+</tr>
+<tr>
+<td>Hard drop</td>
+<td>2 * m**</td>
+</tr>
+</tbody>
+</table>
+
+<p><em>n: the number of lines you allow the Tetrimino to soft drop.
+*</em>m: the total distance of the hard drop.</p>
+
+<table>
+<thead>
+<tr>
+<th>Action</th>
+<th>Awarded line clears</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Single</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Double</td>
+<td>3</td>
+</tr>
+<tr>
+<td>Triple</td>
+<td>5</td>
+</tr>
+<tr>
+<td>Tetris</td>
+<td>8</td>
+</tr>
+<tr>
+<td>Back to back</td>
+<td>0.5 * total line clears</td>
+</tr>
+</tbody>
+</table>
+
+<h2>
+<a id="building" class="anchor" href="#building" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Building</h2>
+
+<p>Builds are handled with <a href="http://gradle.org">Gradle</a>. Run the following command at a terminal:</p>
+
+<pre><code>gradle build
+</code></pre>
+
+<p>You can then run the program with the following command:</p>
+
+<pre><code>java -cp build/classes/main/ tetris.Tetris
+</code></pre>
+
+<h2>
+<a id="controls" class="anchor" href="#controls" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Controls</h2>
+
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Left</td>
+<td>Move left</td>
+</tr>
+<tr>
+<td>Right</td>
+<td>Move right</td>
+</tr>
+<tr>
+<td>Down</td>
+<td>Soft drop</td>
+</tr>
+<tr>
+<td>Up, X</td>
+<td>Rotate right</td>
+</tr>
+<tr>
+<td>Z</td>
+<td>Rotate left</td>
+</tr>
+<tr>
+<td>Space</td>
+<td>Hard drop</td>
+</tr>
+<tr>
+<td>Shift, C</td>
+<td>Hold</td>
+</tr>
+<tr>
+<td>Escape</td>
+<td>Pause game</td>
+</tr>
+<tr>
+<td>Q</td>
+<td>Quit game</td>
+</tr>
+</tbody>
+</table>
+
+<h2>
+<a id="colors" class="anchor" href="#colors" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Colors</h2>
+
+<p>Colors are defined in the ColorScheme enum, which contains color values according to the Base16 color scheme. Additional colors may be found at <a href="https://chriskempson.github.io/base16/">https://chriskempson.github.io/base16/</a></p>
+
+<p>Pieces are assigned colors as follows:</p>
+
+<table>
+<thead>
+<tr>
+<th>Tetrimino</th>
+<th>ColorScheme Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ZShape</code></td>
+<td><code>BASE_08</code></td>
+</tr>
+<tr>
+<td><code>OShape</code></td>
+<td><code>BASE_0A</code></td>
+</tr>
+<tr>
+<td><code>JShape</code></td>
+<td><code>BASE_0D</code></td>
+</tr>
+<tr>
+<td><code>TShape</code></td>
+<td><code>BASE_0E</code></td>
+</tr>
+<tr>
+<td><code>SShape</code></td>
+<td><code>BASE_0B</code></td>
+</tr>
+<tr>
+<td><code>IShape</code></td>
+<td><code>BASE_0C</code></td>
+</tr>
+<tr>
+<td><code>LShape</code></td>
+<td><code>BASE_09</code></td>
+</tr>
+</tbody>
+</table>
+
+<h2>
+<a id="sounds" class="anchor" href="#sounds" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Sounds</h2>
+
+<p>Sound effects are needed for the following events:</p>
+
+<ul>
+<li>Piece move (tap.wav)</li>
+<li>Line clear (pop.wav)</li>
+<li>Hold (scuff.wav)</li>
+<li>Can't hold (dink.wav)</li>
+<li>Drop (thump.wav)</li>
+<li>Level up (ding-ding.wav)</li>
+</ul>
+
+<h2>
+<a id="work-allocation" class="anchor" href="#work-allocation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Work Allocation</h2>
+
+<h3>
+<a id="max" class="anchor" href="#max" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Max</h3>
+
+<ul>
+<li>[x] Save scores to disk</li>
+<li>[x] Top score list</li>
+<li>[x] Last-second rotations</li>
+<li>[x] Pause menu</li>
+<li>[x] Game menu</li>
+<li>[x] Display hold, next piece</li>
+<li>[x] Hold</li>
+<li>[x] <a href="https://tetris.wiki/Ghost_piece">GhostPiece</a>
+</li>
+<li>[x] Implement rotate algorithm</li>
+<li>[x] AbstractPiece</li>
+<li>[x] TShape</li>
+<li>[x] SShape</li>
+<li>[x] BarShape</li>
+</ul>
+
+<h3>
+<a id="brandon" class="anchor" href="#brandon" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Brandon</h3>
+
+<ul>
+<li>[ ] Music</li>
+<li>[x] Display level, goal, score, top score</li>
+<li>[ ] Piece randomizer (grab bag)</li>
+<li>[x] Score</li>
+<li>[x] NextPiece</li>
+<li>[x] ZShape</li>
+<li>[x] SquareShape</li>
+<li>[x] JShape</li>
+</ul>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/mdciotti/tetris">Tetris</a> is maintained by <a href="https://github.com/mdciotti">mdciotti</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
