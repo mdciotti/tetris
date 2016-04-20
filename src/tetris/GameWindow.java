@@ -20,11 +20,12 @@ public class GameWindow extends JFrame implements FullScreenListener {
         this.display = display;
 
         add(display);
+        setTitle(title);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setPreferredSize(new Dimension(display.WIDTH, display.HEIGHT));
-        setMinimumSize(new Dimension(display.WIDTH, display.HEIGHT));
+
         //setResizable(false);
         pack();
+        setMinimumSize(new Dimension(getWidth(), getHeight()));
         // Center window in screen
         setLocationRelativeTo(null);
         setVisible(true);
