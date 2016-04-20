@@ -33,6 +33,7 @@ public class Tetris extends JPanel implements KeyListener, ComponentListener {
      * Sets up the parts for the Tetris game, display and user control.
      */
     public Tetris() {
+        setPreferredSize(new Dimension(WIDTH, HEIGHT));
 
         GameAction.setDisplay(this);
 
