@@ -186,7 +186,7 @@ public class Game {
         paused = !paused;
         display.update();
         // Mute music when paused
-        AudioManager.toggleMute();
+        AudioManager.setMuted(paused);
     }
 
     /**

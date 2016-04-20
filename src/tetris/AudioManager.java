@@ -35,7 +35,13 @@ public class AudioManager {
         soundVolume = Math.max(0.0, Math.min(v, 1.0));
     }
 
+    public static void setMuted(boolean mute) {
+        muted = mute;
+        TinySound.setGlobalVolume(muted ? 0.0 : 1.0);
+    }
+
     public static void toggleMute() {
+        muted = !muted;
         TinySound.setGlobalVolume(muted ? 0.0 : 1.0);
     }
 
