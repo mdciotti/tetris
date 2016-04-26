@@ -21,7 +21,7 @@ public class GameWindow extends JFrame implements FullScreenListener {
 
         add(display);
         setTitle(title);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         //setResizable(false);
         pack();
