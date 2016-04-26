@@ -136,7 +136,6 @@ public class Game {
             // No piece in hold yet
             heldPiece = piece;
             piece = null;
-            update();
         } else {
             // A piece is already in hold, swap
             Tetrimino temp = piece;
@@ -144,10 +143,10 @@ public class Game {
             piece.setMatrix(matrix);
             piece.setPosition(1, 4);
             heldPiece = temp;
-            update();
         }
 
-        heldPiece.setPosition(1, 2);
+        heldPiece.setPosition(0, 0);
+        update();
         lastPieceHeld = true;
     }
 
@@ -332,7 +331,7 @@ public class Game {
     public void start() {
         reset();
         // TODO: countdown
-        nextPiece = generatePiece(null, 1, 2);
+        nextPiece = generatePiece(null, 0, 0);
         piece = generatePiece(matrix, 0, matrix.getCols() / 2 - 1);
         updateGhost();
         display.update();
@@ -350,11 +349,11 @@ public class Game {
             default:
             case 0: return new ZShape(row, col, m);
             case 1: return new OShape(row, col, m);
-            case 2: return new JShape(row + 1, col + 1, m);
+            case 2: return new JShape(row, col, m);
             case 3: return new TShape(row, col, m);
             case 4: return new SShape(row, col, m);
             case 5: return new IShape(row, col, m);
-            case 6: return new LShape(row + 1, col - 1, m);
+            case 6: return new LShape(row, col, m);
         }
     }
 
@@ -366,7 +365,7 @@ public class Game {
             piece = nextPiece;
             piece.setMatrix(matrix);
             piece.setPosition(0, matrix.getCols() / 2 - 1);
-            nextPiece = generatePiece(null, 1, 2);
+            nextPiece = generatePiece(null, 0, 0);
             lastPieceHeld = false;
             if (checkBlockOut()) end();
         } else if (piece != null) {

@@ -33,6 +33,13 @@ public class TetriminoField extends InfoField {
 
         // Draw Tetrimino
         if (piece != null) {
+            // Calculate offset to center piece based on its dimensions
+            Dimension pieceSize = piece.getDimension();
+            Dimension pieceOffset = piece.getCentralOffset();
+            int offsetX = pieceOffset.width + (this.width - pieceSize.width) / 2;
+            int offsetY = pieceOffset.height + (this.height - pieceSize.height) / 2;
+            // Fake centering by translating the underlying matrix
+            matrix.setPosition(x + offsetX, y + offsetY);
             piece.draw(g2d);
         }
     }

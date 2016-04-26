@@ -3,8 +3,7 @@ package tetris.tetrimino;
 import tetris.*;
 import tetris.gui.ColorScheme;
 
-import java.awt.Graphics;
-import java.awt.Point;
+import java.awt.*;
 
 /**
  * A generic piece (4-polyomino) in the Tetris Game.
@@ -217,5 +216,45 @@ abstract public class Tetrimino implements Cloneable {
         for (int i = 0; i < CELL_COUNT; i++) {
             cells[i].lockDown();
         }
+    }
+
+    public Dimension getDimension() {
+        int minCol = 0,
+            minRow = 0,
+            maxCol = 0,
+            maxRow = 0;
+
+        // Find maximum and minimum column and row of this piece's cells
+        for (int i = 0; i < CELL_COUNT; i++) {
+            int r = cells[i].getRow(),
+                c = cells[i].getCol();
+            minRow = Math.min(minRow, r);
+            maxRow = Math.max(maxRow, r);
+            minCol = Math.min(minCol, c);
+            maxCol = Math.max(maxCol, c);
+        }
+
+        // Calculate width and height
+        int width = (maxCol - minCol + 1) * Mino.WIDTH;
+        int height = (maxRow - minRow + 1) * Mino.HEIGHT;
+
+        return new Dimension(width, height);
+    }
+
+    public Dimension getCentralOffset() {
+        int minCol = 0, minRow = 0;
+
+        // Find maximum and minimum column and row of this piece's cells
+        for (int i = 0; i < CELL_COUNT; i++) {
+            int r = cells[i].getRow(),
+                    c = cells[i].getCol();
+            minRow = Math.min(minRow, r);
+            minCol = Math.min(minCol, c);
+        }
+
+        int x = (cells[CENTER].getCol() - minCol) * Mino.WIDTH;
+        int y = (cells[CENTER].getRow() - minRow) * Mino.HEIGHT;
+
+        return new Dimension(x, y);
     }
 }
