@@ -9,6 +9,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 
 /**
@@ -121,24 +123,27 @@ public class GameScreen extends Screen implements ActionListener {
                 RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
 
+        // Set up number formatting
+        NumberFormat nf = NumberFormat.getInstance(Locale.ENGLISH);
+
         // Calculate sidebar offsets
         int rightSide = display.getWidth() / 2 + 130;
         int leftSide = display.getWidth() / 2 - 230;
 
         // Draw score
-        score.setValue(Integer.toString(game.getScore()));
+        score.setValue(nf.format(game.getScore()));
         score.draw(g2d, rightSide, 420 - 160);
 
         // Draw top score
-        topScore.setValue(Integer.toString(game.getHighScore()));
+        topScore.setValue(nf.format(game.getHighScore()));
         topScore.draw(g2d, rightSide, 420 - 80);
 
         // Draw level
-        level.setValue(Integer.toString(game.getLevel()));
+        level.setValue(nf.format(game.getLevel()));
         level.draw(g2d, leftSide, 420 - 160);
 
         // Draw goal
-        goal.setValue(Integer.toString(game.getGoal()));
+        goal.setValue(nf.format(game.getGoal()));
         goal.draw(g2d, leftSide, 420 - 80);
 
         // Draw nextPiece
