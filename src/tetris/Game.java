@@ -176,9 +176,12 @@ public class Game {
         if (piece != null) {
             boolean canMoveDown = piece.canMove(Direction.DOWN);
             if (lockOnNextTick && !canMoveDown) {
-                piece.lockDown();
-                piece = null;
-                ghost = null;
+                if (checkLockOut()) end();
+                else {
+                    piece.lockDown();
+                    piece = null;
+                    ghost = null;
+                }
             } else if (canMoveDown) {
                 piece.move(Direction.DOWN);
                 lockOnNextTick = false;
@@ -371,13 +374,6 @@ public class Game {
             nextPiece = generatePiece(null, 0, 0);
             lastPieceHeld = false;
             if (checkBlockOut()) end();
-        } else if (piece != null) {
-            // When the piece reaches 'ground', set Matrix positions corresponding
-            // to frozen piece and then release the piece
-            if (!piece.canMove(Direction.DOWN)) {
-                if (checkLockOut()) end();
-                else lockOnNextTick = true;
-            }
         }
         updateGhost();
 
