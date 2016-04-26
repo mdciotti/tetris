@@ -55,6 +55,7 @@ public class OptionScreen extends Screen {
             }
         });
         options.add(soundVolume);
+    }
 
     public void update() {
         fullScreen.setEnabled(display.getWindow().isFullScreen());
