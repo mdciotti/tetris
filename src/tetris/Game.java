@@ -172,13 +172,18 @@ public class Game {
      */
     public void tick() {
         if (piece != null) {
-            if (lockOnNextTick && !piece.canMove(Direction.DOWN)) {
+            boolean canMoveDown = piece.canMove(Direction.DOWN);
+            if (lockOnNextTick && !canMoveDown) {
                 piece.lockDown();
                 piece = null;
                 ghost = null;
-            } else piece.move(Direction.DOWN);
+            } else if (canMoveDown) {
+                piece.move(Direction.DOWN);
+                lockOnNextTick = false;
+            } else {
+                lockOnNextTick = true;
+            }
         }
-        lockOnNextTick = false;
         update();
     }
 
@@ -370,9 +375,6 @@ public class Game {
             if (!piece.canMove(Direction.DOWN)) {
                 if (checkLockOut()) end();
                 else lockOnNextTick = true;
-//            else piece.lockDown();
-//            piece = null;
-//            ghost = null;
             }
         }
         updateGhost();
