@@ -30,6 +30,9 @@ public class Game {
     // Whether the player held the last piece or not
     private boolean lastPieceHeld = false;
 
+    // The number of consecutive tetrises (4 lines cleared)
+    private int tetrisCombo = 0;
+
     // The preview of where the piece will fall
     private Tetrimino ghost;
 
@@ -382,51 +385,53 @@ public class Game {
         int pointsAwarded = 0;
         int lineClearsAwarded = 0;
 
-        // TODO: determine if back-to-back
-        boolean backToBack = false;
+        if (numLinesCleared > 0) {
+            boolean backToBack = numLinesCleared == 4 && tetrisCombo > 0;
+            if (numLinesCleared == 4) tetrisCombo += 1;
+            else tetrisCombo = 0;
 
-        switch (numLinesCleared) {
-            case 1:
-                AudioManager.play(AudioManager.LINE_CLEAR_1);
-                pointsAwarded = 100 * level;
-                lineClearsAwarded = 1;
-                break;
-            case 2:
-                AudioManager.play(AudioManager.LINE_CLEAR_2);
-                pointsAwarded = 300 * level;
-                lineClearsAwarded = 3;
-                break;
-            case 3:
-                AudioManager.play(AudioManager.LINE_CLEAR_3);
-                pointsAwarded = 500 * level;
-                lineClearsAwarded = 5;
-                break;
-            case 4:
-                AudioManager.play(AudioManager.LINE_CLEAR_4);
-                pointsAwarded = 800 * level;
-                lineClearsAwarded = 8;
-                break;
-        }
+            switch (numLinesCleared) {
+                case 1:
+                    AudioManager.play(AudioManager.LINE_CLEAR_1);
+                    pointsAwarded = 100 * level;
+                    lineClearsAwarded = 1;
+                    break;
+                case 2:
+                    AudioManager.play(AudioManager.LINE_CLEAR_2);
+                    pointsAwarded = 300 * level;
+                    lineClearsAwarded = 3;
+                    break;
+                case 3:
+                    AudioManager.play(AudioManager.LINE_CLEAR_3);
+                    pointsAwarded = 500 * level;
+                    lineClearsAwarded = 5;
+                    break;
+                case 4:
+                    AudioManager.play(AudioManager.LINE_CLEAR_4);
+                    pointsAwarded = 800 * level;
+                    lineClearsAwarded = 8;
+                    break;
+            }
 
-        if (backToBack) {
-            // AudioManager.BACK_TO_BACK.play();
-            // TODO: keep track of points better, to include points earned from
-            // hard and soft drops
-            lineClearsAwarded += lineClearsAwarded;
-            pointsAwarded += pointsAwarded;
-        }
+            if (backToBack) {
+                // AudioManager.BACK_TO_BACK.play();
+                lineClearsAwarded += lineClearsAwarded;
+                int comboPoints = 50 * level * (tetrisCombo - 1);
+                pointsAwarded += pointsAwarded + comboPoints;
+            }
 
-        score += pointsAwarded;
+            score += pointsAwarded;
 
-        // Assign high score if current is best
-        if (score > highScore) highScore = score;
+            // Assign high score if current is best
+            if (score > highScore) highScore = score;
 
-        if (goal - lineClearsAwarded <= 0) {
-            // AudioManager.LEVEL_UP.play();
-            level++;
-            goal = level * 5;
-        } else {
-            goal -= lineClearsAwarded;
+            if (goal - lineClearsAwarded <= 0) {
+                // AudioManager.LEVEL_UP.play();
+                level++;
+                goal = level * 5;
+            } else {
+                goal -= lineClearsAwarded;
+            }
         }
 
         display.update();
