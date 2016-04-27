@@ -51,6 +51,7 @@ public class Tetris extends JPanel implements KeyListener, ComponentListener {
         screens.put(ScreenType.GAME, new GameScreen(this));
         screens.put(ScreenType.TOP_SCORES, new TopScoreScreen(this));
         screens.put(ScreenType.OPTIONS, new OptionScreen(this));
+        screens.put(ScreenType.ABOUT, new AboutScreen(this));
         setScreen(ScreenType.MAIN_MENU);
 
         addComponentListener(this);

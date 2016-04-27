@@ -16,7 +16,7 @@ public class OptionScreen extends Screen {
 
     OptionItem.Toggle fullScreen;
 
-    public OptionScreen(Tetris display) {
+    public OptionScreen(final Tetris display) {
         registerType(ScreenType.OPTIONS);
         this.display = display;
 
@@ -55,6 +55,16 @@ public class OptionScreen extends Screen {
             }
         });
         options.add(soundVolume);
+
+        // About game
+        final OptionItem.Button about = new OptionItem.Button("About");
+        about.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                display.transitionScreen(ScreenType.ABOUT, Direction.RIGHT);
+            }
+        });
+        options.add(about);
     }
 
     public void update() {

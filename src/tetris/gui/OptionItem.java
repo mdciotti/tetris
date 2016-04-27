@@ -149,4 +149,14 @@ public abstract class OptionItem {
             g2d.fillOval(endX - slider_w + val_x - 10, y + 10, 20, 20);
         }
     }
+
+    public static class Button extends OptionItem {
+        public Button(String name) {
+            setName(name);
+        }
+
+        public void select() {
+            this.fireEvent();
+        }
+    }
 }
