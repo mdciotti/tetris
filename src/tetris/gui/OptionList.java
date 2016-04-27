@@ -2,15 +2,12 @@ package tetris.gui;
 
 import tetris.AudioManager;
 import tetris.Direction;
-import tetris.ScoreManager;
 import tetris.Tetris;
 import tetris.screens.ScreenType;
 
 import java.awt.*;
 import java.io.Serializable;
-import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.Locale;
 
 /**
  * Created by max on 2016-04-12.
